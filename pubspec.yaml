@@ -88,8 +88,8 @@ flutter:
   #         weight: 700
 
   fonts:
-    - family: 'PTMono'
-    fonts:
+    - family: PTMono
+      fonts:
       - asset: Fonts/PTMono.ttc
   #
   # For details regarding fonts from package dependencies,
