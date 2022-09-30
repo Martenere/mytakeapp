@@ -19,36 +19,41 @@ class HomeScreen extends StatelessWidget {
 
 class GroupPane extends StatelessWidget {
   final BoxDecoration boxstyling = BoxDecoration(border: Border.all(width: 4));
-  final TextStyle defaultText = TextStyle(fontFamily: "PTMono");
+  final BoxDecoration boxFullstyling =
+      BoxDecoration(border: Border.symmetric(horizontal: BorderSide(width: 4)));
+  final TextStyle defaultText = TextStyle(fontFamily: "PTMono", fontSize: 36);
   GroupPane({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Center(
-                child: Text(
-              "Kba KIllarna",
-              style: defaultText,
-            ))
-          ],
-        ),
-        Row(
-          children: [
-            SizedBox(
-              width: 24,
-            ),
-            Container(
-              width: 48.0,
-              height: 48.0,
-              decoration: boxstyling,
-            )
-          ],
-        ),
-        Row(),
-      ],
+    return Container(
+      decoration: boxFullstyling,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Center(
+                  child: Text(
+                "KBA Killarna",
+                style: defaultText,
+              ))
+            ],
+          ),
+          Row(
+            children: [
+              SizedBox(
+                width: 24,
+              ),
+              Container(
+                width: 48.0,
+                height: 48.0,
+                decoration: boxstyling,
+              )
+            ],
+          ),
+          Row(),
+        ],
+      ),
     );
   }
 }
