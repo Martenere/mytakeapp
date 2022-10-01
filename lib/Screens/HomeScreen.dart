@@ -30,13 +30,16 @@ class GroupPane extends StatelessWidget {
       decoration: boxFullstyling,
       child: Column(
         children: [
+          SizedBox(
+            height: 8,
+          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                  child: Text(
+              Text(
                 "KBA Killarna",
                 style: defaultText,
-              ))
+              )
             ],
           ),
           Row(
