@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'Screens/HomeScreen.dart';
-import 'Screens/HomeScreen.dart';
 import 'Screens/PromptPage.dart';
 import 'Screens/CameraPage.dart';
 import 'Screens/ResultPage.dart';
