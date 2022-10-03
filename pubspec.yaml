@@ -91,7 +91,7 @@ flutter:
     - family: 'PTMono'
       fonts:
       - asset: Fonts/PTMono.ttc
-    - family: PTMono-reg
+    - family: 'PTMono-reg'
       fonts:
       - asset: Fonts/PTMono-regular.ttf
   #

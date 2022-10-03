@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
   final BoxDecoration boxstyling = BoxDecoration(border: Border.all(width: 4));
   final BoxDecoration buttonStyling = BoxDecoration(border: Border.all(width: 4), color: Colors.white, boxShadow: [BoxShadow(offset: Offset(-4,4), blurRadius: 0, color: Colors.black)]);
   final BoxDecoration boxFullstyling = BoxDecoration(color: const Color(0xFFC36AC7E), border: Border.symmetric(horizontal: BorderSide(width:3)));
-  final TextStyle defaultText = TextStyle(fontFamily: "PTMono", fontWeight: FontWeight.w100,  fontSize: 36, color: Colors.black, letterSpacing: 8);
+  final TextStyle defaultText = TextStyle(fontFamily: "PTMono-reg",  fontSize: 36, color: Colors.black, letterSpacing: 8);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
