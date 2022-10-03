@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 
   final BoxDecoration boxstyling = BoxDecoration(border: Border.all(width: 4));
+  final BoxDecoration boxstylingThick = BoxDecoration(border: Border.all(width: 8));
   final BoxDecoration buttonStyling = BoxDecoration(border: Border.all(width: 4), color: Colors.white, boxShadow: [BoxShadow(offset: Offset(-4,4), blurRadius: 0, color: Colors.black)]);
+  final BoxDecoration backButtonStyling = BoxDecoration(border: Border.all(width: 2), color: Colors.white, boxShadow: [BoxShadow(offset: Offset(-2,2), blurRadius: 0, color: Colors.black)]);
   final BoxDecoration boxFullstyling = BoxDecoration(color: const Color(0xFFC36AC7E), border: Border.symmetric(horizontal: BorderSide(width:3)));
+  final Color primaryColor = Color.fromARGB(255, 54, 172, 126);
   final TextStyle defaultText = TextStyle(fontFamily: "PTMono-reg",  fontSize: 36, color: Colors.black, letterSpacing: 8);
 
 class HomeScreen extends StatelessWidget {
@@ -15,7 +18,10 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(title: Text("MYTAKE.", style: defaultText,),  titleTextStyle: defaultText, elevation: 0, backgroundColor: Colors.white, toolbarHeight: 110,),
       body: Column(children: [
         
-        GroupPane(groupName: "KBA killar.")
+        GroupPane(groupName: "KBA killar."),
+        ElevatedButton(onPressed: (){
+          Navigator.pushNamed(context, '/PromptPage');
+        }, child: Text('Prompt page'))
       ]),
     );
   }
