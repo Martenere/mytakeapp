@@ -3,8 +3,13 @@ import 'Screens/HomeScreen.dart';
 import 'Screens/PromptPage.dart';
 import 'Screens/CameraPage.dart';
 import 'Screens/ResultPage.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'firebase_options.dart';
+
 
 void main() {
+  
   runApp(const MyApp());
 }
 
