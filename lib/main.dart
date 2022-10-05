@@ -27,7 +27,7 @@ final testRef = storageRef.child("test");
 final spaceRef = storageRef.child("test/test_image.png");
 final gsReference =
     storage.refFromURL("gs://mytake-a7a56.appspot.com/test/test_image.png");
-
+var imageURL;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,8 +42,9 @@ try {
 } on FirebaseException catch (e) {
 }
 
-final imageUrl = await spaceRef.getDownloadURL();
-print(imageUrl);
+imageURL = await spaceRef.getDownloadURL();
+
+print(imageURL);
 
 print(testRef);
 print(spaceRef.name);
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         '/': (context) => const HomeScreen(),
-        '/PromptPage': (context) => const PromptPage(),
+        '/PromptPage': (context) => PromptPage(url: imageURL,),
         '/CameraPage': (context) => const CameraPage(),
         '/Result': (context) => const ResultPage(),
       },

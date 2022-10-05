@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 
 class PromptPage extends StatelessWidget {
-  const PromptPage({super.key});
+  PromptPage({super.key, required this.url});
+  var url;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class PromptPage extends StatelessWidget {
                 child: Container(
                     decoration: boxstylingThick,
                     child: Image.network(
-                        'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg')),
+                        url)),
               ),
               const SizedBox(
                 height: 32,
