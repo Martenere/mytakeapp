@@ -16,6 +16,7 @@ late List<CameraDescription> cameras;
 
 final storage = FirebaseStorage.instance;
 final storageRef = FirebaseStorage.instance.ref();
+final testRef = storageRef.child("test");
 final spaceRef = storageRef.child("test/test_image.png");
 final gsReference =
     storage.refFromURL("gs://mytake-a7a56.appspot.com/test/test_image.png");
@@ -28,11 +29,20 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-// downloadURL = await spaceRef.getDownloadURL();
-final imageUrl =
-    await spaceRef.getDownloadURL();
+
+String dataUrl = 'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==';
+
+try {
+  await testRef.putString(dataUrl, format: PutStringFormat.dataUrl);
+} on FirebaseException catch (e) {
+}
+
+print(testRef);
 print(spaceRef.name);
 print(gsReference.name);
+
+
+
   cameras = await availableCameras();
   runApp(const MyApp());
 }
