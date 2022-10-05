@@ -35,17 +35,16 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-String dataUrl = 'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==';
+// String dataUrl = 'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==';
 
-try {
-  await testRef.putString(dataUrl, format: PutStringFormat.dataUrl);
-} on FirebaseException catch (e) {
-}
+// try {
+//   await testRef.putString(dataUrl, format: PutStringFormat.dataUrl);
+// } on FirebaseException catch (e) {
+// }
 
 imageURL = await spaceRef.getDownloadURL();
 
 print(imageURL);
-
 print(testRef);
 print(spaceRef.name);
 print(gsReference.name);
