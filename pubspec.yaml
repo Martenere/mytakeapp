@@ -43,6 +43,7 @@ dependencies:
   path: any
   gallery_saver: any
   firebase_storage: ^10.3.10
+  firebase_auth: ^3.11.1
 
 dev_dependencies:
   flutter_test:

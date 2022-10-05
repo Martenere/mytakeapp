@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'Screens/HomeScreen.dart';
@@ -14,14 +15,18 @@ import 'firebase_options.dart';
 
 late List<CameraDescription> cameras;
 
+// final FirebaseAuth auth = FirebaseAuth.instance;
+// final user = await auth.signInWithGoogle(
+//       accessToken: googleAuth.accessToken,
+//       idToken: googleAuth.idToken,
+//  );
+
 final storage = FirebaseStorage.instance;
 final storageRef = FirebaseStorage.instance.ref();
 final testRef = storageRef.child("test");
 final spaceRef = storageRef.child("test/test_image.png");
 final gsReference =
     storage.refFromURL("gs://mytake-a7a56.appspot.com/test/test_image.png");
-
-// late var downloadURL;
 
 
 Future<void> main() async {
@@ -37,9 +42,13 @@ try {
 } on FirebaseException catch (e) {
 }
 
+final imageUrl = await spaceRef.getDownloadURL();
+print(imageUrl);
+
 print(testRef);
 print(spaceRef.name);
 print(gsReference.name);
+
 
 
 
