@@ -4,24 +4,18 @@ import 'Screens/HomeScreen.dart';
 import 'Screens/PromptPage.dart';
 import 'Screens/CameraPage.dart';
 import 'Screens/ResultPage.dart';
-<<<<<<< Updated upstream
 import 'package:firebase_core/firebase_core.dart';
 
-import 'firebase_options.dart';
-
-
-void main() {
-  
-=======
 import 'dart:async';
 import 'dart:io';
+
+import 'firebase_options.dart';
 
 late List<CameraDescription> cameras;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
->>>>>>> Stashed changes
   runApp(const MyApp());
 }
 
