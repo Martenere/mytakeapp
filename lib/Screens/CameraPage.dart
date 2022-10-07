@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
-import 'package:mytakeapp/main.dart';
+import 'dart:math';
 import 'package:carbon_icons/carbon_icons.dart';
+import 'package:image/image.dart' as IMG;
+
+import 'package:mytakeapp/main.dart';
 import 'HomeScreen.dart';
 
 // https://docs.flutter.dev/cookbook/plugins/picture-using-camera
@@ -24,25 +27,9 @@ class _CameraPageState extends State<CameraPage> {
   @override
   void initState() {
     super.initState();
-    controller = CameraController(cameras[0], ResolutionPreset.max);
+    controller =
+        CameraController(cameras[0], ResolutionPreset.max, enableAudio: false);
     _initializeControllerFuture = controller.initialize();
-    // controller.initialize().then((_) {
-    //   if (!mounted) {
-    //     return;
-    //   }
-    //   setState(() {});
-    // }).catchError((Object e) {
-    //   if (e is CameraException) {
-    //     switch (e.code) {
-    //       case 'CameraAccessDenied':
-    //         print('User denied camera access.');
-    //         break;
-    //       default:
-    //         print('Handle other errors.');
-    //         break;
-    //     }
-    //   }
-    // });
   }
 
   @override
@@ -55,12 +42,6 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
 
-    if (!controller.value.isInitialized) {
-      return const Center(child: CircularProgressIndicator());
-      // Container(
-      //   child: Text('Waiting for initialization'),
-      // );
-    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -75,7 +56,6 @@ class _CameraPageState extends State<CameraPage> {
                 icon: Icon(CarbonIcons.arrow_left),
                 onPressed: () {},
               )),
-          // child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,
         backgroundColor: Colors.white,
@@ -89,11 +69,13 @@ class _CameraPageState extends State<CameraPage> {
               // If the Future is complete, display the preview.
               return Column(children: [
                 SizedBox(width: size, height: 30),
-                Container(
-                  child: CameraPreview(controller),
-                  width: size,
-                  height: size,
-                  decoration: boxstylingThick,
+                ClipRect(
+                  child: Container(
+                    child: CameraPreview(controller),
+                    width: size,
+                    height: size,
+                    decoration: boxstylingThick,
+                  ),
                 ),
                 SizedBox(
                   width: size,
@@ -151,7 +133,7 @@ class _CameraPageState extends State<CameraPage> {
                         size: 30,
                       ),
                       decoration: buttonStyling,
-                    ), //Control panel
+                    ),
                   ],
                 )
               ]);
@@ -200,8 +182,7 @@ class DisplayPictureScreen extends StatelessWidget {
           Container(
             child: Image.file(
               File(imagePath),
-              width: size,
-              height: size,
+              fit: BoxFit.fitWidth,
             ),
             width: size,
             height: size,
@@ -219,7 +200,7 @@ class DisplayPictureScreen extends StatelessWidget {
                 width: 80,
                 height: 80,
                 child: IconButton(
-                    icon: Icon(CarbonIcons.camera), onPressed: () {}),
+                    icon: Icon(CarbonIcons.checkmark), onPressed: () {}),
                 decoration: buttonStyling,
               ),
 
@@ -230,7 +211,7 @@ class DisplayPictureScreen extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: Icon(
-                  CarbonIcons.flash_off,
+                  CarbonIcons.trash_can,
                   size: 30,
                 ),
                 decoration: buttonStyling,
@@ -241,6 +222,24 @@ class DisplayPictureScreen extends StatelessWidget {
   }
 }
 
-//home: CameraPreview(controller),
+// class ImageProcessor {
+//   static Future cropSquare(
+//       String srcFilePath, String destFilePath, bool flip) async {
+//     var bytes = await File(srcFilePath).readAsBytes();
+//     IMG.Image? src = IMG.decodeImage(bytes);
 
-//Image.file(File(imagePath)),
+//     var cropSize = min(src.width, src.height);
+//     int offsetX = (src.width - min(src.width, src.height)) ~/ 2;
+//     int offsetY = (src.height - min(src.width, src.height)) ~/ 2;
+
+//     IMG.Image destImage =
+//         IMG.copyCrop(src, offsetX, offsetY, cropSize, cropSize);
+
+//     if (flip) {
+//       destImage = IMG.flipVertical(destImage);
+//     }
+
+//     var jpg = IMG.encodeJpg(destImage);
+//     await File(destFilePath).writeAsBytes(jpg);
+//   }
+// }
