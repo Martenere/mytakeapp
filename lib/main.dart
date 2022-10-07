@@ -8,6 +8,7 @@ import 'Screens/ResultPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'firebase/firebaseCommunication.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'dart:async';
 import 'dart:io';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       title: 'Welcome to Flutter',
       initialRoute: "/",
       routes: {
-        '/': (context) => const HomeScreen(),
+        '/': (context) => HomeScreen(fb:fb),
         '/PromptPage': (context) => PromptPage(url: fb.getURlToTestImage(),),
         '/CameraPage': (context) => const CameraPage(),
         '/Result': (context) => const ResultPage(),
