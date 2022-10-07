@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
-import 'dart:math';
 import 'package:carbon_icons/carbon_icons.dart';
-import 'package:image/image.dart' as IMG;
 
 import 'package:mytakeapp/main.dart';
 import 'HomeScreen.dart';
@@ -27,8 +25,11 @@ class _CameraPageState extends State<CameraPage> {
   @override
   void initState() {
     super.initState();
-    controller =
-        CameraController(cameras[0], ResolutionPreset.max, enableAudio: false);
+    controller = CameraController(
+      cameras[0],
+      ResolutionPreset.max,
+      enableAudio: false,
+    );
     _initializeControllerFuture = controller.initialize();
   }
 
@@ -69,12 +70,22 @@ class _CameraPageState extends State<CameraPage> {
               // If the Future is complete, display the preview.
               return Column(children: [
                 SizedBox(width: size, height: 30),
-                ClipRect(
-                  child: Container(
-                    child: CameraPreview(controller),
-                    width: size,
-                    height: size,
-                    decoration: boxstylingThick,
+                Container(
+                  width: size,
+                  height: size,
+                  decoration: boxstylingThick,
+                  child: ClipRect(
+                    child: OverflowBox(
+                      alignment: Alignment.center,
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Container(
+                          width: size,
+                          height: size / controller.value.aspectRatio,
+                          child: CameraPreview(controller),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -91,30 +102,18 @@ class _CameraPageState extends State<CameraPage> {
                       child: IconButton(
                         icon: Icon(CarbonIcons.camera),
                         onPressed: () async {
-                          // Take the Picture in a try / catch block. If anything goes wrong,
-                          // catch the error.
                           try {
-                            // Ensure that the camera is initialized.
                             await _initializeControllerFuture;
-
-                            // Attempt to take a picture and get the file `image`
-                            // where it was saved.
                             final image = await controller.takePicture();
-
                             if (!mounted) return;
-
-                            // If the picture was taken, display it on a new screen.
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => DisplayPictureScreen(
-                                  // Pass the automatically generated path to
-                                  // the DisplayPictureScreen widget.
                                   imagePath: image.path,
                                 ),
                               ),
                             );
                           } catch (e) {
-                            // If an error occurs, log the error to the console.
                             print(e);
                           }
                         },
@@ -195,7 +194,6 @@ class DisplayPictureScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // ---- camera button -----
               Container(
                 width: 80,
                 height: 80,
@@ -203,7 +201,6 @@ class DisplayPictureScreen extends StatelessWidget {
                     icon: Icon(CarbonIcons.checkmark), onPressed: () {}),
                 decoration: buttonStyling,
               ),
-
               SizedBox(
                 width: 30,
               ),
@@ -215,7 +212,7 @@ class DisplayPictureScreen extends StatelessWidget {
                   size: 30,
                 ),
                 decoration: buttonStyling,
-              ), //Control panel
+              ),
             ],
           )
         ]));
@@ -243,3 +240,6 @@ class DisplayPictureScreen extends StatelessWidget {
 //     await File(destFilePath).writeAsBytes(jpg);
 //   }
 // }
+
+
+//child: CameraPreview(controller)
