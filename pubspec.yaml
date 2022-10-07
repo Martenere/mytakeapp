@@ -44,6 +44,7 @@ dependencies:
   gallery_saver: any
   firebase_storage: ^10.3.10
   firebase_auth: ^3.11.1
+  image_cropper: ^3.0.0
 
 dev_dependencies:
   flutter_test:

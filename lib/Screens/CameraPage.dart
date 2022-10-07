@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'dart:io';
 import 'package:mytakeapp/main.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'HomeScreen.dart';
@@ -18,6 +19,7 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   late CameraController controller;
   late Future<void> _initializeControllerFuture;
+  XFile? image;
 
   @override
   void initState() {
@@ -54,9 +56,10 @@ class _CameraPageState extends State<CameraPage> {
     var size = MediaQuery.of(context).size.width;
 
     if (!controller.value.isInitialized) {
-      return Container(
-        child: Text('Hello'),
-      );
+      return const Center(child: CircularProgressIndicator());
+      // Container(
+      //   child: Text('Waiting for initialization'),
+      // );
     }
     return Scaffold(
       backgroundColor: Colors.white,
@@ -168,13 +171,76 @@ class DisplayPictureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      body: Text('u took a picture'),
-    );
+        appBar: AppBar(
+          leading: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
+            child: Container(
+                width: 45,
+                height: 45,
+                decoration: backButtonStyling,
+                child: IconButton(
+                  padding: EdgeInsets.all(2),
+                  icon: Icon(CarbonIcons.arrow_left),
+                  onPressed: () {},
+                )),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          toolbarHeight: 110,
+          foregroundColor: Colors.black,
+        ),
+        // The image is stored as a file on the device. Use the `Image.file`
+        // constructor with the given path to display the image.
+        body: Column(children: [
+          SizedBox(width: size, height: 30),
+          Container(
+            child: Image.file(
+              File(imagePath),
+              width: size,
+              height: size,
+            ),
+            width: size,
+            height: size,
+            decoration: boxstylingThick,
+          ),
+          SizedBox(
+            width: size,
+            height: 70,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // ---- camera button -----
+              Container(
+                width: 80,
+                height: 80,
+                child: IconButton(
+                    icon: Icon(CarbonIcons.camera), onPressed: () {}),
+                decoration: buttonStyling,
+              ),
+
+              SizedBox(
+                width: 30,
+              ),
+              Container(
+                width: 60,
+                height: 60,
+                child: Icon(
+                  CarbonIcons.flash_off,
+                  size: 30,
+                ),
+                decoration: buttonStyling,
+              ), //Control panel
+            ],
+          )
+        ]));
   }
 }
 
 //home: CameraPreview(controller),
+
+//Image.file(File(imagePath)),
