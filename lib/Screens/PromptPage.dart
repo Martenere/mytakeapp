@@ -43,8 +43,16 @@ class PromptPage extends StatelessWidget {
                 padding: const EdgeInsets.all(18.0),
                 child: Container(
                     decoration: boxstylingThick,
-                    child: Image.network(
-                        url)),
+                    child: FutureBuilder(
+                      future: url, 
+                      builder: (context, AsyncSnapshot<String> snapshot) {
+                        if (snapshot.hasData)
+                        {print(snapshot.data);
+                          return Image.network(
+                            snapshot.data!);}
+                            else{return SizedBox();}
+                      }
+                    )),
               ),
               const SizedBox(
                 height: 32,
