@@ -75,15 +75,11 @@ class _CameraPageState extends State<CameraPage> {
                   height: size,
                   decoration: boxstylingThick,
                   child: ClipRect(
-                    child: OverflowBox(
-                      alignment: Alignment.center,
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Container(
-                          width: size,
-                          height: size / controller.value.aspectRatio,
-                          child: CameraPreview(controller),
-                        ),
+                    child: Transform.scale(
+                      scale: 1 / 1,
+                      child: AspectRatio(
+                        aspectRatio: controller.value.aspectRatio,
+                        child: CameraPreview(controller),
                       ),
                     ),
                   ),
