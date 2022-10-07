@@ -24,6 +24,11 @@ final TextStyle defaultText = TextStyle(
     fontSize: 36,
     color: Colors.black,
     letterSpacing: 8);
+final TextStyle timeText = TextStyle(
+    fontFamily: "PTMono-reg",
+    fontSize: 16,
+    color: Colors.black,
+    letterSpacing: 8);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -52,7 +57,12 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/CameraPage');
             },
-            child: Text('Camera Page'))
+            child: Text('Camera Page')),
+             ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/Result');
+            },
+            child: Text('Result Page'))
       ]),
     );
   }
