@@ -20,6 +20,6 @@ Future<String> getId() async {
 
 String generateRandomString(int len) {
   var r = Random();
-  const _chars = 'ABCDEFfGHhIJKLMNPQRSTUVWXYZ123456789';
+  const _chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
   return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
 }
