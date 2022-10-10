@@ -56,9 +56,13 @@ class JoinGroup extends StatelessWidget {
                 height: 32,
               ),
               InkWell(
-                onTap: () {
-                //  JOIN GROUP
-                
+                onTap: () async {
+                  Group group =
+                      await loadGroupFromFirebase(GroupCodeController.text);
+
+                      group.addPerson(me);
+
+                  
                 },
                 child: Container(
                   child: Padding(
