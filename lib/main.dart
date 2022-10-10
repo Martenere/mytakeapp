@@ -32,6 +32,9 @@ Future<void> main() async {
   print("Initialized firebase");
 
   var id = await getId();
+  me = Person(id: id);
+  await me.loadDataFromFirebase();
+
   print("device id: $id");
   fb = FirebaseCommunication();
   fb.initFirebase();
