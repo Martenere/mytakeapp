@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
 import 'package:carbon_icons/carbon_icons.dart';
+import 'dart:math';
+import 'package:image/image.dart' as IMG;
 
 import 'package:mytakeapp/main.dart';
 import 'HomeScreen.dart';
@@ -22,6 +24,7 @@ class _CameraPageState extends State<CameraPage> {
   late CameraController controller;
   late Future<void> _initializeControllerFuture;
   XFile? image;
+  FlashMode flashMode = FlashMode.off;
 
   @override
   void initState() {
@@ -78,13 +81,24 @@ class _CameraPageState extends State<CameraPage> {
                   height: size,
                   decoration: boxstylingThick,
                   child: ClipRect(
-                    child: Transform.scale(
-                      scale: 1 / 1,
-                      child: AspectRatio(
-                        aspectRatio: controller.value.aspectRatio,
-                        child: CameraPreview(controller),
+                    child: OverflowBox(
+                      alignment: Alignment.center,
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Container(
+                          width: size,
+                          height: size * 1.6, //hardcoded
+                          child: CameraPreview(controller),
+                        ),
                       ),
                     ),
+                    // child: Transform.scale(
+                    //   scale: 1 / 1,
+                    //   child: AspectRatio(
+                    //     aspectRatio: controller.value.aspectRatio,
+                    //     child: CameraPreview(controller),
+                    //   ),
+                    // ),
                   ),
                 ),
                 SizedBox(
@@ -100,21 +114,27 @@ class _CameraPageState extends State<CameraPage> {
                       height: 80,
                       child: IconButton(
                         icon: Icon(CarbonIcons.camera),
+                        iconSize: 45,
                         onPressed: () async {
                           try {
                             await _initializeControllerFuture;
-                            final image = await controller.takePicture();
+                            final capturedImage =
+                                await controller.takePicture();
+
                             if (!mounted) return;
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => DisplayPictureScreen(
-                                  imagePath: image.path,
+                                  imagePath: capturedImage.path,
                                 ),
                               ),
                             );
                           } catch (e) {
                             print(e);
                           }
+                          Future.delayed(const Duration(milliseconds: 2), () {
+                            controller.initialize();
+                          }); //reinitializes the controller, turns off flashlight/lamp yeee
                         },
                       ),
                       decoration: buttonStyling,
@@ -126,10 +146,22 @@ class _CameraPageState extends State<CameraPage> {
                     Container(
                       width: 60,
                       height: 60,
-                      child: Icon(
-                        CarbonIcons.flash_off,
-                        size: 30,
-                      ),
+                      child: IconButton(
+                          icon: flashMode == FlashMode.off
+                              ? Icon(CarbonIcons.flash_off)
+                              : Icon(CarbonIcons.flash),
+                          iconSize: 30,
+                          onPressed: () {
+                            setState(() {
+                              if (flashMode == FlashMode.off) {
+                                controller.setFlashMode(FlashMode.always);
+                                flashMode = FlashMode.always;
+                              } else {
+                                controller.setFlashMode(FlashMode.off);
+                                flashMode = FlashMode.off;
+                              }
+                            });
+                          }),
                       decoration: buttonStyling,
                     ),
                   ],
@@ -154,6 +186,7 @@ class DisplayPictureScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size.width;
 
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           leading: Padding(
             padding:
@@ -200,6 +233,7 @@ class DisplayPictureScreen extends StatelessWidget {
                 height: 80,
                 child: IconButton(
                     icon: Icon(CarbonIcons.checkmark),
+                    iconSize: 40,
                     onPressed: () {
                       fb.uploadFile(File(imagePath));
                     }),
@@ -211,10 +245,12 @@ class DisplayPictureScreen extends StatelessWidget {
               Container(
                 width: 60,
                 height: 60,
-                child: Icon(
-                  CarbonIcons.trash_can,
-                  size: 30,
-                ),
+                child: IconButton(
+                    icon: Icon(CarbonIcons.trash_can),
+                    iconSize: 30,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
                 decoration: buttonStyling,
               ),
             ],
@@ -244,6 +280,3 @@ class DisplayPictureScreen extends StatelessWidget {
 //     await File(destFilePath).writeAsBytes(jpg);
 //   }
 // }
-
-
-//child: CameraPreview(controller)
