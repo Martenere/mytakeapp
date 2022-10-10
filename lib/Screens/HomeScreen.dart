@@ -33,7 +33,7 @@ final TextStyle timeText = TextStyle(
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
-FirebaseCommunication fb;
+  FirebaseCommunication fb;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,11 +64,7 @@ FirebaseCommunication fb;
               Navigator.pushNamed(context, '/Result');
             },
             child: Text('Result Page')),
-        ElevatedButton(
-            onPressed: () {
-              fb.uploadFile();
-            },
-            child: Text('add image to server'))
+        ElevatedButton(onPressed: () {}, child: Text('add image to server'))
       ]),
     );
   }
