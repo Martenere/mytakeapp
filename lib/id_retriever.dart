@@ -1,23 +1,15 @@
-import 'package:device_info_plus/device_info_plus.dart';
-import 'dart:io';
-import 'package:android_id/android_id.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math';
 
-Future<String?> getId() async {
-  var deviceInfo = DeviceInfoPlugin();
-  if (Platform.isIOS) {
-    // import 'dart:io'
-    var iosDeviceInfo = await deviceInfo.iosInfo;
-    return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-  } else if (Platform.isAndroid) {
-    var _androidIdPlugin = AndroidId();
-    var _androidId = 'Unknown';
-    try {
-      _androidId = await _androidIdPlugin.getId() ?? 'Unknown ID';
-    } on Error {
-      _androidId = 'Failed to get Android ID.';
-    }
-
-    return _androidId; // unique ID on Android
+Future<String> getId() async {
+  String key = "MytakeId";
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final SharedPreferences prefs = await _prefs;
+  String? id = prefs.getString(key);
+  if (id == null) {
+    int x = Random().nextInt(3000);
+    id = "asdf$x";
+    prefs.setString(key, id);
   }
-  return "";
+  return id;
 }

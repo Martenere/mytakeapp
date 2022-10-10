@@ -45,12 +45,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCa0fI_SDD0jr3ZgTl8VXAka-uC-C6RJB0',
-    appId: '1:701936380417:web:6f2a56454d0ac074f36e00',
+    appId: '1:701936380417:web:805e5b4e3067cf2af36e00',
     messagingSenderId: '701936380417',
     projectId: 'mytake-a7a56',
     authDomain: 'mytake-a7a56.firebaseapp.com',
+    databaseURL: 'https://mytake-a7a56-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'mytake-a7a56.appspot.com',
-    measurementId: 'G-GTKM50RSLR',
+    measurementId: 'G-PDLXC1PDE5',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -58,14 +59,16 @@ class DefaultFirebaseOptions {
     appId: '1:701936380417:android:932dcf2e006fb8b2f36e00',
     messagingSenderId: '701936380417',
     projectId: 'mytake-a7a56',
+    databaseURL: 'https://mytake-a7a56-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'mytake-a7a56.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDtvFvjDQ8FhYJEpT53PxJWi0tAEn-7-cA',
-    appId: '1:701936380417:ios:d2874e43676cf1a1f36e00',
+    appId: '1:701936380417:ios:11be1536d4cd01a1f36e00',
     messagingSenderId: '701936380417',
     projectId: 'mytake-a7a56',
+    databaseURL: 'https://mytake-a7a56-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'mytake-a7a56.appspot.com',
     iosClientId: '701936380417-r82mtcvls450qdmeaj5k2gfl01m5mgpn.apps.googleusercontent.com',
     iosBundleId: 'com.example.mytakeapp',
@@ -73,9 +76,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDtvFvjDQ8FhYJEpT53PxJWi0tAEn-7-cA',
-    appId: '1:701936380417:ios:d2874e43676cf1a1f36e00',
+    appId: '1:701936380417:ios:11be1536d4cd01a1f36e00',
     messagingSenderId: '701936380417',
     projectId: 'mytake-a7a56',
+    databaseURL: 'https://mytake-a7a56-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'mytake-a7a56.appspot.com',
     iosClientId: '701936380417-r82mtcvls450qdmeaj5k2gfl01m5mgpn.apps.googleusercontent.com',
     iosBundleId: 'com.example.mytakeapp',

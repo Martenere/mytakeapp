@@ -64,20 +64,23 @@ class PromptPage extends StatelessWidget {
                 height: 12,
               ),
 
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Icon(CarbonIcons.camera),
-                      Spacer(),
-                      Icon(CarbonIcons.arrow_right),
-                    ],
+              Center(
+                child: 
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Icon(CarbonIcons.camera),
+                        Spacer(),
+                        Icon(CarbonIcons.arrow_right),
+                      ],
+                    ),
                   ),
+                  decoration: buttonStyling,
+                  width: 120,
+                  height: 60,
                 ),
-                decoration: buttonStyling,
-                width: 120,
-                height: 60,
               )
             ],
           ),

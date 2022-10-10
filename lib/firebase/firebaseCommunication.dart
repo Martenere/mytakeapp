@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import '../model.dart';
 import 'dart:typed_data';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -18,10 +19,10 @@ class FirebaseCommunication {
   firebaseCommunication() {}
 
   void initFirebase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    print("Initialized firebase");
+    // await Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
+    // print("Initialized firebase");
 
     // Storage
     storage = FirebaseStorage.instance;
