@@ -12,12 +12,20 @@ final BoxDecoration buttonStyling = BoxDecoration(
     boxShadow: [
       BoxShadow(offset: Offset(-4, 4), blurRadius: 0, color: Colors.black)
     ]);
+final BoxDecoration buttonStylingDown = BoxDecoration(
+  border: Border.all(width: 4),
+  color: Colors.white,
+);
 final BoxDecoration backButtonStyling = BoxDecoration(
     border: Border.all(width: 2),
     color: Colors.white,
     boxShadow: [
       BoxShadow(offset: Offset(-2, 2), blurRadius: 0, color: Colors.black)
     ]);
+final BoxDecoration backButtonStylingDown = BoxDecoration(
+  border: Border.all(width: 2),
+  color: Colors.white,
+);
 final BoxDecoration boxFullstyling = BoxDecoration(
     color: const Color(0xFFC36AC7E),
     border: Border.symmetric(horizontal: BorderSide(width: 3)));
@@ -33,11 +41,9 @@ final TextStyle timeText = TextStyle(
     color: Colors.black,
     letterSpacing: 8);
 
-
-
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
-    FirebaseCommunication fb;
+  FirebaseCommunication fb;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

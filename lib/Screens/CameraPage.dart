@@ -46,6 +46,7 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
+    var buttonDepending = buttonStyling;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -139,10 +140,27 @@ class _CameraPageState extends State<CameraPage> {
                       ),
                       decoration: buttonStyling,
                     ),
-
                     SizedBox(
                       width: 30,
                     ),
+
+                    // AnimatedContainer(
+                    //   duration: Duration(microseconds: 2),
+                    //   width: 60,
+                    //   height: 60,
+                    //   decoration: buttonDepending,
+                    //   child: Material(
+                    //     child: InkWell(
+                    //       child: Icon(CarbonIcons.flash),
+                    //       onTap: () {
+                    //         setState(() {
+                    //           buttonDepending = buttonStylingDown;
+                    //         });
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
+
                     Container(
                       width: 60,
                       height: 60,
@@ -164,6 +182,21 @@ class _CameraPageState extends State<CameraPage> {
                           }),
                       decoration: buttonStyling,
                     ),
+
+                    GestureDetector(
+                        child: Container(
+                          decoration: buttonDepending,
+                          width: 60,
+                          height: 60,
+                          child: flashMode == FlashMode.off
+                              ? Icon(CarbonIcons.flash_off)
+                              : Icon(CarbonIcons.flash),
+                        ),
+                        onTap: (() {
+                          setState(() {
+                            buttonDepending = buttonStylingDown;
+                          });
+                        }))
                   ],
                 )
               ]);
@@ -184,6 +217,7 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
+    var backButtonResponsive = backButtonStyling;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -191,10 +225,11 @@ class DisplayPictureScreen extends StatelessWidget {
           leading: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-            child: Container(
+            child: AnimatedContainer(
+                duration: const Duration(milliseconds: 2),
                 width: 45,
                 height: 45,
-                decoration: backButtonStyling,
+                decoration: backButtonResponsive,
                 child: IconButton(
                   padding: EdgeInsets.all(2),
                   icon: Icon(CarbonIcons.arrow_left),
@@ -208,8 +243,6 @@ class DisplayPictureScreen extends StatelessWidget {
           toolbarHeight: 110,
           foregroundColor: Colors.black,
         ),
-        // The image is stored as a file on the device. Use the `Image.file`
-        // constructor with the given path to display the image.
         body: Column(children: [
           SizedBox(width: size, height: 30),
           Container(
