@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 class GroupCreation extends StatelessWidget {
   GroupCreation({super.key});
   final groupNameController = TextEditingController();
+  var jacob = Person(id: '1', name: 'jacob', color: primaryColor);
+  late List<Person> dummyPeople = [jacob];
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +58,14 @@ class GroupCreation extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Group(id: 1, name: groupNameController.text, pictureLimit: 3);
+                  var group = Group(
+                      id: 1,
+                      name: groupNameController.text,
+                      people: dummyPeople,
+                      pictureLimit: 3);
 
-                  print(groupNameController.text);
+                  print(group.people[0].name);
+
                 },
                 child: Container(
                   child: Padding(

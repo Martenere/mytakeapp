@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
             child: Text('Result Page')),
         ElevatedButton(
             onPressed: () {
-              fb.uploadFile();
+              // fb.uploadFile();
             },
             child: Text('add image to server')),
         ElevatedButton(
