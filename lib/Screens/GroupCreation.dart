@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class GroupCreation extends StatelessWidget {
   GroupCreation({super.key});
   final groupNameController = TextEditingController();
-  var jacob = Person(
+  Person jacob = Person(
     id: '1',
     name: 'jacob',
   );
@@ -66,10 +66,9 @@ class GroupCreation extends StatelessWidget {
                       id: "3",
                       name: groupNameController.text,
                       people:
-                          dummyPeople, //Should add yourself to group aka (Person me)
+                          [jacob.id], //Should add yourself to group aka (Person me)
                       pictureLimit: 3);
 
-                  print(group.people[0].name);
                   group.addGroupToDatabase();
                 },
                 child: Container(

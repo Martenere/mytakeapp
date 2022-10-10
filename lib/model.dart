@@ -47,7 +47,7 @@ Future<Group> loadGroupFromFirebase(String id) async {
   DataSnapshot data = await refGroup.get();
 
   var name = (data.child('name') as String);
-  var people = (data.child('people').value as List<Person>);
+  var people = (data.child('people').value as List<String>);
   var pictureLimit = (data.child('pictureLimit') as int);
 
   Group group =
@@ -59,7 +59,7 @@ Future<Group> loadGroupFromFirebase(String id) async {
 class Group {
   late String id;
   String name;
-  List<Person> people;
+  List<String> people;
 
   bool isFinished;
   int pictureLimit;
@@ -80,8 +80,9 @@ class Group {
   addGroupToDatabase() async {
     //People me
     print("Added $name to DB");
+    // print(people[0].name);
     await refGroup.set(
-        {'id': id, 'name': name, people: people, pictureLimit: pictureLimit});
+        {'id': id, 'name': name, 'people': people, 'pictureLimit': pictureLimit});
 
     //database event listener - listen to people added or removed
 
@@ -95,7 +96,7 @@ class Group {
   void eventUpdatePeopleList(data) {
     people = []; //empty data in people list
 
-    for (Person p in data) {
+    for (String p in data) {
       // add people from recieved data
       people.add(p);
     }
