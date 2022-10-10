@@ -28,7 +28,9 @@ class Person {
       color = data.child('color').value; //fråga olof om detta, får tbax object?
       groups = (data.child('groups').value as List<String>);
       dataLoaded = true;
-    } else {}
+    } else {
+      refMe.set({'name': 'Mårten', 'color': 'green', 'groups': []});
+    }
   }
 
   addGroup(String groupId) {
@@ -81,8 +83,12 @@ class Group {
     //People me
     print("Added $name to DB");
     // print(people[0].name);
-    await refGroup.set(
-        {'id': id, 'name': name, 'people': people, 'pictureLimit': pictureLimit});
+    await refGroup.set({
+      'id': id,
+      'name': name,
+      'people': people,
+      'pictureLimit': pictureLimit
+    });
 
     //database event listener - listen to people added or removed
 
