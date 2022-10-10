@@ -6,10 +6,20 @@ Future<String> getId() async {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final SharedPreferences prefs = await _prefs;
   String? id = prefs.getString(key);
+
+  //If no key exists in prefs, randomize one and add it to ref
   if (id == null) {
-    int x = Random().nextInt(3000);
-    id = "asdf$x";
+    print("generate");
+    String id = generateRandomString(5);
+
     prefs.setString(key, id);
   }
-  return id;
+
+  return id!;
+}
+
+String generateRandomString(int len) {
+  var r = Random();
+  const _chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+  return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
 }

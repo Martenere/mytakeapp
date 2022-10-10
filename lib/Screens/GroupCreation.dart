@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 class GroupCreation extends StatelessWidget {
   GroupCreation({super.key});
   final groupNameController = TextEditingController();
-  var jacob = Person(id: '1', name: 'jacob', color: primaryColor);
+  Person jacob = Person(
+    id: '1',
+    name: 'jacob',
+  );
   late List<Person> dummyPeople = [jacob];
 
   @override
@@ -61,13 +64,13 @@ class GroupCreation extends StatelessWidget {
               InkWell(
                 onTap: () {
                   var group = Group(
-                      id: 3,
+                      id: "3",
                       name: groupNameController.text,
-                      people: dummyPeople,
+                      people:
+                          [jacob.id], //Should add yourself to group aka (Person me)
                       pictureLimit: 3);
 
-                  print(group.people[0].name);
-                  db.addGroupToDatabase(group.id.toString(), group.name);
+                  group.addGroupToDatabase();
                 },
                 child: Container(
                   child: Padding(
