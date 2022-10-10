@@ -1,9 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'dart:math';
 
-var rng = Random();
 
 class FirebaseConnection {
   late FirebaseDatabase database;
@@ -20,13 +18,13 @@ class FirebaseConnection {
 
     refGroup = FirebaseDatabase.instance.ref("group/$groupId");
     refPeople = refGroup.child("people");
-    refPeople.onValue.listen((DatabaseEvent event) {
-      final data = event.snapshot.value;
-      print("$data was recived from listener");
-    });
+    // refPeople.onValue.listen((DatabaseEvent event) {
+    //   final data = event.snapshot.value;
+    //   print("$data was recived from listener");
+    // });
   }
 
-  addGroupToDatabase(String id, String name) async {
+  addGroupToDatabase(String id, String name, ) async {
     //People me
     print("Added $name to DB");
     await refGroup.set({'id': id, 'name': name});

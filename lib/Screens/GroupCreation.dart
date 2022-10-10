@@ -60,7 +60,7 @@ class GroupCreation extends StatelessWidget {
               InkWell(
                 onTap: () {
                   var group = Group(
-                      id: 1,
+                      id: 3,
                       name: groupNameController.text,
                       people: dummyPeople,
                       pictureLimit: 3);
