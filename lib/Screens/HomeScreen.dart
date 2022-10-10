@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 
+import '../model.dart';
+
 final BoxDecoration boxstyling = BoxDecoration(border: Border.all(width: 4));
 final BoxDecoration boxstylingThick =
     BoxDecoration(border: Border.all(width: 8));
@@ -31,9 +33,11 @@ final TextStyle timeText = TextStyle(
     color: Colors.black,
     letterSpacing: 8);
 
+
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
-FirebaseCommunication fb;
+  FirebaseCommunication fb;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +72,12 @@ FirebaseCommunication fb;
             onPressed: () {
               fb.uploadFile();
             },
-            child: Text('add image to server'))
+            child: Text('add image to server')),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/GroupCreation');
+            },
+            child: Text('GroupCreation'))
       ]),
     );
   }

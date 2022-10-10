@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import '../model.dart';
 import 'dart:typed_data';
 
 import 'package:firebase_database/firebase_database.dart';

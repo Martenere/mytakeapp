@@ -5,6 +5,7 @@ import 'Screens/HomeScreen.dart';
 import 'Screens/PromptPage.dart';
 import 'Screens/CameraPage.dart';
 import 'Screens/ResultPage.dart';
+import 'Screens/GroupCreation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'firebase/firebaseCommunication.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/PromptPage': (context) => PromptPage(url: fb.getURlToTestImage(),),
         '/CameraPage': (context) => const CameraPage(),
         '/Result': (context) => const ResultPage(),
+        '/GroupCreation': (context) => GroupCreation(),
       },
     );
   }
