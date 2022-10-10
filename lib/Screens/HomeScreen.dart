@@ -83,7 +83,12 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/GroupCreation');
             },
-            child: Text('GroupCreation'))
+            child: Text('GroupCreation')),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/JoinGroup');
+            },
+            child: Text('Join Group'))
       ]),
     );
   }

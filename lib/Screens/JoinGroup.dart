@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mytakeapp/Providers/group_provider.dart';
-import 'package:mytakeapp/Screens/Lobby.dart';
-import 'package:mytakeapp/id_retriever.dart';
-import 'package:provider/provider.dart';
 import 'HomeScreen.dart';
 import '../main.dart';
 import '../model.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 
-class GroupCreation extends StatelessWidget {
-  GroupCreation({super.key});
-  final groupNameController = TextEditingController();
-  Person jacob = Person(
-    id: '1',
-    name: 'jacob',
-  );
-  late List<Person> dummyPeople = [jacob];
+class JoinGroup extends StatelessWidget {
+  JoinGroup({super.key});
+  final GroupCodeController = TextEditingController();
+
+  // Person jacob = Person(
+  //   id: '1',
+  //   name: 'jacob',
+  // );
+  // late List<Person> dummyPeople = [jacob];
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,6 @@ class GroupCreation extends StatelessWidget {
           child: Container(
               decoration: backButtonStyling,
               child: BackButton(color: Colors.black)),
-          // child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,
         backgroundColor: Colors.white,
@@ -37,29 +33,23 @@ class GroupCreation extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // Positioned(
-          //     child: Container(
-          //   height: 350,
-          //   width: 400,
-          //   color: primaryColor,
-          // )),
           Column(
             children: [
               const SizedBox(
                 height: 32,
               ),
-              Text('NEW SESSION', style: defaultText),
+              Text('JOIN SESSION', style: defaultText),
               const SizedBox(
                 height: 32,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                    controller: groupNameController,
+                    controller: GroupCodeController,
                     style: defaultText,
                     decoration: InputDecoration(
                         hintText: 'Kba..',
-                        label: Text('GROUP NAME'),
+                        label: Text('ENTER CODE'),
                         border: OutlineInputBorder())),
               ),
               const SizedBox(
@@ -67,31 +57,22 @@ class GroupCreation extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  var id = generateRandomString(5);
-                  var group = Group(
-                      id: id,
-                      name: groupNameController.text,
-                      people:
-                          [me.id], //Should add yourself to group aka (Person me)
-                      pictureLimit: 3);
-
-                  group.addGroupToDatabase();
-                  Provider.of<GroupProvider>(context, listen: false).setGroupId(group.id);
-                  Navigator.pushNamed(context, '/Lobby');
+                //  JOIN GROUP
+                
                 },
                 child: Container(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                        Text('Create', style: defaultText),
+                        Text('Join', style: defaultText),
                         Spacer(),
                         Icon(CarbonIcons.arrow_right),
                       ],
                     ),
                   ),
                   decoration: buttonStyling,
-                  width: 260,
+                  width: 220,
                   height: 60,
                 ),
               )

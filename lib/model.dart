@@ -26,10 +26,16 @@ class Person {
     if (data.exists) {
       name = data.child('name').value.toString();
       color = data.child('color').value; //fråga olof om detta, får tbax object?
-      groups = (data.child('groups').value as List<String>);
+
+      try {
+        groups = (data.child('groups').value as List<String>);
+      } catch (e) {
+        groups = [];
+      }
+
       dataLoaded = true;
     } else {
-      refMe.set({'name': 'Mårten', 'color': 'green', 'groups': []});
+      refMe.set({'name': 'Jacob', 'color': 'blue', 'groups': []});
     }
   }
 
