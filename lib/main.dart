@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'firebase/firebaseCommunication.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'id_retriever.dart';
 
 import 'dart:async';
 import 'dart:io';
@@ -18,8 +19,9 @@ import 'firebase_options.dart';
 late List<CameraDescription> cameras;
 late FirebaseCommunication fb;
 
-
 Future<void> main() async {
+  var id = await getId();
+  print("device id: $id");
   WidgetsFlutterBinding.ensureInitialized();
   fb = FirebaseCommunication();
   fb.initFirebase();
@@ -36,8 +38,10 @@ class MyApp extends StatelessWidget {
       title: 'Welcome to Flutter',
       initialRoute: "/",
       routes: {
-        '/': (context) => HomeScreen(fb:fb),
-        '/PromptPage': (context) => PromptPage(url: fb.getURlToTestImage(),),
+        '/': (context) => HomeScreen(fb: fb),
+        '/PromptPage': (context) => PromptPage(
+              url: fb.getURlToTestImage(),
+            ),
         '/CameraPage': (context) => const CameraPage(),
         '/Result': (context) => const ResultPage(),
       },

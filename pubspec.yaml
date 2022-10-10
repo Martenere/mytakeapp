@@ -48,6 +48,9 @@ dependencies:
   device_info: ^2.0.3
   image: ^3.2.0
   firebase_database: ^9.1.7
+  device_info_plus: ^5.0.5
+  android_id: ^0.0.7
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
