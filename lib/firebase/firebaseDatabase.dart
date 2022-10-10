@@ -8,29 +8,27 @@ var rng = Random();
 class FirebaseConnection {
   late FirebaseDatabase database;
   late DatabaseReference ref;
-  late DatabaseReference refUsers;
+  late DatabaseReference refGroup;
+
+  late DatabaseReference refPeople;
 
   late DatabaseReference refAge;
-  FirebaseConnection();
 
-  void initConnection() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  void initGroup(String groupId) async {
     database = FirebaseDatabase.instance;
     ref = FirebaseDatabase.instance.ref();
 
-    refUsers = FirebaseDatabase.instance.ref("Users/1/1");
-    refAge = refUsers.child("age");
-    refAge.onValue.listen((DatabaseEvent event) {
+    refGroup = FirebaseDatabase.instance.ref("group/$groupId");
+    refPeople = refGroup.child("people");
+    refPeople.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       print("$data was recived from listener");
     });
   }
 
-  addToDatabase() async {
-    int x = rng.nextInt(80);
-    print("randomized and uploaded: $x");
-    await refUsers.set({'name': 'Nils', 'age': x});
+  addGroupToDatabase(String id, String name) async {
+    //People me
+    print("Added $name to DB");
+    await refGroup.set({'id': id, 'name': name});
   }
 }
