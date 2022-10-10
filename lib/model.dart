@@ -105,12 +105,18 @@ class Group {
     });
   }
 
+  void addPerson(Person person) {
+    people.add(person.id);
+    refPeople.update(people);
+  }
+
   void eventUpdatePeopleList(data) {
     people = []; //empty data in people list
 
     for (String p in data) {
       // add people from recieved data
       people.add(p);
+      print(p);
     }
     //notify listeners
   }
