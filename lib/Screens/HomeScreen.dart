@@ -37,7 +37,7 @@ final TextStyle timeText = TextStyle(
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
-  FirebaseCommunication fb;
+    FirebaseCommunication fb;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

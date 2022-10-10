@@ -5,6 +5,7 @@ import 'package:carbon_icons/carbon_icons.dart';
 
 import 'package:mytakeapp/main.dart';
 import 'HomeScreen.dart';
+import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 
 // https://docs.flutter.dev/cookbook/plugins/picture-using-camera
 
@@ -55,7 +56,9 @@ class _CameraPageState extends State<CameraPage> {
               child: IconButton(
                 padding: EdgeInsets.all(2),
                 icon: Icon(CarbonIcons.arrow_left),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               )),
         ),
         elevation: 0,
@@ -162,7 +165,9 @@ class DisplayPictureScreen extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.all(2),
                   icon: Icon(CarbonIcons.arrow_left),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 )),
           ),
           elevation: 0,
@@ -194,7 +199,10 @@ class DisplayPictureScreen extends StatelessWidget {
                 width: 80,
                 height: 80,
                 child: IconButton(
-                    icon: Icon(CarbonIcons.checkmark), onPressed: () {}),
+                    icon: Icon(CarbonIcons.checkmark),
+                    onPressed: () {
+                      fb.uploadFile(File(imagePath));
+                    }),
                 decoration: buttonStyling,
               ),
               SizedBox(
