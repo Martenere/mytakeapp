@@ -1,46 +1,11 @@
 {
   "project_info": {
     "project_number": "701936380417",
+    "firebase_url": "https://mytake-a7a56-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "mytake-a7a56",
     "storage_bucket": "mytake-a7a56.appspot.com"
   },
   "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:701936380417:android:384c2a456fdabb2af36e00",
-        "android_client_info": {
-          "package_name": "com.example.firetest"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "701936380417-ar4d3reeucqdpvfqgmp7om4em2f4cs28.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDuPTASgcgg7Qheq46fBexGoirMPZIkhuE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "701936380417-ar4d3reeucqdpvfqgmp7om4em2f4cs28.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "701936380417-tg8it9nbrenk4k70eljdsiej9ctqlc0g.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.firetest"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:701936380417:android:932dcf2e006fb8b2f36e00",
@@ -67,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "701936380417-tg8it9nbrenk4k70eljdsiej9ctqlc0g.apps.googleusercontent.com",
+              "client_id": "701936380417-r82mtcvls450qdmeaj5k2gfl01m5mgpn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.firetest"
+                "bundle_id": "com.example.mytakeapp"
               }
             }
           ]
