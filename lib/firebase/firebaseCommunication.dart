@@ -19,10 +19,10 @@ class FirebaseCommunication {
   firebaseCommunication() {}
 
   void initFirebase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    print("Initialized firebase");
+    // await Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
+    // print("Initialized firebase");
 
     // Storage
     storage = FirebaseStorage.instance;

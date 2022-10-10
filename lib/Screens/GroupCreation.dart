@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'HomeScreen.dart';
+import '../main.dart';
 import '../model.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class GroupCreation extends StatelessWidget {
                       pictureLimit: 3);
 
                   print(group.people[0].name);
-
+                  db.addGroupToDatabase(group.id.toString(), group.name);
                 },
                 child: Container(
                   child: Padding(
