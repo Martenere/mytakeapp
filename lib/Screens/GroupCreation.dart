@@ -62,11 +62,12 @@ class GroupCreation extends StatelessWidget {
                   var group = Group(
                       id: 3,
                       name: groupNameController.text,
-                      people: dummyPeople,
+                      people:
+                          dummyPeople, //Should add yourself to group aka (Person me)
                       pictureLimit: 3);
 
                   print(group.people[0].name);
-                  db.addGroupToDatabase(group.id.toString(), group.name);
+                  group.initGroupInDatabase();
                 },
                 child: Container(
                   child: Padding(

@@ -12,6 +12,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'firebase/firebaseCommunication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'id_retriever.dart';
+import 'model.dart';
 
 import 'dart:async';
 import 'dart:io';
@@ -20,10 +21,10 @@ import 'firebase_options.dart';
 
 late List<CameraDescription> cameras;
 late FirebaseCommunication fb;
-late FirebaseConnection db;
+late Person me;
 
 Future<void> main() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -34,9 +35,6 @@ Future<void> main() async {
   print("device id: $id");
   fb = FirebaseCommunication();
   fb.initFirebase();
-  db = FirebaseConnection();
-  Firebase.initializeApp();
-  db.initGroup('1');
   cameras = await availableCameras();
   runApp(const MyApp());
 }
