@@ -112,8 +112,7 @@ class LobbyParticipantListener extends StatelessWidget {
     );
 
     if (group.groupStarted) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      print('rebuild with ${group.people}');
+      print("session has started");
     }
 
     Future<String> getName(String id) async {
