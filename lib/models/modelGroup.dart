@@ -98,9 +98,9 @@ class Group with ChangeNotifier {
     for (String p in data) {
       // add people from recieved data
       people.add(p);
-      print(p);
-      notifyListeners();
     }
+    print("event updatepoeple list : $people");
+    notifyListeners();
   }
 
   void startGroup(data) async {

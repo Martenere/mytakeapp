@@ -16,9 +16,9 @@ class Lobby extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     groupId = Provider.of<GroupProvider>(context, listen: false).groupId;
-    Group group = Provider.of<GroupProvider>(context).group;
+    Group group = Provider.of<GroupProvider>(context, listen: true).group;
     if (group.groupStarted) {
-      print("started group");
+      print("Started group");
     }
 
     return Scaffold(
@@ -56,8 +56,7 @@ class Lobby extends StatelessWidget {
                   height: 32,
                 ),
                 ChangeNotifierProvider(
-                    create: (context) => group,
-                    child: LobbyParticipantListener()),
+                    create: (_) => group, child: LobbyParticipantListener()),
                 const SizedBox(
                   height: 64,
                 ),
@@ -97,7 +96,11 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Group group = Provider.of<GroupProvider>(context, listen: false).group;
+    Group group = Provider.of<GroupProvider>(
+      context,
+      listen: true,
+    ).group;
+    print('rebuild with ${group.people}');
 
     Future<String> getName(String id) async {
       DatabaseReference refPersonName =
@@ -106,28 +109,30 @@ class LobbyParticipantListener extends StatelessWidget {
       return name.value.toString();
     }
 
-    return Container(
-      height: 200,
-      child: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: group.people.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              height: 50,
-              child: FutureBuilder(
-                  future: getName(group.people[index]),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Center(
-                          child: Text('${snapshot.data}', style: defaultText));
-                    } else {
-                      return Container(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+    return Consumer<Group>(
+        builder: ((context, group, child) => Container(
+              height: 200,
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: group.people.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      height: 50,
+                      child: FutureBuilder(
+                          future: getName(group.people[index]),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Center(
+                                  child: Text('${snapshot.data}',
+                                      style: defaultText));
+                            } else {
+                              return Container(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                    );
                   }),
-            );
-          }),
-    );
+            )));
   }
 }
