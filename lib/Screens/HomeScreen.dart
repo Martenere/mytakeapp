@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
+import 'package:mytakeapp/loadAllGroups.dart';
+import 'package:mytakeapp/main.dart';
 
-import '../model.dart';
+import '../models/modelGroup.dart';
 
 final BoxDecoration boxstyling = BoxDecoration(border: Border.all(width: 4));
 final BoxDecoration boxstylingThick =
@@ -44,8 +46,12 @@ final TextStyle timeText = TextStyle(
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
   FirebaseCommunication fb;
+  var a = allGroups();
   @override
   Widget build(BuildContext context) {
+    print("im in groups ${me.groups}");
+    var groups = a.getGroupsfromFirebase(me);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

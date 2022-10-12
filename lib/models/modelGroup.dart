@@ -1,55 +1,8 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/firebase/firebaseDatabase.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:mytakeapp/id_retriever.dart';
-
-class Person {
-  String id;
-  String name;
-  late var color;
-  List<String> groups = [];
-  bool dataLoaded = false;
-
-  late DatabaseReference refMe;
-
-  Person({required this.id, this.name = "Ada"}) {
-    //unpack data
-    color = Colors.blue;
-    refMe = FirebaseDatabase.instance.ref().child('people/$id');
-    loadDataFromFirebase();
-  }
-
-  loadDataFromFirebase() async {
-    DataSnapshot data = await refMe.get();
-    if (data.exists) {
-      name = data.child('name').value.toString();
-      color = data.child('color').value; //fråga olof om detta, får tbax object?
-
-      try {
-        groups = (data.child('groups').value as List<String>);
-      } catch (e) {
-        groups = [];
-      }
-
-      dataLoaded = true;
-    } else {
-      refMe.set({'name': 'Jacob', 'color': 'blue', 'groups': []});
-    }
-  }
-
-  addGroup(String groupId) {
-    groups.add(groupId);
-    refMe.update({'groups': groups});
-  }
-
-  removeGroup(String groupId) {
-    groups.remove(groupId);
-    refMe.update({'groups': groups});
-  }
-}
+import 'modelPerson.dart';
 
 Future<Group> loadGroupFromFirebase(String id) async {
   DatabaseReference refGroup = await FirebaseDatabase.instance.ref("group/$id");
@@ -57,67 +10,88 @@ Future<Group> loadGroupFromFirebase(String id) async {
   var datav = data.value;
 
   var name = (data.child('name').value as String);
-  print("Children:");
+
   Map dataMap = Map<String, dynamic>.from(datav as Map);
-  print(dataMap);
+
   name = dataMap['name'];
-  var people = [];
+  List<String> people = [];
   dataMap['people'].forEach((v) => people.add(v));
-  print(people);
 
   //_playerPositions = Map<String, dynamic>.from(data as Map);
   var pictureLimit = dataMap['pictureLimit'];
+  var groupStarted = dataMap['groupStarted'];
 
-  Group group =
-      Group(id: id, name: name, people: ["people"], pictureLimit: pictureLimit);
+  Group group = Group(
+      id: id,
+      name: name,
+      people: people,
+      pictureLimit: pictureLimit,
+      groupStarted: groupStarted);
+
+  group.startListening();
 
   return group;
 }
 
-class Group {
+class Group with ChangeNotifier {
   late String id;
   String name;
   List<String> people;
+  bool groupStarted;
 
   bool isFinished;
   int pictureLimit;
   late FirebaseGroup _fbd;
   late var refPeople;
+  late var refgroupStarted;
   late var refGroup;
 
   Group(
       {required this.id,
       required this.name,
+      required this.groupStarted,
       required this.people,
       this.isFinished = false,
       this.pictureLimit = 3}) {
     refPeople = FirebaseDatabase.instance.ref().child('group/$id/people');
+    refgroupStarted =
+        FirebaseDatabase.instance.ref().child('group/$id/groupStarted');
     refGroup = FirebaseDatabase.instance.ref("group/$id");
   }
 
   addGroupToDatabase() async {
     //People me
-    print("Added $name to DB");
+
     // print(people[0].name);
     await refGroup.set({
       'id': id,
       'name': name,
       'people': people,
-      'pictureLimit': pictureLimit
+      'pictureLimit': pictureLimit,
+      'groupStarted': false
     });
 
     //database event listener - listen to people added or removed
+    startListening();
+  }
 
+  void startListening() {
     refPeople.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       eventUpdatePeopleList(data);
-      print("$data was recived from listener");
+    });
+
+    refgroupStarted.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      startGroup(data);
     });
   }
 
   void addPerson(Person person) {
-    people.add(person.id);
-    refPeople.update({person.id});
+    if (!people.contains(person.id)) {
+      people.add(person.id);
+    }
+    refPeople.set(people);
   }
 
   void eventUpdatePeopleList(data) {
@@ -126,8 +100,14 @@ class Group {
     for (String p in data) {
       // add people from recieved data
       people.add(p);
-      print(p);
     }
-    //notify listeners
+    notifyListeners();
+  }
+
+  void startGroup(groupStatus) async {
+    groupStarted = groupStatus;
+    await refgroupStarted.set(groupStarted);
+
+    notifyListeners();
   }
 }

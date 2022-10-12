@@ -3,9 +3,10 @@ import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/Screens/Lobby.dart';
 import 'package:mytakeapp/id_retriever.dart';
 import 'package:provider/provider.dart';
+import '../models/modelPerson.dart';
 import 'HomeScreen.dart';
 import '../main.dart';
-import '../model.dart';
+import '../models/modelGroup.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -67,16 +68,21 @@ class GroupCreation extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  var id = generateRandomString(5);
+                  var id = generateRandomString(2);
                   var group = Group(
+                      groupStarted: false,
                       id: id,
                       name: groupNameController.text,
-                      people:
-                          [me.id], //Should add yourself to group aka (Person me)
+                      people: [
+                        me.id
+                      ], //Should add yourself to group aka (Person me)
                       pictureLimit: 3);
 
                   group.addGroupToDatabase();
-                  Provider.of<GroupProvider>(context, listen: false).setGroupId(group.id);
+                  Provider.of<GroupProvider>(context, listen: false)
+                      .setGroupId(group.id);
+                  Provider.of<GroupProvider>(context, listen: false)
+                      .setGroup(group);
                   Navigator.pushNamed(context, '/Lobby');
                 },
                 child: Container(
