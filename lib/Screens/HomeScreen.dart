@@ -46,9 +46,12 @@ final TextStyle timeText = TextStyle(
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
   FirebaseCommunication fb;
-  List<Group> groups = allGroups().getGroupsfromFirebase(me);
+  var a = allGroups();
   @override
   Widget build(BuildContext context) {
+    print("im in groups ${me.groups}");
+    var groups = a.getGroupsfromFirebase(me);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

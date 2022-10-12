@@ -23,11 +23,11 @@ class Person {
       name = data.child('name').value.toString();
       color = data.child('color').value; //fråga olof om detta, får tbax object?
 
-      try {
-        groups = (data.child('groups').value as List<String>);
-      } catch (e) {
-        groups = [];
-      }
+      var datav = data.value;
+      groups = [];
+      Map dataMap = Map<String, dynamic>.from(datav as Map);
+      print("dataMap = $dataMap");
+      dataMap['groups'].forEach((v) => groups.add(v));
 
       dataLoaded = true;
     } else {
