@@ -16,12 +16,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'firebase/firebaseCommunication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'id_retriever.dart';
-import 'model.dart';
+import 'models/modelGroup.dart';
 
 import 'dart:async';
 import 'dart:io';
 
 import 'firebase_options.dart';
+import 'models/modelPerson.dart';
 
 late List<CameraDescription> cameras;
 late FirebaseCommunication fb;

@@ -3,9 +3,10 @@ import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/Screens/Lobby.dart';
 import 'package:mytakeapp/id_retriever.dart';
 import 'package:provider/provider.dart';
+import '../models/modelPerson.dart';
 import 'HomeScreen.dart';
 import '../main.dart';
-import '../model.dart';
+import '../models/modelGroup.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 

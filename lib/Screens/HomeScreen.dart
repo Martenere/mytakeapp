@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 
-import '../model.dart';
+import '../models/modelGroup.dart';
 
 final BoxDecoration boxstyling = BoxDecoration(border: Border.all(width: 4));
 final BoxDecoration boxstylingThick =

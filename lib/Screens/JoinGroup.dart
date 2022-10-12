@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'HomeScreen.dart';
 import '../main.dart';
-import '../model.dart';
+import '../models/modelGroup.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -60,9 +60,7 @@ class JoinGroup extends StatelessWidget {
                   Group group =
                       await loadGroupFromFirebase(GroupCodeController.text);
 
-                      group.addPerson(me);
-
-                  
+                  group.addPerson(me);
                 },
                 child: Container(
                   child: Padding(
