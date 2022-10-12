@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
+import 'package:mytakeapp/loadAllGroups.dart';
+import 'package:mytakeapp/main.dart';
 
 import '../models/modelGroup.dart';
 
@@ -44,6 +46,7 @@ final TextStyle timeText = TextStyle(
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
   FirebaseCommunication fb;
+  List<Group> groups = allGroups().getGroupsfromFirebase(me);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
