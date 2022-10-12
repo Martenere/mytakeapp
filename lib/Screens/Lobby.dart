@@ -15,6 +15,8 @@ class Lobby extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     groupId = Provider.of<GroupProvider>(context, listen: false).groupId;
+    Group group = Provider.of<GroupProvider>(context, listen: false).group;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -48,7 +50,9 @@ class Lobby extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              LobbyParticipantListener(),
+              ChangeNotifierProvider(
+                  create: (context) => group,
+                  child: LobbyParticipantListener()),
               const SizedBox(
                 height: 64,
               ),
@@ -78,12 +82,10 @@ class Lobby extends StatelessWidget {
   }
 }
 
-
 class LobbyParticipantListener extends StatelessWidget {
   const LobbyParticipantListener({
     Key? key,
   }) : super(key: key);
-  
 
   @override
   Widget build(BuildContext context) {
