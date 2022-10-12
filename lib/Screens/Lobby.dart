@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class Lobby extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     groupId = Provider.of<GroupProvider>(context, listen: false).groupId;
-    Group group = Provider.of<GroupProvider>(context, listen: false).group;
+    Group group = Provider.of<GroupProvider>(context).group;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -91,18 +92,35 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Group group = Provider.of<GroupProvider>(context).group;
+    Group group = Provider.of<GroupProvider>(context, listen: false).group;
+
+    Future<String> getName(String id) async {
+      DatabaseReference refPersonName =
+          FirebaseDatabase.instance.ref().child('people/$id/name');
+      DataSnapshot name = await refPersonName.get();
+      return name.value.toString();
+    }
+
     return Container(
       height: 200,
       child: ListView.builder(
-          shrinkWrap: true,
           padding: const EdgeInsets.all(8),
           itemCount: group.people.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               height: 50,
-              child: Center(
-                  child: Text('${group.people[index]}', style: defaultText)),
+              child: FutureBuilder(
+                  future: getName(group.people[index]),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Center(
+                          child: Text('${snapshot.data}', style: defaultText));
+                    } else {
+                      return Container(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
             );
           }),
     );
