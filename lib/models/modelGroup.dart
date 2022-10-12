@@ -29,6 +29,8 @@ Future<Group> loadGroupFromFirebase(String id) async {
       pictureLimit: pictureLimit,
       groupStarted: groupStarted);
 
+  group.startListening();
+
   return group;
 }
 
@@ -71,7 +73,10 @@ class Group with ChangeNotifier {
     });
 
     //database event listener - listen to people added or removed
+    startListening();
+  }
 
+  void startListening() {
     refPeople.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       eventUpdatePeopleList(data);
