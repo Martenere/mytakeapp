@@ -18,7 +18,7 @@ class Lobby extends StatelessWidget {
     groupId = Provider.of<GroupProvider>(context, listen: false).groupId;
     Group group = Provider.of<GroupProvider>(context).group;
     if (group.groupStarted) {
-      Navigator.popUntil(context, ModalRoute.withName('/'));
+      print("started group");
     }
 
     return Scaffold(
@@ -63,7 +63,7 @@ class Lobby extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    group.startGroup();
+                    group.startGroup(true);
                   },
                   child: Container(
                     child: Padding(
