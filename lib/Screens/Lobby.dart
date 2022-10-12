@@ -17,6 +17,9 @@ class Lobby extends StatelessWidget {
   Widget build(BuildContext context) {
     groupId = Provider.of<GroupProvider>(context, listen: false).groupId;
     Group group = Provider.of<GroupProvider>(context).group;
+    if (group.groupStarted) {
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -59,7 +62,9 @@ class Lobby extends StatelessWidget {
                   height: 64,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    group.startGroup();
+                  },
                   child: Container(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),

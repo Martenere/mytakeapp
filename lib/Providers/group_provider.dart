@@ -7,7 +7,7 @@ class GroupProvider with ChangeNotifier {
   late Group _group;
 
   Group get group => _group;
-  String get groupId => _groupId;
+  String get groupId => _group.id;
 
   void setGroupId(String groupId) {
     _groupId = groupId;

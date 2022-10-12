@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mytakeapp/Providers/group_provider.dart';
+import 'package:provider/provider.dart';
 import 'HomeScreen.dart';
 import '../main.dart';
 import '../models/modelGroup.dart';
@@ -59,8 +61,10 @@ class JoinGroup extends StatelessWidget {
                 onTap: () async {
                   Group group =
                       await loadGroupFromFirebase(GroupCodeController.text);
-
                   group.addPerson(me);
+                  Provider.of<GroupProvider>(context, listen: false)
+                      .setGroup(group);
+                  Navigator.pushNamed(context, '/Lobby');
                 },
                 child: Container(
                   child: Padding(

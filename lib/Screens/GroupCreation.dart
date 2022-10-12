@@ -70,6 +70,7 @@ class GroupCreation extends StatelessWidget {
                 onTap: () {
                   var id = generateRandomString(2);
                   var group = Group(
+                      groupStarted: false,
                       id: id,
                       name: groupNameController.text,
                       people: [

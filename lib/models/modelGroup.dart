@@ -20,9 +20,14 @@ Future<Group> loadGroupFromFirebase(String id) async {
 
   //_playerPositions = Map<String, dynamic>.from(data as Map);
   var pictureLimit = dataMap['pictureLimit'];
+  var groupStarted = dataMap['groupStarted'];
 
-  Group group =
-      Group(id: id, name: name, people: people, pictureLimit: pictureLimit);
+  Group group = Group(
+      id: id,
+      name: name,
+      people: people,
+      pictureLimit: pictureLimit,
+      groupStarted: groupStarted);
 
   return group;
 }
@@ -31,20 +36,25 @@ class Group with ChangeNotifier {
   late String id;
   String name;
   List<String> people;
+  bool groupStarted;
 
   bool isFinished;
   int pictureLimit;
   late FirebaseGroup _fbd;
   late var refPeople;
+  late var refgroupStarted;
   late var refGroup;
 
   Group(
       {required this.id,
       required this.name,
+      required this.groupStarted,
       required this.people,
       this.isFinished = false,
       this.pictureLimit = 3}) {
     refPeople = FirebaseDatabase.instance.ref().child('group/$id/people');
+    refgroupStarted =
+        FirebaseDatabase.instance.ref().child('group/$id/groupStarted');
     refGroup = FirebaseDatabase.instance.ref("group/$id");
   }
 
@@ -56,7 +66,8 @@ class Group with ChangeNotifier {
       'id': id,
       'name': name,
       'people': people,
-      'pictureLimit': pictureLimit
+      'pictureLimit': pictureLimit,
+      'groupStarted': false
     });
 
     //database event listener - listen to people added or removed
@@ -65,6 +76,12 @@ class Group with ChangeNotifier {
       final data = event.snapshot.value;
       eventUpdatePeopleList(data);
       print("$data was recived from listener");
+    });
+
+    refgroupStarted.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      startGroup();
+      print("$name was recived from listener");
     });
   }
 
@@ -84,6 +101,11 @@ class Group with ChangeNotifier {
       print(p);
       notifyListeners();
     }
-    //notify listeners
+  }
+
+  void startGroup() async {
+    groupStarted = true;
+    await refgroupStarted.set(true);
+    notifyListeners();
   }
 }
