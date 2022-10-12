@@ -81,7 +81,7 @@ class Group with ChangeNotifier {
     refgroupStarted.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       startGroup(data);
-      print("$name was recived from listener");
+      print("$name startedSession");
     });
   }
 
