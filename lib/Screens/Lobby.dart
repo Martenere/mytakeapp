@@ -15,7 +15,6 @@ class Lobby extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    groupId = Provider.of<GroupProvider>(context, listen: false).groupId;
     Group group = Provider.of<GroupProvider>(context, listen: true).group;
     if (group.groupStarted) {
       print("Started group");
@@ -50,7 +49,7 @@ class Lobby extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(groupId, style: defaultText),
+                  child: Text(group.id, style: defaultText),
                 ),
                 // const SizedBox(
                 //   height: 32,
@@ -73,6 +72,8 @@ class Lobby extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     group.startGroup(true);
+                    // ADD GROUP TO PERSON
+                    me.addGroup(group.id);
                   },
                   child: Container(
                     child: Padding(

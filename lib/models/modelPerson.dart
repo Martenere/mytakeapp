@@ -36,8 +36,10 @@ class Person {
   }
 
   addGroup(String groupId) {
-    groups.add(groupId);
-    refMe.update({'groups': groups});
+    if (!groups.contains(groupId)) {
+      groups.add(groupId);
+      refMe.update({'groups': groups});
+    }
   }
 
   removeGroup(String groupId) {
