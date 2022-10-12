@@ -86,7 +86,6 @@ class Group with ChangeNotifier {
     refgroupStarted.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       startGroup(data);
-      print("$data startedSession $name");
     });
   }
 
@@ -108,9 +107,10 @@ class Group with ChangeNotifier {
     notifyListeners();
   }
 
-  void startGroup(data) async {
-    groupStarted = data;
+  void startGroup(groupStatus) async {
+    groupStarted = groupStatus;
     await refgroupStarted.set(groupStarted);
+
     notifyListeners();
   }
 }

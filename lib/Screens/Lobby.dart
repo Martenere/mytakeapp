@@ -106,11 +106,15 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Group group = Provider.of<GroupProvider>(
+    Group group = Provider.of<Group>(
       context,
       listen: true,
-    ).group;
-    print('rebuild with ${group.people}');
+    );
+
+    if (group.groupStarted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      print('rebuild with ${group.people}');
+    }
 
     Future<String> getName(String id) async {
       DatabaseReference refPersonName =
