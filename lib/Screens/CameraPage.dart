@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
-import 'package:carbon_icons/carbon_icons.dart';
-import 'dart:math';
-import 'package:image/image.dart' as IMG;
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mytakeapp/main.dart';
 import 'HomeScreen.dart';
-import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({
@@ -92,13 +88,6 @@ class _CameraPageState extends State<CameraPage> {
                         ),
                       ),
                     ),
-                    // child: Transform.scale(
-                    //   scale: 1 / 1,
-                    //   child: AspectRatio(
-                    //     aspectRatio: controller.value.aspectRatio,
-                    //     child: CameraPreview(controller),
-                    //   ),
-                    // ),
                   ),
                 ),
                 SizedBox(
@@ -163,7 +152,6 @@ class _CameraPageState extends State<CameraPage> {
                             flashImg = flashOnDown;
                           }
                         });
-                        print('tapdown!');
                       },
                       onTapUp: (tap) {
                         setState(() {
@@ -202,7 +190,6 @@ class _CameraPageState extends State<CameraPage> {
 
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
-
   const DisplayPictureScreen({super.key, required this.imagePath});
 
   @override
@@ -239,17 +226,6 @@ class DisplayPictureScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Container(
-              //   width: 80,
-              //   height: 80,
-              //   child: IconButton(
-              //       icon: Icon(CarbonIcons.checkmark),
-              //       iconSize: 40,
-              //       onPressed: () {
-              //         fb.uploadFile(File(imagePath));
-              //       }),
-              //   decoration: buttonStyling,
-              // ),
               checkButton(imagePath: imagePath),
               SizedBox(
                 width: 30,
