@@ -64,7 +64,23 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 110,
       ),
       body: Column(children: [
-        GroupPane(groupName: "KBA killar."),
+        FutureBuilder(
+            future: groups,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                          child: GroupPane(groupName: snapshot.data![index].name));
+                    });
+              } else {
+                return Container(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
         ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/PromptPage');
