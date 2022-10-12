@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -53,13 +54,22 @@ class Person {
 Future<Group> loadGroupFromFirebase(String id) async {
   DatabaseReference refGroup = await FirebaseDatabase.instance.ref("group/$id");
   DataSnapshot data = await refGroup.get();
+  var datav = data.value;
 
-  var name = (data.child('name') as String);
-  var people = (data.child('people').value as List<String>);
-  var pictureLimit = (data.child('pictureLimit') as int);
+  var name = (data.child('name').value as String);
+  print("Children:");
+  Map dataMap = Map<String, dynamic>.from(datav as Map);
+  print(dataMap);
+  name = dataMap['name'];
+  var people = [];
+  dataMap['people'].forEach((v) => people.add(v));
+  print(people);
+
+  //_playerPositions = Map<String, dynamic>.from(data as Map);
+  var pictureLimit = dataMap['pictureLimit'];
 
   Group group =
-      Group(id: id, name: name, people: people, pictureLimit: pictureLimit);
+      Group(id: id, name: name, people: ["people"], pictureLimit: pictureLimit);
 
   return group;
 }
@@ -107,7 +117,7 @@ class Group {
 
   void addPerson(Person person) {
     people.add(person.id);
-    refPeople.update(people);
+    refPeople.update({person.id});
   }
 
   void eventUpdatePeopleList(data) {
