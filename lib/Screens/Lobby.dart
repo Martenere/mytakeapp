@@ -52,8 +52,18 @@ class Lobby extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(groupId, style: defaultText),
                 ),
+                // const SizedBox(
+                //   height: 32,
+                // ),
+                Divider(
+                  height: 20,
+                  thickness: 3,
+                  indent: 120,
+                  endIndent: 120,
+                  color: Colors.black,
+                ),
                 const SizedBox(
-                  height: 32,
+                  height: 16,
                 ),
                 ChangeNotifierProvider(
                     create: (_) => group, child: LobbyParticipantListener()),
