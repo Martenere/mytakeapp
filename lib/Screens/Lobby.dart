@@ -93,6 +93,7 @@ class LobbyParticipantListener extends StatelessWidget {
   Widget build(BuildContext context) {
     Group group = Provider.of<GroupProvider>(context, listen: false).group;
     return Container(
+      height: 200,
       child: ListView.builder(
           padding: const EdgeInsets.all(8),
           itemCount: group.people.length,
