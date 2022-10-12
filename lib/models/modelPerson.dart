@@ -26,7 +26,6 @@ class Person {
       var datav = data.value;
       groups = [];
       Map dataMap = Map<String, dynamic>.from(datav as Map);
-      print("dataMap = $dataMap");
       dataMap['groups'].forEach((v) => groups.add(v));
 
       dataLoaded = true;

@@ -9,7 +9,6 @@ Future<String> getId() async {
 
   //If no key exists in prefs, randomize one and add it to ref
   if (id == null) {
-    print("generate");
     id = generateRandomString(5);
 
     prefs.setString(key, id);

@@ -9,9 +9,7 @@ class allGroups {
     for (var key in me.groups) {
       Group group = await loadGroupFromFirebase(key);
       groups.add(group);
-      print(group.name);
     }
     ;
-    print(groups);
   }
 }

@@ -10,13 +10,12 @@ Future<Group> loadGroupFromFirebase(String id) async {
   var datav = data.value;
 
   var name = (data.child('name').value as String);
-  print("Children:");
+
   Map dataMap = Map<String, dynamic>.from(datav as Map);
-  print(dataMap);
+
   name = dataMap['name'];
   List<String> people = [];
   dataMap['people'].forEach((v) => people.add(v));
-  print(people);
 
   //_playerPositions = Map<String, dynamic>.from(data as Map);
   var pictureLimit = dataMap['pictureLimit'];
@@ -62,7 +61,7 @@ class Group with ChangeNotifier {
 
   addGroupToDatabase() async {
     //People me
-    print("Added $name to DB");
+
     // print(people[0].name);
     await refGroup.set({
       'id': id,
@@ -80,7 +79,6 @@ class Group with ChangeNotifier {
     refPeople.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       eventUpdatePeopleList(data);
-      print("$data was recived from listener");
     });
 
     refgroupStarted.onValue.listen((DatabaseEvent event) {
@@ -103,7 +101,6 @@ class Group with ChangeNotifier {
       // add people from recieved data
       people.add(p);
     }
-    print("event updatepoeple list : $people");
     notifyListeners();
   }
 
