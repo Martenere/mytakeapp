@@ -91,19 +91,20 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Group group = Provider.of<GroupProvider>(context, listen: false).group;
+    Group group = Provider.of<GroupProvider>(context).group;
     return Container(
       height: 200,
       child: ListView.builder(
+          shrinkWrap: true,
           padding: const EdgeInsets.all(8),
           itemCount: group.people.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               height: 50,
-              child: Center(child: Text('${group.people[index]}', style: defaultText)),
+              child: Center(
+                  child: Text('${group.people[index]}', style: defaultText)),
             );
           }),
     );
-
   }
 }
