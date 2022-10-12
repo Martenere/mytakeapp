@@ -44,8 +44,7 @@ Future<void> main() async {
   fb.initFirebase();
   cameras = await availableCameras();
   runApp(ChangeNotifierProvider(
-    create: (_) => GroupProvider(),
-    child: const MyApp()));
+      create: (_) => GroupProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

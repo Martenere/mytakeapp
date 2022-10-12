@@ -67,16 +67,18 @@ class GroupCreation extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  var id = generateRandomString(5);
+                  var id = generateRandomString(2);
                   var group = Group(
                       id: id,
                       name: groupNameController.text,
-                      people:
-                          [me.id], //Should add yourself to group aka (Person me)
+                      people: [
+                        me.id
+                      ], //Should add yourself to group aka (Person me)
                       pictureLimit: 3);
 
                   group.addGroupToDatabase();
-                  Provider.of<GroupProvider>(context, listen: false).setGroupId(group.id);
+                  Provider.of<GroupProvider>(context, listen: false)
+                      .setGroupId(group.id);
                   Navigator.pushNamed(context, '/Lobby');
                 },
                 child: Container(

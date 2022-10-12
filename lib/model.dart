@@ -61,7 +61,7 @@ Future<Group> loadGroupFromFirebase(String id) async {
   Map dataMap = Map<String, dynamic>.from(datav as Map);
   print(dataMap);
   name = dataMap['name'];
-  var people = [];
+  List<String> people = [];
   dataMap['people'].forEach((v) => people.add(v));
   print(people);
 
@@ -69,7 +69,7 @@ Future<Group> loadGroupFromFirebase(String id) async {
   var pictureLimit = dataMap['pictureLimit'];
 
   Group group =
-      Group(id: id, name: name, people: ["people"], pictureLimit: pictureLimit);
+      Group(id: id, name: name, people: people, pictureLimit: pictureLimit);
 
   return group;
 }
@@ -116,8 +116,10 @@ class Group {
   }
 
   void addPerson(Person person) {
-    people.add(person.id);
-    refPeople.update({person.id});
+    if (!people.contains(person.id)) {
+      people.add(person.id);
+    }
+    refPeople.set(people);
   }
 
   void eventUpdatePeopleList(data) {
