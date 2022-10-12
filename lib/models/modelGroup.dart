@@ -27,7 +27,7 @@ Future<Group> loadGroupFromFirebase(String id) async {
   return group;
 }
 
-class Group {
+class Group with ChangeNotifier {
   late String id;
   String name;
   List<String> people;
@@ -82,6 +82,7 @@ class Group {
       // add people from recieved data
       people.add(p);
       print(p);
+      notifyListeners();
     }
     //notify listeners
   }
