@@ -4,12 +4,11 @@ import 'dart:io';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'dart:math';
 import 'package:image/image.dart' as IMG;
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mytakeapp/main.dart';
 import 'HomeScreen.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
-
-// https://docs.flutter.dev/cookbook/plugins/picture-using-camera
 
 class CameraPage extends StatefulWidget {
   const CameraPage({
@@ -25,10 +24,21 @@ class _CameraPageState extends State<CameraPage> {
   late Future<void> _initializeControllerFuture;
   XFile? image;
   FlashMode flashMode = FlashMode.off;
+  SvgPicture? cameraImg;
+  SvgPicture? flashImg;
+
+  var cameraUp = SvgPicture.asset('assets/img/camera.svg');
+  var cameraDown = SvgPicture.asset('assets/img/camera_ontapdown.svg');
+  var flashOnUp = SvgPicture.asset('assets/img/flashon.svg');
+  var flashOnDown = SvgPicture.asset('assets/img/flashon_ontapdown.svg');
+  var flashOffUp = SvgPicture.asset('assets/img/flashoff.svg');
+  var flashOffDown = SvgPicture.asset('assets/img/flashoff_ontapdown.svg');
 
   @override
   void initState() {
     super.initState();
+    cameraImg = cameraUp;
+    flashImg = flashOffUp;
     controller = CameraController(
       cameras[0],
       ResolutionPreset.max,
@@ -46,25 +56,14 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
-    var buttonDepending = buttonStyling;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-          child: Container(
-              width: 45,
-              height: 45,
-              decoration: backButtonStyling,
-              child: IconButton(
-                padding: EdgeInsets.all(2),
-                icon: Icon(CarbonIcons.arrow_left),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )),
-        ),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
+            child: backButton()),
         elevation: 0,
         backgroundColor: Colors.white,
         toolbarHeight: 110,
@@ -110,93 +109,85 @@ class _CameraPageState extends State<CameraPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // ---- camera button -----
-                    Container(
-                      width: 80,
-                      height: 80,
-                      child: IconButton(
-                        icon: Icon(CarbonIcons.camera),
-                        iconSize: 45,
-                        onPressed: () async {
-                          try {
-                            await _initializeControllerFuture;
-                            final capturedImage =
-                                await controller.takePicture();
+                    GestureDetector(
+                      child: cameraImg,
+                      onTapDown: ((tap) {
+                        setState(() {
+                          cameraImg = cameraDown;
+                        });
+                      }),
+                      onTapUp: (tap) {
+                        setState(() {
+                          cameraImg = cameraUp;
+                        });
+                      },
+                      onTapCancel: () {
+                        setState(() {
+                          cameraImg = cameraUp;
+                        });
+                      },
+                      onTap: () async {
+                        try {
+                          await _initializeControllerFuture;
+                          final capturedImage = await controller.takePicture();
 
-                            if (!mounted) return;
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => DisplayPictureScreen(
-                                  imagePath: capturedImage.path,
-                                ),
+                          if (!mounted) return;
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => DisplayPictureScreen(
+                                imagePath: capturedImage.path,
                               ),
-                            );
-                          } catch (e) {
-                            print(e);
-                          }
-                          Future.delayed(const Duration(milliseconds: 2), () {
-                            controller.initialize();
-                          }); //reinitializes the controller, turns off flashlight/lamp yeee
-                        },
-                      ),
-                      decoration: buttonStyling,
+                            ),
+                          );
+                        } catch (e) {
+                          print(e);
+                        }
+                        Future.delayed(const Duration(milliseconds: 2), () {
+                          controller.initialize();
+                        });
+                        //reinitializes the controller, turns off flashlight/lamp yeee, might become a problem
+                      },
                     ),
+
                     SizedBox(
                       width: 30,
                     ),
 
-                    // AnimatedContainer(
-                    //   duration: Duration(microseconds: 2),
-                    //   width: 60,
-                    //   height: 60,
-                    //   decoration: buttonDepending,
-                    //   child: Material(
-                    //     child: InkWell(
-                    //       child: Icon(CarbonIcons.flash),
-                    //       onTap: () {
-                    //         setState(() {
-                    //           buttonDepending = buttonStylingDown;
-                    //         });
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
-
-                    Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                          icon: flashMode == FlashMode.off
-                              ? Icon(CarbonIcons.flash_off)
-                              : Icon(CarbonIcons.flash),
-                          iconSize: 30,
-                          onPressed: () {
-                            setState(() {
-                              if (flashMode == FlashMode.off) {
-                                controller.setFlashMode(FlashMode.always);
-                                flashMode = FlashMode.always;
-                              } else {
-                                controller.setFlashMode(FlashMode.off);
-                                flashMode = FlashMode.off;
-                              }
-                            });
-                          }),
-                      decoration: buttonStyling,
-                    ),
-
                     GestureDetector(
-                        child: Container(
-                          decoration: buttonDepending,
-                          width: 60,
-                          height: 60,
-                          child: flashMode == FlashMode.off
-                              ? Icon(CarbonIcons.flash_off)
-                              : Icon(CarbonIcons.flash),
-                        ),
-                        onTap: (() {
-                          setState(() {
-                            buttonDepending = buttonStylingDown;
-                          });
-                        }))
+                      child: flashImg,
+                      onTapDown: (tap) {
+                        setState(() {
+                          if (flashImg == flashOffUp) {
+                            flashImg = flashOffDown;
+                          } else if (flashImg == flashOnUp) {
+                            flashImg = flashOnDown;
+                          }
+                        });
+                        print('tapdown!');
+                      },
+                      onTapUp: (tap) {
+                        setState(() {
+                          if (flashImg == flashOffDown) {
+                            flashMode = FlashMode.always;
+                            controller.setFlashMode(FlashMode.always);
+                            flashImg = flashOnUp;
+                          } else if (flashImg == flashOnDown) {
+                            flashMode = FlashMode.off;
+                            controller.setFlashMode(FlashMode.off);
+                            flashImg = flashOffUp;
+                          }
+                        });
+                      },
+                      onTapCancel: () {
+                        setState(() {
+                          if (flashImg == flashOffDown) {
+                            flashImg = flashOffUp;
+                          } else if (flashImg == flashOnDown) {
+                            flashImg = flashOnUp;
+                          }
+                        });
+                      },
+                    ),
                   ],
                 )
               ]);
@@ -217,27 +208,14 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
-    var backButtonResponsive = backButtonStyling;
 
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-            child: AnimatedContainer(
-                duration: const Duration(milliseconds: 2),
-                width: 45,
-                height: 45,
-                decoration: backButtonResponsive,
-                child: IconButton(
-                  padding: EdgeInsets.all(2),
-                  icon: Icon(CarbonIcons.arrow_left),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )),
-          ),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
+              child: backButton()),
           elevation: 0,
           backgroundColor: Colors.white,
           toolbarHeight: 110,
@@ -261,36 +239,158 @@ class DisplayPictureScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 80,
-                height: 80,
-                child: IconButton(
-                    icon: Icon(CarbonIcons.checkmark),
-                    iconSize: 40,
-                    onPressed: () {
-                      fb.uploadFile(File(imagePath));
-                    }),
-                decoration: buttonStyling,
-              ),
+              // Container(
+              //   width: 80,
+              //   height: 80,
+              //   child: IconButton(
+              //       icon: Icon(CarbonIcons.checkmark),
+              //       iconSize: 40,
+              //       onPressed: () {
+              //         fb.uploadFile(File(imagePath));
+              //       }),
+              //   decoration: buttonStyling,
+              // ),
+              checkButton(imagePath: imagePath),
               SizedBox(
                 width: 30,
               ),
-              Container(
-                width: 60,
-                height: 60,
-                child: IconButton(
-                    icon: Icon(CarbonIcons.trash_can),
-                    iconSize: 30,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                decoration: buttonStyling,
-              ),
+              trashbutton(),
             ],
           )
         ]));
   }
 }
+
+//-----buttons-----
+
+class backButton extends StatefulWidget {
+  const backButton({super.key});
+
+  @override
+  State<backButton> createState() => _backButtonState();
+}
+
+class _backButtonState extends State<backButton> {
+  SvgPicture? backImg;
+  final backUp = SvgPicture.asset('assets/img/backbutton.svg');
+  final backDown = SvgPicture.asset('assets/img/backbutton_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    backImg = backUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: backImg,
+      onTapDown: (details) {
+        setState(() {
+          backImg = backDown;
+        });
+      },
+      onTapUp: (details) {
+        backImg = backUp;
+        Navigator.pop(context);
+      },
+      onTapCancel: () {
+        setState(() {
+          backImg = backUp;
+        });
+      },
+    );
+  }
+}
+
+class trashbutton extends StatefulWidget {
+  const trashbutton({super.key});
+
+  @override
+  State<trashbutton> createState() => _trashbuttonState();
+}
+
+class _trashbuttonState extends State<trashbutton> {
+  SvgPicture? trashImg;
+  final trashUp = SvgPicture.asset('assets/img/trash.svg');
+  final trashDown = SvgPicture.asset('assets/img/trash_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    trashImg = trashUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: trashImg,
+      onTapDown: (details) {
+        setState(() {
+          trashImg = trashDown;
+        });
+      },
+      onTapUp: (details) {
+        setState(() {
+          trashImg = trashUp;
+          Navigator.pop(context);
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          trashImg = trashUp;
+        });
+      },
+    );
+  }
+}
+
+class checkButton extends StatefulWidget {
+  final String imagePath;
+  checkButton({super.key, required this.imagePath});
+
+  @override
+  State<checkButton> createState() => _checkButtonState();
+}
+
+class _checkButtonState extends State<checkButton> {
+  SvgPicture? checkImg;
+  final checkUp = SvgPicture.asset('assets/img/check.svg');
+  final checkDown = SvgPicture.asset('assets/img/check_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    checkImg = checkUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: checkImg,
+      onTapDown: (details) {
+        setState(() {
+          checkImg = checkDown;
+        });
+      },
+      onTapUp: (details) {
+        setState(() {
+          checkImg = checkUp;
+        });
+        fb.uploadFile(File(widget.imagePath));
+      },
+      onTapCancel: () {
+        setState(() {
+          checkImg = checkUp;
+        });
+      },
+    );
+  }
+}
+
+
+
+//------Garbage-----
 
 // class ImageProcessor {
 //   static Future cropSquare(
