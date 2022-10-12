@@ -80,6 +80,8 @@ class GroupCreation extends StatelessWidget {
                   group.addGroupToDatabase();
                   Provider.of<GroupProvider>(context, listen: false)
                       .setGroupId(group.id);
+                  Provider.of<GroupProvider>(context, listen: false)
+                      .setGroup(group);
                   Navigator.pushNamed(context, '/Lobby');
                 },
                 child: Container(

@@ -32,51 +32,53 @@ class Lobby extends StatelessWidget {
         toolbarHeight: 110,
         foregroundColor: Colors.black,
       ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              const SizedBox(
-                height: 32,
-              ),
-              Text('SESSION CODE', style: defaultText),
-              const SizedBox(
-                height: 32,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(groupId, style: defaultText),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              ChangeNotifierProvider(
-                  create: (context) => group,
-                  child: LobbyParticipantListener()),
-              const SizedBox(
-                height: 64,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      children: [
-                        Text('Start', style: defaultText),
-                        Spacer(),
-                        Icon(CarbonIcons.arrow_right),
-                      ],
-                    ),
-                  ),
-                  decoration: buttonStyling,
-                  width: 220,
-                  height: 60,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                const SizedBox(
+                  height: 32,
                 ),
-              ),
-            ],
-          ),
-        ],
+                Text('SESSION CODE', style: defaultText),
+                const SizedBox(
+                  height: 32,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(groupId, style: defaultText),
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+                ChangeNotifierProvider(
+                    create: (context) => group,
+                    child: LobbyParticipantListener()),
+                const SizedBox(
+                  height: 64,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          Text('Start', style: defaultText),
+                          Spacer(),
+                          Icon(CarbonIcons.arrow_right),
+                        ],
+                      ),
+                    ),
+                    decoration: buttonStyling,
+                    width: 220,
+                    height: 60,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -89,6 +91,18 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Mårten', style: defaultText);
+    Group group = Provider.of<GroupProvider>(context, listen: false).group;
+    return Container(
+      child: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: group.people.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              height: 50,
+              child: Center(child: Text('${group.people[index]}', style: defaultText)),
+            );
+          }),
+    );
+
   }
 }
