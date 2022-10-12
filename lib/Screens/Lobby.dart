@@ -48,6 +48,10 @@ class Lobby extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
+              LobbyParticipantListener(),
+              const SizedBox(
+                height: 64,
+              ),
               InkWell(
                 onTap: () {},
                 child: Container(
@@ -65,11 +69,24 @@ class Lobby extends StatelessWidget {
                   width: 220,
                   height: 60,
                 ),
-              )
+              ),
             ],
           ),
         ],
       ),
     );
+  }
+}
+
+
+class LobbyParticipantListener extends StatelessWidget {
+  const LobbyParticipantListener({
+    Key? key,
+  }) : super(key: key);
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('Mårten', style: defaultText);
   }
 }
