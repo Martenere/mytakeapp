@@ -44,8 +44,10 @@ Future<void> main() async {
   fb = FirebaseCommunication();
   fb.initFirebase();
   cameras = await availableCameras();
-  runApp(ChangeNotifierProvider(
-      create: (_) => GroupProvider(), child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<GroupProvider>(create: (_) => GroupProvider()),
+    ChangeNotifierProvider<Person>(create: (_) => me)
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

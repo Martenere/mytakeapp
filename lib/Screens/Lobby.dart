@@ -74,6 +74,8 @@ class Lobby extends StatelessWidget {
                     group.startGroup(true);
                     // ADD GROUP TO PERSON
                     me.addGroup(group.id);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Container(
                     child: Padding(

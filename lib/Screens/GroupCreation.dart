@@ -76,7 +76,8 @@ class GroupCreation extends StatelessWidget {
                       people: [
                         me.id
                       ], //Should add yourself to group aka (Person me)
-                      pictureLimit: 3);
+                      pictureLimit: 3,
+                      pictureTakerIndex: 0);
 
                   group.addGroupToDatabase();
                   Provider.of<GroupProvider>(context, listen: false)

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 import 'package:mytakeapp/loadAllGroups.dart';
 import 'package:mytakeapp/main.dart';
+import 'package:mytakeapp/models/modelPerson.dart';
+import 'package:provider/provider.dart';
 
 import '../models/modelGroup.dart';
 
@@ -47,9 +49,12 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
   FirebaseCommunication fb;
   var a = allGroups();
+
   @override
   Widget build(BuildContext context) {
+    var me = Provider.of<Person>(context, listen: true);
     print("im in groups ${me.groups}");
+
     var groups = a.getGroupsfromFirebase(me);
 
     return Scaffold(
@@ -64,7 +69,7 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 110,
       ),
       body: Column(children: [
-                ElevatedButton(
+        ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/PromptPage');
             },
@@ -94,9 +99,6 @@ class HomeScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/JoinGroup');
             },
             child: Text('Join Group')),
-
-
-        
         FutureBuilder(
             future: groups,
             builder: (context, snapshot) {
@@ -105,12 +107,13 @@ class HomeScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: snapshot.data?.length,
                     itemBuilder: (BuildContext context, int index) {
+                      print(snapshot.data![index].name);
                       return Column(
                         children: [
                           GroupPane(groupName: snapshot.data![index].name),
                           SizedBox(
-            height: 32,
-          ),
+                            height: 32,
+                          ),
                         ],
                       );
                     });
@@ -120,7 +123,6 @@ class HomeScreen extends StatelessWidget {
                 );
               }
             }),
-
       ]),
     );
   }

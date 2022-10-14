@@ -19,6 +19,7 @@ Future<Group> loadGroupFromFirebase(String id) async {
 
   //_playerPositions = Map<String, dynamic>.from(data as Map);
   var pictureLimit = dataMap['pictureLimit'];
+  var pictureTakerIndex = dataMap['pictureTakerIndex'];
   var groupStarted = dataMap['groupStarted'];
 
   Group group = Group(
@@ -26,7 +27,8 @@ Future<Group> loadGroupFromFirebase(String id) async {
       name: name,
       people: people,
       pictureLimit: pictureLimit,
-      groupStarted: groupStarted);
+      groupStarted: groupStarted,
+      pictureTakerIndex: pictureTakerIndex);
 
   group.startListening();
 
@@ -45,14 +47,17 @@ class Group with ChangeNotifier {
   late var refPeople;
   late var refgroupStarted;
   late var refGroup;
+  late int pictureTakerIndex;
 
-  Group(
-      {required this.id,
-      required this.name,
-      required this.groupStarted,
-      required this.people,
-      this.isFinished = false,
-      this.pictureLimit = 3}) {
+  Group({
+    required this.id,
+    required this.name,
+    required this.groupStarted,
+    required this.people,
+    required this.pictureTakerIndex,
+    this.isFinished = false,
+    this.pictureLimit = 3,
+  }) {
     refPeople = FirebaseDatabase.instance.ref().child('group/$id/people');
     refgroupStarted =
         FirebaseDatabase.instance.ref().child('group/$id/groupStarted');
@@ -107,6 +112,7 @@ class Group with ChangeNotifier {
   void startGroup(groupStatus) async {
     groupStarted = groupStatus;
     await refgroupStarted.set(groupStarted);
+    await refGroup.update({"pictureTakerIndex": 0});
 
     notifyListeners();
   }
