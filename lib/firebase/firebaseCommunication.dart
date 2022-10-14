@@ -79,7 +79,8 @@ class FirebaseCommunication {
       await storageRef.child("$groupName/hello.jpg").putFile(file);
     } on Error catch (e) {}
   }
-
 }
 
-TestGit() {}
+TestGit(jacob) {
+  print('hello jacob');
+}
