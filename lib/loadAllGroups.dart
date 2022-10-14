@@ -6,9 +6,12 @@ class allGroups {
   List<Group> groups = [];
 
   Future<List<Group>> getGroupsfromFirebase(Person me) async {
+    groups = [];
     for (var key in me.groups) {
       Group group = await loadGroupFromFirebase(key);
-      groups.add(group);
+      if (!groups.contains(group)) {
+        groups.add(group);
+      }
     }
     return groups;
   }

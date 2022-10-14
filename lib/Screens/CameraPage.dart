@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mytakeapp/Providers/group_provider.dart';
 
 import 'package:mytakeapp/main.dart';
 import 'package:mytakeapp/models/modelGroup.dart';
@@ -355,8 +356,18 @@ class _checkButtonState extends State<checkButton> {
         setState(() {
           checkImg = checkUp;
         });
-        fb.uploadFile(
-            File(widget.imagePath), Provider.of<Group>(context, listen: false));
+        fb.uploadFile(File(widget.imagePath),
+            Provider.of<GroupProvider>(context, listen: false).group);
+        // += picturetakerindex
+        Provider.of<GroupProvider>(context, listen: false).group.incrementPti();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Image uploaded',
+            style: defaultTextWhite,
+          ),
+          backgroundColor: Colors.black,
+        ));
+        // insert some navigator thing to get back home to an updated homepage :)
       },
       onTapCancel: () {
         setState(() {

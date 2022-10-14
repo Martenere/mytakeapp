@@ -46,19 +46,19 @@ class FirebaseCommunication {
 // imageData, targetLocation
   uploadFile(File image, Group group) async {
     File file = await image;
-//     Directory appDocDir = await getApplicationDocumentsDirectory();
-//     String filePath = '${appDocDir.absolute}/file-to-upload.png';
-//     File file = File(filePath);
 
     String groupId = group.id;
-    var storageRefList = await (storageRef.child(groupId).listAll());
-    print(storageRefList.items[0].fullPath);
-    for (var item in storageRefList.items) {
-      print(item.fullPath);
-    }
+    int pti = group.pictureTakerIndex;
+    String pictureTakerIndex = pti.toString();
+
+    // var storageRefList = await (storageRef.child(groupId).listAll());
+    // print(storageRefList.items[0].fullPath);
+    // for (var item in storageRefList.items) {
+    //   print(item.fullPath);
+    // }
 
     try {
-      await storageRef.child("$groupId/hello.jpg").putFile(file);
+      await storageRef.child("$groupId/$pictureTakerIndex.jpg").putFile(file);
     } on Error catch (e) {}
   }
 

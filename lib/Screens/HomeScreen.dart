@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 import 'package:mytakeapp/loadAllGroups.dart';
 import 'package:mytakeapp/main.dart';
+import 'package:mytakeapp/models/modelPerson.dart';
+import 'package:provider/provider.dart';
 
 import '../models/modelGroup.dart';
 
@@ -37,6 +40,11 @@ final TextStyle defaultText = TextStyle(
     fontSize: 36,
     color: Colors.black,
     letterSpacing: 8);
+final TextStyle defaultTextWhite = TextStyle(
+    fontFamily: "PTMono-reg",
+    fontSize: 24,
+    color: Colors.white,
+    letterSpacing: 8);
 final TextStyle timeText = TextStyle(
     fontFamily: "PTMono-reg",
     fontSize: 16,
@@ -47,9 +55,12 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
   FirebaseCommunication fb;
   var a = allGroups();
+
   @override
   Widget build(BuildContext context) {
+    var me = Provider.of<Person>(context, listen: true);
     print("im in groups ${me.groups}");
+
     var groups = a.getGroupsfromFirebase(me);
 
     return Scaffold(
@@ -64,7 +75,7 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 110,
       ),
       body: Column(children: [
-                ElevatedButton(
+        ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/PromptPage');
             },
@@ -94,9 +105,6 @@ class HomeScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/JoinGroup');
             },
             child: Text('Join Group')),
-
-
-        
         FutureBuilder(
             future: groups,
             builder: (context, snapshot) {
@@ -105,12 +113,15 @@ class HomeScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: snapshot.data?.length,
                     itemBuilder: (BuildContext context, int index) {
+                      print(snapshot.data![index].name);
+                      Group group = snapshot.data![index];
+
                       return Column(
                         children: [
-                          GroupPane(groupName: snapshot.data![index].name),
+                          GroupPane(group: group),
                           SizedBox(
-            height: 32,
-          ),
+                            height: 32,
+                          ),
                         ],
                       );
                     });
@@ -120,15 +131,14 @@ class HomeScreen extends StatelessWidget {
                 );
               }
             }),
-
       ]),
     );
   }
 }
 
 class GroupPane extends StatelessWidget {
-  String groupName;
-  GroupPane({super.key, required this.groupName});
+  Group group;
+  GroupPane({super.key, required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +153,7 @@ class GroupPane extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                groupName,
+                group.name,
                 style: defaultText,
               )
             ],
@@ -166,7 +176,12 @@ class GroupPane extends StatelessWidget {
           const SizedBox(
             height: 48,
           ),
-          Row(children: [HardButton()]),
+          Row(children: [
+            SizedBox(width: 42),
+            HardButton(
+              group: group,
+            )
+          ]),
         ],
       ),
     );
@@ -192,11 +207,15 @@ class ProfileSquarePic extends StatelessWidget {
 }
 
 class HardButton extends StatelessWidget {
-  const HardButton({super.key});
-
+  HardButton({super.key, required this.group});
+  Group group;
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+        Navigator.pushNamed(context, '/CameraPage');
+      },
       child: Container(
         width: 48.0,
         height: 48.0,

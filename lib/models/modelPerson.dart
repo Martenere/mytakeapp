@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class Person {
+class Person with ChangeNotifier {
   String id;
   String name;
   late var color;
@@ -42,10 +42,12 @@ class Person {
       groups.add(groupId);
       refMe.update({'groups': groups});
     }
+    notifyListeners();
   }
 
   removeGroup(String groupId) {
     groups.remove(groupId);
     refMe.update({'groups': groups});
+    notifyListeners();
   }
 }
