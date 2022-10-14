@@ -39,6 +39,11 @@ final TextStyle defaultText = TextStyle(
     fontSize: 36,
     color: Colors.black,
     letterSpacing: 8);
+final TextStyle defaultTextWhite = TextStyle(
+    fontFamily: "PTMono-reg",
+    fontSize: 24,
+    color: Colors.white,
+    letterSpacing: 8);
 final TextStyle timeText = TextStyle(
     fontFamily: "PTMono-reg",
     fontSize: 16,

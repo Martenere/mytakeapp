@@ -357,8 +357,14 @@ class _checkButtonState extends State<checkButton> {
         });
         fb.uploadFile(
             File(widget.imagePath), Provider.of<Group>(context, listen: false));
-        // += picturetakerindex
         Provider.of<Group>(context, listen: false).incrementPti();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Image uploaded',
+            style: defaultTextWhite,
+          ),
+          backgroundColor: Colors.black,
+        ));
         // insert some navigator thing to get back home to an updated homepage :)
       },
       onTapCancel: () {
