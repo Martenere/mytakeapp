@@ -62,3 +62,5 @@ class FirebaseCommunication {
     } on Error catch (e) {}
   }
 }
+
+TestGit() {}
