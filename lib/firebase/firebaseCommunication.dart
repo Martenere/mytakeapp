@@ -61,4 +61,23 @@ class FirebaseCommunication {
       await storageRef.child("$groupName/hello.jpg").putFile(file);
     } on Error catch (e) {}
   }
+
+  downloadFile(File image) async {
+    File file = await image;
+//     Directory appDocDir = await getApplicationDocumentsDirectory();
+//     String filePath = '${appDocDir.absolute}/file-to-upload.png';
+//     File file = File(filePath);
+
+    String groupName = 'test';
+    var storageRefList = await (storageRef.child(groupName).listAll());
+    print(storageRefList.items[0].fullPath);
+    for (var item in storageRefList.items) {
+      print(item.fullPath);
+    }
+
+    try {
+      await storageRef.child("$groupName/hello.jpg").putFile(file);
+    } on Error catch (e) {}
+  }
+
 }
