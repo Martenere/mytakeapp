@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carbon_icons/carbon_icons.dart';
+import 'package:mytakeapp/main.dart';
+import '../firebase/firebaseCommunication.dart';
 import 'HomeScreen.dart';
 
 class ResultPage extends StatelessWidget {
@@ -7,6 +9,8 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var url = fb.downloadFile();
+    print(url.toString());
     return Scaffold(
       appBar: AppBar(
         shape: Border(bottom: BorderSide(color: Colors.black, width: 2)),
@@ -33,8 +37,32 @@ class ResultPage extends StatelessWidget {
                 child: Text('A BREATH OF FRESH AIR', style: defaultText),
               ),
             ),
-            resultPhotos(),
-            resultPhotos(),
+            resultPhotos(url: 'https://picsum.photos/200/300',),
+            resultPhotos(url: 'https://picsum.photos/200/300',),
+
+            FutureBuilder(
+            future: url,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: [
+                          resultPhotos(url: snapshot.data.toString()),
+                          SizedBox(
+            height: 32,
+          ),
+                        ],
+                      );
+                    });
+              } else {
+                return Container(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
 
           ],
         ),
@@ -44,9 +72,10 @@ class ResultPage extends StatelessWidget {
 }
 
 class resultPhotos extends StatelessWidget {
-  const resultPhotos({
-    Key? key,
+  resultPhotos({
+    Key? key, required this.url
   }) : super(key: key);
+  String url;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +100,7 @@ class resultPhotos extends StatelessWidget {
               padding: const EdgeInsets.all(18.0),
               child: Container(
                   decoration: boxstylingThick,
-                  child: Image.network('https://picsum.photos/400')),
+                  child: Image.network(url)),
             ),
             const SizedBox(
               height: 6,
