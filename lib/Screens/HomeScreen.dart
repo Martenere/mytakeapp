@@ -64,8 +64,7 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 110,
       ),
       body: Column(children: [
-        GroupPane(groupName: "KBA killar."),
-        ElevatedButton(
+                ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/PromptPage');
             },
@@ -94,7 +93,34 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/JoinGroup');
             },
-            child: Text('Join Group'))
+            child: Text('Join Group')),
+
+
+        
+        FutureBuilder(
+            future: groups,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: [
+                          GroupPane(groupName: snapshot.data![index].name),
+                          SizedBox(
+            height: 32,
+          ),
+                        ],
+                      );
+                    });
+              } else {
+                return Container(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
+
       ]),
     );
   }

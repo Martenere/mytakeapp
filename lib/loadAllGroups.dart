@@ -5,11 +5,11 @@ import 'package:mytakeapp/models/modelPerson.dart';
 class allGroups {
   List<Group> groups = [];
 
-  getGroupsfromFirebase(Person me) async {
+  Future<List<Group>> getGroupsfromFirebase(Person me) async {
     for (var key in me.groups) {
       Group group = await loadGroupFromFirebase(key);
       groups.add(group);
     }
-    ;
+    return groups;
   }
 }
