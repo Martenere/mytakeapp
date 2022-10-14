@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mytakeapp/main.dart';
+import 'package:mytakeapp/models/modelGroup.dart';
+import 'package:provider/provider.dart';
 import 'HomeScreen.dart';
 
 class CameraPage extends StatefulWidget {
@@ -353,7 +355,8 @@ class _checkButtonState extends State<checkButton> {
         setState(() {
           checkImg = checkUp;
         });
-        fb.uploadFile(File(widget.imagePath));
+        fb.uploadFile(
+            File(widget.imagePath), Provider.of<Group>(context, listen: false));
       },
       onTapCancel: () {
         setState(() {
