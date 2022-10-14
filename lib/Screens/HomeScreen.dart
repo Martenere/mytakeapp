@@ -108,9 +108,11 @@ class HomeScreen extends StatelessWidget {
                     itemCount: snapshot.data?.length,
                     itemBuilder: (BuildContext context, int index) {
                       print(snapshot.data![index].name);
+                      Group group = snapshot.data![index];
+
                       return Column(
                         children: [
-                          GroupPane(groupName: snapshot.data![index].name),
+                          GroupPane(group: group),
                           SizedBox(
                             height: 32,
                           ),
@@ -129,8 +131,8 @@ class HomeScreen extends StatelessWidget {
 }
 
 class GroupPane extends StatelessWidget {
-  String groupName;
-  GroupPane({super.key, required this.groupName});
+  Group group;
+  GroupPane({super.key, required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +147,7 @@ class GroupPane extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                groupName,
+                group.name,
                 style: defaultText,
               )
             ],
@@ -168,7 +170,7 @@ class GroupPane extends StatelessWidget {
           const SizedBox(
             height: 48,
           ),
-          Row(children: [HardButton()]),
+          Row(children: [SizedBox(width: 42), HardButton()]),
         ],
       ),
     );
