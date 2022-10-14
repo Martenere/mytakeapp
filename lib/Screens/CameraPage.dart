@@ -134,9 +134,9 @@ class _CameraPageState extends State<CameraPage> {
                         } catch (e) {
                           print(e);
                         }
-                        Future.delayed(const Duration(milliseconds: 2), () {
-                          controller.initialize();
-                        });
+                        // Future.delayed(const Duration(milliseconds: 2), () {
+                        //   controller.initialize();
+                        // });
                         //reinitializes the controller, turns off flashlight/lamp yeee, might become a problem
                       },
                     ),
@@ -368,6 +368,8 @@ class _checkButtonState extends State<checkButton> {
           backgroundColor: Colors.black,
         ));
         // insert some navigator thing to get back home to an updated homepage :)
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
       },
       onTapCancel: () {
         setState(() {
