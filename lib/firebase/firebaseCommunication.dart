@@ -51,11 +51,11 @@ class FirebaseCommunication {
     int pti = group.pictureTakerIndex;
     String pictureTakerIndex = pti.toString();
 
-    var storageRefList = await (storageRef.child(groupId).listAll());
-    print(storageRefList.items[0].fullPath);
-    for (var item in storageRefList.items) {
-      print(item.fullPath);
-    }
+    // var storageRefList = await (storageRef.child(groupId).listAll());
+    // print(storageRefList.items[0].fullPath);
+    // for (var item in storageRefList.items) {
+    //   print(item.fullPath);
+    // }
 
     try {
       await storageRef.child("$groupId/$pictureTakerIndex.jpg").putFile(file);

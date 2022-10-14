@@ -119,6 +119,7 @@ class Group with ChangeNotifier {
 
   void incrementPti() async {
     pictureTakerIndex += 1;
+    await refGroup.update({"pictureTakerIndex": pictureTakerIndex});
 
     notifyListeners();
   }
