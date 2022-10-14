@@ -116,4 +116,10 @@ class Group with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void incrementPti() async {
+    pictureTakerIndex += 1;
+
+    notifyListeners();
+  }
 }
