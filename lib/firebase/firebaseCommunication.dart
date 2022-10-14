@@ -44,21 +44,21 @@ class FirebaseCommunication {
   }
 
 // imageData, targetLocation
-  uploadFile(File image) async {
+  uploadFile(File image, Group group) async {
     File file = await image;
 //     Directory appDocDir = await getApplicationDocumentsDirectory();
 //     String filePath = '${appDocDir.absolute}/file-to-upload.png';
 //     File file = File(filePath);
 
-    String groupName = 'test';
-    var storageRefList = await (storageRef.child(groupName).listAll());
+    String groupId = group.id;
+    var storageRefList = await (storageRef.child(groupId).listAll());
     print(storageRefList.items[0].fullPath);
     for (var item in storageRefList.items) {
       print(item.fullPath);
     }
 
     try {
-      await storageRef.child("$groupName/hello.jpg").putFile(file);
+      await storageRef.child("$groupId/hello.jpg").putFile(file);
     } on Error catch (e) {}
   }
 
@@ -79,8 +79,4 @@ class FirebaseCommunication {
       await storageRef.child("$groupName/hello.jpg").putFile(file);
     } on Error catch (e) {}
   }
-}
-
-TestGit(jacob) {
-  print('hello jacob');
 }
