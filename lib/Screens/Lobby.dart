@@ -64,8 +64,7 @@ class Lobby extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                ChangeNotifierProvider(
-                    create: (_) => group, child: LobbyParticipantListener()),
+                LobbyParticipantListener(),
                 const SizedBox(
                   height: 64,
                 ),
@@ -109,10 +108,10 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Group group = Provider.of<Group>(
+    Group group = Provider.of<GroupProvider>(
       context,
       listen: true,
-    );
+    ).group;
 
     if (group.groupStarted) {
       print("session has started");
@@ -125,17 +124,17 @@ class LobbyParticipantListener extends StatelessWidget {
       return name.value.toString();
     }
 
-    return Consumer<Group>(
-        builder: ((context, group, child) => Container(
+    return Consumer<GroupProvider>(
+        builder: ((context, groupProv, child) => Container(
               height: 200,
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
-                  itemCount: group.people.length,
+                  itemCount: groupProv.group.people.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       height: 50,
                       child: FutureBuilder(
-                          future: getName(group.people[index]),
+                          future: getName(groupProv.group.people[index]),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Center(

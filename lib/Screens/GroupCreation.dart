@@ -67,7 +67,7 @@ class GroupCreation extends StatelessWidget {
                 height: 32,
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   var id = generateRandomString(2);
                   var group = Group(
                       groupStarted: false,
@@ -79,7 +79,7 @@ class GroupCreation extends StatelessWidget {
                       pictureLimit: 3,
                       pictureTakerIndex: 0);
 
-                  group.addGroupToDatabase();
+                  await group.addGroupToDatabase();
                   Provider.of<GroupProvider>(context, listen: false)
                       .setGroupId(group.id);
                   Provider.of<GroupProvider>(context, listen: false)
