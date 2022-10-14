@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 import 'package:mytakeapp/loadAllGroups.dart';
 import 'package:mytakeapp/main.dart';
@@ -170,7 +171,12 @@ class GroupPane extends StatelessWidget {
           const SizedBox(
             height: 48,
           ),
-          Row(children: [SizedBox(width: 42), HardButton()]),
+          Row(children: [
+            SizedBox(width: 42),
+            HardButton(
+              group: group,
+            )
+          ]),
         ],
       ),
     );
@@ -196,11 +202,15 @@ class ProfileSquarePic extends StatelessWidget {
 }
 
 class HardButton extends StatelessWidget {
-  const HardButton({super.key});
-
+  HardButton({super.key, required this.group});
+  Group group;
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+        Navigator.pushNamed(context, '/CameraPage');
+      },
       child: Container(
         width: 48.0,
         height: 48.0,
