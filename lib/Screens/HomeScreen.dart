@@ -63,6 +63,7 @@ class HomeScreen extends StatelessWidget {
 
     var groups = a.getGroupsfromFirebase(me);
 
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -143,48 +144,56 @@ class GroupPane extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxFullstyling,
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 12,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                group.name,
-                style: defaultText,
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ProfileSquarePic(size: 77),
-              const SizedBox(width: 24),
-              ProfileSquarePic(
-                size: 200,
+        decoration: boxFullstyling,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  group.name,
+                  style: defaultText,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ProfileSquarePic(size: 77),
+                const SizedBox(width: 24),
+                ProfileSquarePic(
+                  size: 200,
+                ),
+                const SizedBox(width: 24),
+                ProfileSquarePic(size: 100),
+              ],
+            ),
+            const SizedBox(
+              height: 48,
+            ),
+            Row(children: [
+              SizedBox(width: 42),
+              HardButton(
+                group: group,
               ),
-              const SizedBox(width: 24),
-              ProfileSquarePic(size: 100),
-            ],
-          ),
-          const SizedBox(
-            height: 48,
-          ),
-          Row(children: [
-            SizedBox(width: 42),
-            HardButton(
-              group: group,
-            )
-          ]),
-        ],
-      ),
-    );
+              SizedBox(width: 42),
+              deleteGroupButton(
+                group: group,
+              ),
+              group.myTurn(me) ? Text("your turn"):Text("not your turn"),
+    
+            ]),
+          ],
+        ),
+      
+      );
+    ;
   }
 }
 
@@ -215,6 +224,26 @@ class HardButton extends StatelessWidget {
       onTap: () {
         Provider.of<GroupProvider>(context, listen: false).setGroup(group);
         Navigator.pushNamed(context, '/CameraPage');
+      },
+      child: Container(
+        width: 48.0,
+        height: 48.0,
+        decoration: buttonStyling,
+      ),
+    );
+  }
+}
+
+class deleteGroupButton extends StatelessWidget {
+  deleteGroupButton({super.key, required this.group});
+  Group group;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+        group.deleteGroup();
+        
       },
       child: Container(
         width: 48.0,
