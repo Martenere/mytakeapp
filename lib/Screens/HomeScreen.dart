@@ -75,64 +75,68 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         toolbarHeight: 110,
       ),
-      body: Column(children: [
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/PromptPage');
-            },
-            child: Text('Prompt page')),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/CameraPage');
-            },
-            child: Text('Camera Page')),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/Result');
-            },
-            child: Text('Result Page')),
-        ElevatedButton(
-            onPressed: () {
-              // fb.uploadFile();
-            },
-            child: Text('add image to server')),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/GroupCreation');
-            },
-            child: Text('GroupCreation')),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/JoinGroup');
-            },
-            child: Text('Join Group')),
-        FutureBuilder(
-            future: groups,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      print(snapshot.data![index].name);
-                      Group group = snapshot.data![index];
-
-                      return Column(
-                        children: [
-                          GroupPane(group: group),
-                          SizedBox(
-                            height: 32,
-                          ),
-                        ],
-                      );
-                    });
-              } else {
-                return Container(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/PromptPage');
+              },
+              child: Text('Prompt page')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/CameraPage');
+              },
+              child: Text('Camera Page')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/Result');
+              },
+              child: Text('Result Page')),
+          ElevatedButton(
+              onPressed: () {
+                // fb.uploadFile();
+              },
+              child: Text('add image to server')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/GroupCreation');
+              },
+              child: Text('GroupCreation')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/JoinGroup');
+              },
+              child: Text('Join Group')),
+          FutureBuilder(
+              future: groups,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data?.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        print(snapshot.data![index].name);
+                        Group group = snapshot.data![index];
+      
+                        return Column(
+                          children: [
+                            GroupPane(group: group),
+                            SizedBox(
+                              height: 32,
+                            ),
+                          ],
+                        );
+                      });
+                } else {
+                  return Container(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
+        ]),
+      ),
     );
   }
 }
@@ -180,7 +184,7 @@ class GroupPane extends StatelessWidget {
                 height: 48,
               ),
               Consumer<Group>(
-                builder:((_, grp, __) =>  Row(children: [
+                builder:((_, __, ___) =>  Row(children: [
                   SizedBox(width: 42),
                   HardButton(
                     group: group,
