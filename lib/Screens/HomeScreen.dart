@@ -143,56 +143,61 @@ class GroupPane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: boxFullstyling,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  group.name,
-                  style: defaultText,
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ProfileSquarePic(size: 77),
-                const SizedBox(width: 24),
-                ProfileSquarePic(
-                  size: 200,
-                ),
-                const SizedBox(width: 24),
-                ProfileSquarePic(size: 100),
-              ],
-            ),
-            const SizedBox(
-              height: 48,
-            ),
-            Row(children: [
-              SizedBox(width: 42),
-              HardButton(
-                group: group,
+    return ChangeNotifierProvider(
+      create: (_) => group,
+      child: Container(
+          decoration: boxFullstyling,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 12,
               ),
-              SizedBox(width: 42),
-              deleteGroupButton(
-                group: group,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    group.name,
+                    style: defaultText,
+                  )
+                ],
               ),
-              group.myTurn(me) ? Text("your turn"):Text("not your turn"),
-    
-            ]),
-          ],
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ProfileSquarePic(size: 77),
+                  const SizedBox(width: 24),
+                  ProfileSquarePic(
+                    size: 200,
+                  ),
+                  const SizedBox(width: 24),
+                  ProfileSquarePic(size: 100),
+                ],
+              ),
+              const SizedBox(
+                height: 48,
+              ),
+              Consumer<Group>(
+                builder:((_, grp, __) =>  Row(children: [
+                  SizedBox(width: 42),
+                  HardButton(
+                    group: group,
+                  ),
+                  SizedBox(width: 42),
+                  deleteGroupButton(
+                    group: group,
+                  ),
+                  group.myTurn(me) ? Text("your turn"):Text("not your turn"),
+                    
+                ]))
+              ),
+            ],
+          ),
+        
         ),
-      
-      );
+    );
     ;
   }
 }
