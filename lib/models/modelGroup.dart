@@ -4,11 +4,17 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:mytakeapp/id_retriever.dart';
 import 'modelPerson.dart';
 
-Future<Group> loadGroupFromFirebase(String id) async {
+Future<Group?> loadGroupFromFirebase(String id) async {
   DatabaseReference refGroup = await FirebaseDatabase.instance.ref("group/$id");
   DataSnapshot data = await refGroup.get();
+  if (!data.exists){
+    print("$id that group doesnt ecist");
+    return null;
+    
+  }
   var datav = data.value;
-
+  print(" group id $id");
+  print(datav);
   var name = (data.child('name').value as String);
 
   Map dataMap = Map<String, dynamic>.from(datav as Map);
@@ -19,7 +25,7 @@ Future<Group> loadGroupFromFirebase(String id) async {
 
   //_playerPositions = Map<String, dynamic>.from(data as Map);
   var pictureLimit = dataMap['pictureLimit'];
-  var pictureTakerIndex = dataMap['pictureTakerIndex'];
+  var pictureTakerIndex = dataMap['pictureTakerIndex'] ?? 0;
   var groupStarted = dataMap['groupStarted'];
 
   Group group = Group(
@@ -44,9 +50,12 @@ class Group with ChangeNotifier {
   bool isFinished;
   int pictureLimit;
   late FirebaseGroup _fbd;
-  late var refPeople;
-  late var refgroupStarted;
-  late var refGroup;
+
+  late DatabaseReference refPeople;
+  late DatabaseReference refgroupStarted;
+  late DatabaseReference refGroup;
+  late DatabaseReference refPictureTaker;
+
   late int pictureTakerIndex;
 
   Group({
@@ -61,6 +70,8 @@ class Group with ChangeNotifier {
     refPeople = FirebaseDatabase.instance.ref().child('group/$id/people');
     refgroupStarted =
         FirebaseDatabase.instance.ref().child('group/$id/groupStarted');
+        refPictureTaker =
+        FirebaseDatabase.instance.ref().child('group/$id/pictureTakerIndex');
     refGroup = FirebaseDatabase.instance.ref("group/$id");
   }
 
@@ -83,12 +94,17 @@ class Group with ChangeNotifier {
   void startListening() {
     refPeople.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
-      eventUpdatePeopleList(data);
+    (data !=null) ? eventUpdatePeopleList(data) :{};
     });
 
     refgroupStarted.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
-      startGroup(data);
+      (data !=null) ? updateGroupStatus(data) :{};
+    });
+    refPictureTaker.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      updatePictureTaker(data);
+
     });
   }
 
@@ -109,7 +125,16 @@ class Group with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateGroupStatus(groupStatus){
+    if (groupStatus != null){
+    groupStarted = groupStatus;
+
+    }
+    notifyListeners();
+  }
+
   void startGroup(groupStatus) async {
+    
     groupStarted = groupStatus;
     await refgroupStarted.set(groupStarted);
     await refGroup.update({"pictureTakerIndex": 0});
@@ -117,10 +142,52 @@ class Group with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteGroup() async {
+    DatabaseReference refUsers = FirebaseDatabase.instance.ref().child('people');
+
+    //remove group string from each person in database
+    for (String p in people){
+      DataSnapshot pGroup = await refUsers.child('$p/groups').get();
+      if (pGroup.value !=null){
+      List<String> pGroupValue = List<String>.from(pGroup.value as List);
+      //Map dataMap = Map<String, dynamic>.from(pGroupValue as Map);
+      List<String> currentGroups =  pGroupValue;
+      //dataMap['groups'].forEach((v) => currentGroups.add(v));
+
+      currentGroups.contains(id) ? currentGroups.remove(id): {}; 
+
+      await refUsers.child('$p/groups').set(currentGroups);
+      
+      }
+      //remove the group
+      refGroup.remove();
+    }
+  }
+
   void incrementPti() async {
     pictureTakerIndex += 1;
     await refGroup.update({"pictureTakerIndex": pictureTakerIndex});
 
     notifyListeners();
+  }
+
+  bool myTurn(Person me){
+    int n = people.length;
+    int currentPictureTaker = pictureTakerIndex % n ;
+
+    if (people[currentPictureTaker] == me.id) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+  
+  void updatePictureTaker(data) {
+    if (data != null){
+    int index = data as int;
+    pictureTakerIndex = index;
+    notifyListeners();
+    }
   }
 }

@@ -9,12 +9,15 @@ class Person with ChangeNotifier {
   bool dataLoaded = false;
 
   late DatabaseReference refMe;
+  late DatabaseReference refGroup;
 
   Person({required this.id, this.name = "Ada"}) {
     //unpack data
     color = Colors.blue;
     refMe = FirebaseDatabase.instance.ref().child('people/$id');
+    refGroup = refMe.child('groups');
     loadDataFromFirebase();
+    initListen();
   }
 
   loadDataFromFirebase() async {
@@ -28,13 +31,22 @@ class Person with ChangeNotifier {
       Map dataMap = Map<String, dynamic>.from(datav as Map);
 
       if (dataMap['groups'] != null) {
-        dataMap['groups'].forEach((v) => groups.add(v));
+        groups = dataMap['groups'].whereType<String>().toList();
       }
 
       dataLoaded = true;
     } else {
       refMe.set({'name': 'Jacob', 'color': 'blue', 'groups': []});
     }
+  }
+
+  void initListen(){
+    //Listen to groups
+    refGroup.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      updateGroups(data);
+    });
+
   }
 
   addGroup(String groupId) {
@@ -50,4 +62,13 @@ class Person with ChangeNotifier {
     refMe.update({'groups': groups});
     notifyListeners();
   }
+
+  updateGroups(data){
+    if (data != null){
+    List<String> dataMap = List<String>.from(data as List);
+    groups = dataMap;
+    }       
+    notifyListeners();
+  }
+
 }
