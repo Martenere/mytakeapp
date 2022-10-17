@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomeScreen(fb: fb),
         '/PromptPage': (context) => PromptPage(
-              url: fb.getURlToTestImage(),
             ),
         '/CameraPage': (context) => const CameraPage(),
         '/Result': (context) => const ResultPage(),

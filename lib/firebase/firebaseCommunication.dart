@@ -14,7 +14,7 @@ import 'package:path_provider/path_provider.dart';
 
 class FirebaseCommunication {
   late final storage;
-  late final storageRef;
+  late final Reference storageRef;
 
   firebaseCommunication() {}
 
@@ -73,6 +73,18 @@ class FirebaseCommunication {
       imagesUrl.add(imageUrl);
     }
     return imagesUrl;
+  }
+
+  Future<String> getLatestGroupImageURL(Group group) async {
+    
+    ListResult storageRefList = await (storageRef.child(group.id).listAll());
+
+
+    String path = storageRefList.items.last.fullPath;
+    String imageUrl = await storageRef.child('$path').getDownloadURL();
+      
+    
+    return imageUrl;
   }
 }
 

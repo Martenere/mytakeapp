@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:mytakeapp/Providers/group_provider.dart';
+import 'package:provider/provider.dart';
+import '../main.dart';
 import 'HomeScreen.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 
 
 class PromptPage extends StatelessWidget {
-  PromptPage({super.key, required this.url});
-  var url;
+  PromptPage({super.key});
+  late Future<String> url;
 
   @override
   Widget build(BuildContext context) {
+    int curPic = Provider.of<GroupProvider>(context, listen: false).group.pictureTakerIndex;
+    bool firstPic = (curPic == 0);
+    if (!firstPic){
+    url = fb.getLatestGroupImageURL(Provider.of<GroupProvider>(context, listen: false).group);
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -44,16 +53,7 @@ class PromptPage extends StatelessWidget {
                   padding: const EdgeInsets.all(18.0),
                   child: Container(
                       decoration: boxstylingThick,
-                      child: FutureBuilder(
-                        future: url, 
-                        builder: (context, AsyncSnapshot<String> snapshot) {
-                          if (snapshot.hasData)
-                          {print(snapshot.data);
-                            return Image.network(
-                              snapshot.data!);}
-                              else{return SizedBox();}
-                        }
-                      )),
+                      child: firstPic ? Text("This is the prompt") : promptPicture(url: url)),
                 ),
                 const SizedBox(
                   height: 32,
@@ -65,22 +65,26 @@ class PromptPage extends StatelessWidget {
                   height: 12,
                 ),
       
-                Center(
-                  child: 
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Row(
-                        children: [
-                          Icon(CarbonIcons.camera),
-                          Spacer(),
-                          Icon(CarbonIcons.arrow_right),
-                        ],
+                InkWell(
+                  onTap: (() => Navigator.of(context).pushNamed('/CameraPage')
+                  ),
+                  child: Center(
+                    child: 
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          children: [
+                            Icon(CarbonIcons.camera),
+                            Spacer(),
+                            Icon(CarbonIcons.arrow_right),
+                          ],
+                        ),
                       ),
+                      decoration: buttonStyling,
+                      width: 120,
+                      height: 60,
                     ),
-                    decoration: buttonStyling,
-                    width: 120,
-                    height: 60,
                   ),
                 ),
               SizedBox(height: 32,)],
@@ -88,6 +92,29 @@ class PromptPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class promptPicture extends StatelessWidget {
+  const promptPicture({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
+
+  final Future<String> url;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: url, 
+      builder: (context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.hasData)
+        {print(snapshot.data);
+          return Image.network(
+            snapshot.data!);}
+            else{return SizedBox();}
+      }
     );
   }
 }

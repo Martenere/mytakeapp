@@ -368,8 +368,7 @@ class _checkButtonState extends State<checkButton> {
           backgroundColor: Colors.black,
         ));
         // insert some navigator thing to get back home to an updated homepage :)
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        Navigator.of(context).popUntil(ModalRoute.withName('/'));
       },
       onTapCancel: () {
         setState(() {

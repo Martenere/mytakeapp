@@ -149,59 +149,64 @@ class GroupPane extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: group,
-      child: Container(
-          decoration: boxFullstyling,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    group.name,
-                    style: defaultText,
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ProfileSquarePic(size: 77),
-                  const SizedBox(width: 24),
-                  ProfileSquarePic(
-                    size: 200,
-                  ),
-                  const SizedBox(width: 24),
-                  ProfileSquarePic(size: 100),
-                ],
-              ),
-              const SizedBox(
-                height: 48,
-              ),
-              Consumer<Group>(
-                builder:((_, __, ___) =>  Row(children: [
-                  SizedBox(width: 42),
-                  HardButton(
-                    group: group,
-                  ),
-                  SizedBox(width: 42),
-                  deleteGroupButton(
-                    group: group,
-                  ),
-                  group.myTurn(me) ? Text("your turn"):Text("not your turn"),
-                    
-                ]))
-              ),
-            ],
-          ),
-        
+      child: Consumer<Group>(
+        builder: ((context, group, child) => Container(
+            decoration: boxFullstyling,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      group.name,
+                      style: defaultText,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ProfileSquarePic(size: 77),
+                    const SizedBox(width: 24),
+                    ProfileSquarePic(
+                      size: 200,
+                    ),
+                    const SizedBox(width: 24),
+                    ProfileSquarePic(size: 100),
+                  ],
+                ),
+                const SizedBox(
+                  height: 48,
+                ),
+                Consumer<Group>(
+                  builder:((_, __, ___) =>  Row(children: [
+                    SizedBox(width: 42),
+                    HardButton(
+                      group: group,
+                    ),
+                    SizedBox(width: 42),
+                    deleteGroupButton(
+                      group: group,
+                    ),
+                    group.myTurn(me) ? Text("your turn"):Text("not your turn"),
+                    SizedBox(width: 24,),
+                    group.isFinished? Text("picture limit has been reached"):SizedBox(),
+                      
+                  ]))
+                ),
+              ],
+            ),
+          
+          )
         ),
-    );
+      )
+    )
     ;
   }
 }
@@ -232,7 +237,7 @@ class HardButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         Provider.of<GroupProvider>(context, listen: false).setGroup(group);
-        Navigator.pushNamed(context, '/CameraPage');
+        Navigator.pushNamed(context, '/PromptPage');
       },
       child: Container(
         width: 48.0,
