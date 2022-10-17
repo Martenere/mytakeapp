@@ -70,35 +70,48 @@ class Lobby extends StatelessWidget {
                   const SizedBox(
                     height: 64,
                   ),
-                  InkWell(
-                    onTap: () {
-                      group.startGroup(true);
-                      // ADD GROUP TO PERSON
-                      me.addGroup(group.id);
-                      //Navigator.of(context).pop();
-                      //Navigator.of(context).pop();
-                    },
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          children: [
-                            Text('Start', style: defaultText),
-                            Spacer(),
-                            Icon(CarbonIcons.arrow_right),
-                          ],
-                        ),
-                      ),
-                      decoration: buttonStyling,
-                      width: 220,
-                      height: 60,
-                    ),
-                  ),
+                  (group.people[0] == me.id)?
+                  StartSessionButton(group: group):SizedBox(),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class StartSessionButton extends StatelessWidget {
+  const StartSessionButton({
+    Key? key,
+    required this.group,
+  }) : super(key: key);
+
+  final Group group;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        group.startGroup(true);
+        // ADD GROUP TO PERSON
+        me.addGroup(group.id);
+      },
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Text('Start', style: defaultText),
+              Spacer(),
+              Icon(CarbonIcons.arrow_right),
+            ],
+          ),
+        ),
+        decoration: buttonStyling,
+        width: 220,
+        height: 60,
       ),
     );
   }
@@ -131,7 +144,8 @@ class LobbyParticipantListener extends StatelessWidget {
                 .addPostFrameCallback((_) {
                   print("post fram");
                   if (group.groupStarted){
-                    //Navigator.of(context).pop();
+                    me.addGroup(group.id);
+                    Navigator.of(context).popUntil(ModalRoute.withName('/'));
                     //Navigator.of(context).pop();
                   }
                 });

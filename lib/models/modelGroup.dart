@@ -99,6 +99,7 @@ class Group with ChangeNotifier {
 
     refgroupStarted.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
+      print("$id was started");
       (data !=null) ? updateGroupStatus(data) :{};
     });
     refPictureTaker.onValue.listen((DatabaseEvent event) {

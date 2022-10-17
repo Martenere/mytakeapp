@@ -84,7 +84,7 @@ class GroupCreation extends StatelessWidget {
                       .setGroupId(group.id);
                   Provider.of<GroupProvider>(context, listen: false)
                       .setGroup(group);
-                  Navigator.pushNamed(context, '/Lobby');
+                  Navigator.pushReplacementNamed(context, '/Lobby');
                 },
                 child: Container(
                   child: Padding(

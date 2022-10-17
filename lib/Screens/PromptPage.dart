@@ -25,66 +25,68 @@ class PromptPage extends StatelessWidget {
         foregroundColor: Colors.black,
       ),
       body: 
-      Stack(
-        children: [
-          Positioned(
-              child: Container(
-            height: 350,
-            width: 400,
-            color: primaryColor,
-          )),
-          Column(
-            children: [
-              const SizedBox(
-                height: 32,
-              ),
-              Text('JACOB:', style: defaultText),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
+      SingleChildScrollView(
+        child: Stack(
+          children: [
+            Positioned(
                 child: Container(
-                    decoration: boxstylingThick,
-                    child: FutureBuilder(
-                      future: url, 
-                      builder: (context, AsyncSnapshot<String> snapshot) {
-                        if (snapshot.hasData)
-                        {print(snapshot.data);
-                          return Image.network(
-                            snapshot.data!);}
-                            else{return SizedBox();}
-                      }
-                    )),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-
-              Text('MYTAKE', style: defaultText),
-
-              const SizedBox(
-                height: 12,
-              ),
-
-              Center(
-                child: 
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      children: [
-                        Icon(CarbonIcons.camera),
-                        Spacer(),
-                        Icon(CarbonIcons.arrow_right),
-                      ],
-                    ),
-                  ),
-                  decoration: buttonStyling,
-                  width: 120,
-                  height: 60,
+              height: 350,
+              width: 400,
+              color: primaryColor,
+            )),
+            Column(
+              children: [
+                const SizedBox(
+                  height: 32,
                 ),
-              )
-            ],
-          ),
-        ],
+                Text('JACOB:', style: defaultText),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Container(
+                      decoration: boxstylingThick,
+                      child: FutureBuilder(
+                        future: url, 
+                        builder: (context, AsyncSnapshot<String> snapshot) {
+                          if (snapshot.hasData)
+                          {print(snapshot.data);
+                            return Image.network(
+                              snapshot.data!);}
+                              else{return SizedBox();}
+                        }
+                      )),
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+      
+                Text('MYTAKE', style: defaultText),
+      
+                const SizedBox(
+                  height: 12,
+                ),
+      
+                Center(
+                  child: 
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          Icon(CarbonIcons.camera),
+                          Spacer(),
+                          Icon(CarbonIcons.arrow_right),
+                        ],
+                      ),
+                    ),
+                    decoration: buttonStyling,
+                    width: 120,
+                    height: 60,
+                  ),
+                ),
+              SizedBox(height: 32,)],
+            ),
+          ],
+        ),
       ),
     );
   }
