@@ -62,50 +62,17 @@ class FirebaseCommunication {
     } on Error catch (e) {}
   }
 
+  Future<List> downloadFile(Group group) async {
+    List imagesUrl = [];
+    var storageRefList = await (storageRef.child(group.id).listAll());
 
-  downloadFile() async {
-    // File file = await image;
-//     Directory appDocDir = await getApplicationDocumentsDirectory();
-//     String filePath = '${appDocDir.absolute}/file-to-upload.png';
-//     File file = File(filePath);
-
-    String groupName = 'test'; //BYT TILL GROUPID
-  
-    int index = 0;
-
-
-// Create a reference with an initial file path and name
-final pathReference = storageRef.child("$groupName/$index.jpg");
-
-// Create a reference to a file from a Google Cloud Storage URI
-final gsReference =
-    FirebaseStorage.instance.refFromURL("gs://mytake-a7a56.appspot.com/$groupName/$index.jpg");
-
-// Create a reference from an HTTPS URL
-// Note that in the URL, characters are URL escaped!
-final httpsReference = FirebaseStorage.instance.refFromURL(
-    "https://firebasestorage.googleapis.com/b/gs://mytake-a7a56.appspot.com/o/$groupName%20$index.jpg");
-
-
-
-    var storageRefList = await (storageRef.child(groupName).listAll());
-    print(storageRefList.items);
-    print(storageRefList.items[0].fullPath);
-    
-    final imageUrl =
-    
-    await storageRef.child("$groupName'/'$index}").getDownloadURL();
-
-
-
-    // for (var item in storageRefList.items) {
-    //   print(item.fullPath);
-    // }
-
-    // try {
-    //   await storageRef.child("$groupName/hello.jpg").putFile(file);
-    // } on Error catch (e) {}
-    return imageUrl;
+// CHANGE 2 into group.pictureLimit
+    for (var i = 0; i < 2; i++) {
+      var path = storageRefList.items[i].fullPath;
+      var imageUrl = await storageRef.child('$path').getDownloadURL();
+      imagesUrl.add(imageUrl);
+    }
+    return imagesUrl;
   }
 }
 

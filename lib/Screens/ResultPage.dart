@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carbon_icons/carbon_icons.dart';
+import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/main.dart';
+import 'package:provider/provider.dart';
 import '../firebase/firebaseCommunication.dart';
 import 'HomeScreen.dart';
 
@@ -9,8 +11,9 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var url = fb.downloadFile();
+    var url = fb.downloadFile(Provider.of<GroupProvider>(context, listen: false).group);
     print(url.toString());
+    
     return Scaffold(
       appBar: AppBar(
         shape: Border(bottom: BorderSide(color: Colors.black, width: 2)),
@@ -37,20 +40,18 @@ class ResultPage extends StatelessWidget {
                 child: Text('A BREATH OF FRESH AIR', style: defaultText),
               ),
             ),
-            resultPhotos(url: 'https://picsum.photos/200/300',),
-            resultPhotos(url: 'https://picsum.photos/200/300',),
-
             FutureBuilder(
             future: url,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: 1,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
-                          resultPhotos(url: snapshot.data.toString()),
+                          resultPhotos(url: snapshot.data![index]),
                           SizedBox(
             height: 32,
           ),
