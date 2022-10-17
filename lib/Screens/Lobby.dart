@@ -20,8 +20,8 @@ class Lobby extends StatelessWidget {
       print("Started group");
     }
 
-    return ChangeNotifierProvider(
-      create: (_) => group,
+    return ChangeNotifierProvider.value(
+      value: group,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -75,8 +75,8 @@ class Lobby extends StatelessWidget {
                       group.startGroup(true);
                       // ADD GROUP TO PERSON
                       me.addGroup(group.id);
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                     },
                     child: Container(
                       child: Padding(
@@ -111,14 +111,7 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Group group = Provider.of<GroupProvider>(
-      context,
-      listen: true,
-    ).group;
-
-    if (group.groupStarted) {
-      print("session has started");
-    }
+  
 
     Future<String> getName(String id) async {
       DatabaseReference refPersonName =
@@ -128,12 +121,20 @@ class LobbyParticipantListener extends StatelessWidget {
     }
 
     return Consumer<Group>(
-        builder: ((context, groupProv, child) => Container(
+        builder: ((context, group, child) => Container(
               height: 200,
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: group.people.length,
-                  itemBuilder: (BuildContext context, int index) {
+                  itemBuilder: (BuildContext context, int index) {   
+                            WidgetsBinding.instance
+                .addPostFrameCallback((_) {
+                  print("post fram");
+                  if (group.groupStarted){
+                    //Navigator.of(context).pop();
+                    //Navigator.of(context).pop();
+                  }
+                });
                     return Container(
                       height: 50,
                       child: FutureBuilder(

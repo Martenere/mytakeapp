@@ -147,8 +147,8 @@ class GroupPane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => group,
+    return ChangeNotifierProvider.value(
+      value: group,
       child: Container(
           decoration: boxFullstyling,
           child: Column(
