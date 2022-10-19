@@ -67,7 +67,7 @@ class FirebaseCommunication {
     var storageRefList = await (storageRef.child(group.id).listAll());
 
 // CHANGE 2 into group.pictureLimit
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < group.pictureLimit; i++) {
       var path = storageRefList.items[i].fullPath;
       var imageUrl = await storageRef.child('$path').getDownloadURL();
       imagesUrl.add(imageUrl);
