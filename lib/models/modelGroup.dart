@@ -58,6 +58,10 @@ class Group with ChangeNotifier {
 
   late int pictureTakerIndex;
 
+  Future<String> get previousPictureTaker => getNameFromId(people[(pictureTakerIndex-1)%people.length]);
+      
+
+
   Group({
     required this.id,
     required this.name,
@@ -188,7 +192,18 @@ class Group with ChangeNotifier {
     if (data != null){
     int index = data as int;
     pictureTakerIndex = index;
+    if (pictureTakerIndex >= pictureLimit){isFinished = true;}
     notifyListeners();
     }
   }
+
+  Future<String> getNameFromId(Id) async {
+
+    DatabaseReference refName = FirebaseDatabase.instance.ref().child('people/$Id/name');
+    DataSnapshot snapshot = await refName.get();
+    String userName = (snapshot.value as String);
+    return (userName != null)? userName : "Unable to fetch name";
+    
+  }
+
 }

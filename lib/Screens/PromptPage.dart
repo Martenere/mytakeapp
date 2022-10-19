@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
+import '../models/modelGroup.dart';
 import 'HomeScreen.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class PromptPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Group group = Provider.of<GroupProvider>(context, listen: false).group;
     int curPic = Provider.of<GroupProvider>(context, listen: false).group.pictureTakerIndex;
     bool firstPic = (curPic == 0);
     if (!firstPic){
@@ -48,7 +50,15 @@ class PromptPage extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-                Text('JACOB:', style: defaultText),
+
+                FutureBuilder(
+                  future: group.previousPictureTaker,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData){
+                    return Text(snapshot.data!, style: defaultText);
+                    } else {return SizedBox();}
+                  }
+                ),
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Container(
