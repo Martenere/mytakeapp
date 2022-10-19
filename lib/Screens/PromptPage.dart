@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 class PromptPage extends StatelessWidget {
   PromptPage({super.key});
   late Future<String> url;
+  late Future<String> prompt;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,7 @@ class PromptPage extends StatelessWidget {
                   height: 32,
                 ),
 
-                FutureBuilder(
+                FutureBuilder( //Name of previous picture taker at top
                   future: group.previousPictureTaker,
                   builder: (context, snapshot) {
                     if (snapshot.hasData){
@@ -63,7 +66,7 @@ class PromptPage extends StatelessWidget {
                   padding: const EdgeInsets.all(18.0),
                   child: Container(
                       decoration: boxstylingThick,
-                      child: firstPic ? Text("This is the prompt") : promptPicture(url: url)),
+                      child: firstPic ? promptText(prompt: group.getTextPrompt()) : promptPicture(url: url)),
                 ),
                 const SizedBox(
                   height: 32,
@@ -123,6 +126,27 @@ class promptPicture extends StatelessWidget {
         {print(snapshot.data);
           return Image.network(
             snapshot.data!);}
+            else{return SizedBox();}
+      }
+    );
+  }
+}
+
+class promptText extends StatelessWidget {
+  const promptText({
+    Key? key,
+    required this.prompt,
+  }) : super(key: key);
+
+  final Future<String> prompt;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: prompt, 
+      builder: (context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.hasData){
+          return Container(color: Colors.white, width: 300, height: 300 , child: Center(child: Text(snapshot.data!.toUpperCase() , style: defaultText)));}
             else{return SizedBox();}
       }
     );

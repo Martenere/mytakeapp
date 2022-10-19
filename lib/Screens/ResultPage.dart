@@ -38,7 +38,14 @@ class ResultPage extends StatelessWidget {
               padding: const EdgeInsets.all(48.0),
               child: Container(
                 // INSERT PROMPT HERE
-                child: Text('A BREATH OF FRESH AIR', style: defaultText),
+                child: FutureBuilder(
+                        future: group.getTextPrompt(), 
+                        builder: (context, AsyncSnapshot<String> textPrompt) {
+                          if (textPrompt.hasData){
+                            return Text(textPrompt.data!.toUpperCase() , style: defaultText);}
+                              else{return SizedBox();}
+                        }
+                      ),
               ),
             ),
             FutureBuilder(

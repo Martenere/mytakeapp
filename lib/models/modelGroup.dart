@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/firebase/firebaseDatabase.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -55,6 +57,7 @@ class Group with ChangeNotifier {
   late DatabaseReference refgroupStarted;
   late DatabaseReference refGroup;
   late DatabaseReference refPictureTaker;
+    late DatabaseReference refPrompt;
 
   late int pictureTakerIndex;
 
@@ -77,18 +80,22 @@ class Group with ChangeNotifier {
         refPictureTaker =
         FirebaseDatabase.instance.ref().child('group/$id/pictureTakerIndex');
     refGroup = FirebaseDatabase.instance.ref("group/$id");
+    refPrompt = refGroup.child("textPrompt");
   }
 
   addGroupToDatabase() async {
     //People me
 
     // print(people[0].name);
+    String prompt = randomizePrompt();
+
     await refGroup.set({
       'id': id,
       'name': name,
       'people': people,
       'pictureLimit': pictureLimit,
-      'groupStarted': false
+      'groupStarted': false,
+      "textPrompt":prompt,
     });
 
     //database event listener - listen to people added or removed
@@ -204,6 +211,24 @@ class Group with ChangeNotifier {
     String userName = (snapshot.value as String);
     return (userName != null)? userName : "Unable to fetch name";
     
+  }
+
+  Future<String> getTextPrompt() async {
+    
+    DataSnapshot snapshot = await refPrompt.get();
+    String prompt = (snapshot.value as String);
+    return prompt;
+
+
+  }
+  
+  String randomizePrompt() {
+
+    List<String> possiblePrompts = ["Something enraging","Impossible odds","From above","REFLECTIONS","SEEK THE LIGHT","ONE OF YOU","STOLEN MOMENT"];
+    Random rnd = Random();
+    String prompt = possiblePrompts[rnd.nextInt(possiblePrompts.length)];
+    return prompt;
+
   }
 
 }
