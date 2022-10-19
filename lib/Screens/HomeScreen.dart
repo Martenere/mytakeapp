@@ -85,36 +85,16 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         toolbarHeight: 110,
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('CREATE GROUP', style: smNmameText,),
+        shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
         
+        backgroundColor: Colors.white,
+        onPressed: () {
+        Navigator.pushNamed(context, '/GroupCreation');
       }),
       body: SingleChildScrollView(
         child: Column(children: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/PromptPage');
-              },
-              child: Text('Prompt page')),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/CameraPage');
-              },
-              child: Text('Camera Page')),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/Result');
-              },
-              child: Text('Result Page')),
-          ElevatedButton(
-              onPressed: () {
-                // fb.uploadFile();
-              },
-              child: Text('add image to server')),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/GroupCreation');
-              },
-              child: Text('GroupCreation')),
           ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/JoinGroup');
@@ -260,8 +240,7 @@ class HardButton extends StatelessWidget {
           child: Icon(CarbonIcons.play),
         ),
       );
-    } 
-    else if (group.isFinished){
+    } else if (group.isFinished) {
       return InkWell(
         onTap: () {
           Provider.of<GroupProvider>(context, listen: false).setGroup(group);
@@ -275,8 +254,7 @@ class HardButton extends StatelessWidget {
           ),
         ),
       );
-    }
-    else {
+    } else {
       return SizedBox();
     }
   }
