@@ -85,49 +85,88 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         toolbarHeight: 110,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text('CREATE GROUP', style: smNmameText,),
-        shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-        
-        backgroundColor: Colors.white,
-        onPressed: () {
-        Navigator.pushNamed(context, '/GroupCreation');
-      }),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/JoinGroup');
-              },
-              child: Text('Join Group')),
-          FutureBuilder(
-              future: groups,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        print(snapshot.data![index].name);
-                        Group group = snapshot.data![index];
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/JoinGroup');
+                  },
+                  child: Text('Join Group')),
+              FutureBuilder(
+                  future: groups,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data?.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            print(snapshot.data![index].name);
+                            Group group = snapshot.data![index];
 
-                        return Column(
-                          children: [
-                            GroupPane(group: group),
-                            SizedBox(
-                              height: 32,
-                            ),
-                          ],
-                        );
-                      });
-                } else {
-                  return Container(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }),
-        ]),
+                            return Column(
+                              children: [
+                                GroupPane(group: group),
+                                SizedBox(
+                                  height: 32,
+                                ),
+                              ],
+                            );
+                          });
+                    } else {
+                      return Container(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
+            SizedBox(height: 64)
+            ]),
+          ),
+          Positioned(
+            bottom: 16,
+            left: 64,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/JoinGroups');
+              },
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Text('JOIN', style: smNmameText),
+                    ],
+                  ),
+                ),
+                decoration: buttonStyling,
+                height: 60,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 16,
+            right: 64,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/GroupCreation');
+              },
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Text('CREATE', style: smNmameText),
+                    ],
+                  ),
+                ),
+                decoration: buttonStyling,
+                height: 60,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -227,20 +266,7 @@ class HardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool myTurn = group.myTurn(me);
 
-    if (myTurn) {
-      return InkWell(
-        onTap: () {
-          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
-          Navigator.pushNamed(context, '/PromptPage');
-        },
-        child: Container(
-          width: 48.0,
-          height: 48.0,
-          decoration: buttonStyling,
-          child: Icon(CarbonIcons.play),
-        ),
-      );
-    } else if (group.isFinished) {
+    if (group.isFinished) {
       return InkWell(
         onTap: () {
           Provider.of<GroupProvider>(context, listen: false).setGroup(group);
@@ -252,6 +278,19 @@ class HardButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text('SEE TAKES', style: smNmameText),
           ),
+        ),
+      );
+    } else if (myTurn) {
+      return InkWell(
+        onTap: () {
+          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+          Navigator.pushNamed(context, '/PromptPage');
+        },
+        child: Container(
+          width: 48.0,
+          height: 48.0,
+          decoration: buttonStyling,
+          child: Icon(CarbonIcons.play),
         ),
       );
     } else {
