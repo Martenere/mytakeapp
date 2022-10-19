@@ -28,8 +28,8 @@ class GroupCreation extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
           child: Container(
               decoration: backButtonStyling,
-              child: BackButton(color: Colors.black)),
-          // child: Icon(CarbonIcons.arrow_left)),
+              // child: BackButton(color: Colors.black)),
+          child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,
         backgroundColor: Colors.white,

@@ -86,13 +86,16 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 110,
       ),
       floatingActionButton: FloatingActionButton.extended(
-        label: Text('CREATE GROUP', style: smNmameText,),
-        shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-        
-        backgroundColor: Colors.white,
-        onPressed: () {
-        Navigator.pushNamed(context, '/GroupCreation');
-      }),
+          label: Text(
+            'CREATE GROUP',
+            style: smNmameText,
+          ),
+          // shape: ShapeBorder(),
+          shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: Colors.white,
+          onPressed: () {
+            Navigator.pushNamed(context, '/GroupCreation');
+          }),
       body: SingleChildScrollView(
         child: Column(children: [
           ElevatedButton(
@@ -227,20 +230,7 @@ class HardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool myTurn = group.myTurn(me);
 
-    if (myTurn) {
-      return InkWell(
-        onTap: () {
-          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
-          Navigator.pushNamed(context, '/PromptPage');
-        },
-        child: Container(
-          width: 48.0,
-          height: 48.0,
-          decoration: buttonStyling,
-          child: Icon(CarbonIcons.play),
-        ),
-      );
-    } else if (group.isFinished) {
+    if (group.isFinished) {
       return InkWell(
         onTap: () {
           Provider.of<GroupProvider>(context, listen: false).setGroup(group);
@@ -252,6 +242,19 @@ class HardButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text('SEE TAKES', style: smNmameText),
           ),
+        ),
+      );
+    } else if (myTurn) {
+      return InkWell(
+        onTap: () {
+          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+          Navigator.pushNamed(context, '/PromptPage');
+        },
+        child: Container(
+          width: 48.0,
+          height: 48.0,
+          decoration: buttonStyling,
+          child: Icon(CarbonIcons.play),
         ),
       );
     } else {
