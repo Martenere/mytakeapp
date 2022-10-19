@@ -13,6 +13,7 @@ class ResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var url = fb.downloadFile(Provider.of<GroupProvider>(context, listen: false).group);
     print(url.toString());
+    var group = Provider.of<GroupProvider>(context, listen: false).group;
     
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +52,7 @@ class ResultPage extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
-                          resultPhotos(url: snapshot.data![index]),
+                          resultPhotos(url: snapshot.data![index], pictureTaker: group.getNameFromId(group.people[index%group.people.length])),
                           SizedBox(
             height: 32,
           ),
@@ -74,9 +75,10 @@ class ResultPage extends StatelessWidget {
 
 class resultPhotos extends StatelessWidget {
   resultPhotos({
-    Key? key, required this.url
+    Key? key, required this.url, required this.pictureTaker
   }) : super(key: key);
   String url;
+  Future<String> pictureTaker;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,19 @@ class resultPhotos extends StatelessWidget {
             const SizedBox(
               height: 32,
             ),
-            Text('JACOB:', style: defaultText),
+  FutureBuilder(
+            future: pictureTaker,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!, style: defaultText);
+              } else {
+                return Container(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
+
+
             const SizedBox(
               height: 32,
             ),

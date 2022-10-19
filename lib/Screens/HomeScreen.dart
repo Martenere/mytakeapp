@@ -1,3 +1,4 @@
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
@@ -8,7 +9,10 @@ import 'package:provider/provider.dart';
 
 import '../models/modelGroup.dart';
 
-final BoxDecoration boxstyling = BoxDecoration(border: Border.all(width: 4));
+final BoxDecoration boxstyling = BoxDecoration(
+  border: Border.all(width: 4),
+  color: Colors.white,
+);
 final BoxDecoration boxstylingThick =
     BoxDecoration(border: Border.all(width: 8));
 final BoxDecoration buttonStyling = BoxDecoration(
@@ -17,6 +21,7 @@ final BoxDecoration buttonStyling = BoxDecoration(
     boxShadow: [
       BoxShadow(offset: Offset(-4, 4), blurRadius: 0, color: Colors.black)
     ]);
+
 final BoxDecoration buttonStylingDown = BoxDecoration(
   border: Border.all(width: 4),
   color: Colors.white,
@@ -50,6 +55,12 @@ final TextStyle timeText = TextStyle(
     fontSize: 16,
     color: Colors.black,
     letterSpacing: 8);
+final TextStyle smNmameText = TextStyle(
+  fontFamily: "PTMono-reg",
+  fontSize: 16,
+  color: Colors.black,
+  letterSpacing: 2,
+);
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, required this.fb});
@@ -63,7 +74,6 @@ class HomeScreen extends StatelessWidget {
 
     var groups = a.getGroupsfromFirebase(me);
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -75,6 +85,9 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         toolbarHeight: 110,
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        
+      }),
       body: SingleChildScrollView(
         child: Column(children: [
           ElevatedButton(
@@ -112,14 +125,13 @@ class HomeScreen extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
-                    
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data?.length,
                       itemBuilder: (BuildContext context, int index) {
                         print(snapshot.data![index].name);
                         Group group = snapshot.data![index];
-      
+
                         return Column(
                           children: [
                             GroupPane(group: group),
@@ -148,66 +160,65 @@ class GroupPane extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: group,
-      child: Consumer<Group>(
-        builder: ((context, group, child) => Container(
-            decoration: boxFullstyling,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        value: group,
+        child: Consumer<Group>(
+          builder: ((context, group, child) => Container(
+                decoration: boxFullstyling,
+                child: Column(
                   children: [
-                    Text(
-                      group.name,
-                      style: defaultText,
-                    )
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          group.name,
+                          style: defaultText,
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ProfileSquarePic(size: 77),
+                        const SizedBox(width: 24),
+                        ProfileSquarePic(
+                          size: 200,
+                        ),
+                        const SizedBox(width: 24),
+                        ProfileSquarePic(size: 100),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    Consumer<Group>(
+                        builder: ((_, __, ___) => Row(children: [
+                              SizedBox(width: 42),
+                              Turntaker(group: group),
+                              SizedBox(width: 42),
+                              HardButton(
+                                group: group,
+                              ),
+                              SizedBox(width: 42),
+                              deleteGroupButton(
+                                group: group,
+                              ),
+                              SizedBox(
+                                width: 24,
+                              ),
+                              group.isFinished
+                                  ? Text("picture limit has been reached")
+                                  : SizedBox(),
+                            ]))),
                   ],
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ProfileSquarePic(size: 77),
-                    const SizedBox(width: 24),
-                    ProfileSquarePic(
-                      size: 200,
-                    ),
-                    const SizedBox(width: 24),
-                    ProfileSquarePic(size: 100),
-                  ],
-                ),
-                const SizedBox(
-                  height: 48,
-                ),
-                Consumer<Group>(
-                  builder:((_, __, ___) =>  Row(children: [
-                    SizedBox(width: 42),
-                    HardButton(
-                      group: group,
-                    ),
-                    SizedBox(width: 42),
-                    deleteGroupButton(
-                      group: group,
-                    ),
-                    group.myTurn(me) ? Text("your turn"):Text("not your turn"),
-                    SizedBox(width: 24,),
-                    group.isFinished? Text("picture limit has been reached"):SizedBox(),
-                      
-                  ]))
-                ),
-              ],
-            ),
-          
-          )
-        ),
-      )
-    )
-    ;
+              )),
+        ));
   }
 }
 
@@ -234,15 +245,74 @@ class HardButton extends StatelessWidget {
   Group group;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Provider.of<GroupProvider>(context, listen: false).setGroup(group);
-        Navigator.pushNamed(context, '/PromptPage');
-      },
-      child: Container(
-        width: 48.0,
-        height: 48.0,
-        decoration: buttonStyling,
+    bool myTurn = group.myTurn(me);
+
+    if (myTurn) {
+      return InkWell(
+        onTap: () {
+          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+          Navigator.pushNamed(context, '/PromptPage');
+        },
+        child: Container(
+          width: 48.0,
+          height: 48.0,
+          decoration: buttonStyling,
+          child: Icon(CarbonIcons.play),
+        ),
+      );
+    } 
+    else if (group.isFinished){
+      return InkWell(
+        onTap: () {
+          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+          Navigator.pushNamed(context, '/Result');
+        },
+        child: Container(
+          decoration: buttonStyling,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text('SEE TAKES', style: smNmameText),
+          ),
+        ),
+      );
+    }
+    else {
+      return SizedBox();
+    }
+  }
+}
+
+class Turntaker extends StatelessWidget {
+  Turntaker({super.key, required this.group});
+  Group group;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: boxstyling,
+      child: Center(
+        child: group.isFinished
+            ? Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text('FINISHED', style: smNmameText),
+              )
+            : FutureBuilder(
+                future: group.getNameFromId(group
+                    .people[group.pictureTakerIndex % group.people.length]),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(snapshot.data!.toUpperCase(),
+                          style: smNmameText),
+                    );
+                  } else {
+                    return Container(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }),
       ),
     );
   }
@@ -257,12 +327,12 @@ class deleteGroupButton extends StatelessWidget {
       onTap: () {
         Provider.of<GroupProvider>(context, listen: false).setGroup(group);
         group.deleteGroup();
-        
       },
       child: Container(
         width: 48.0,
         height: 48.0,
         decoration: buttonStyling,
+        child: Text('delete'),
       ),
     );
   }
