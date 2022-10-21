@@ -120,12 +120,16 @@ class promptPicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width;
     return FutureBuilder(
         future: url,
         builder: (context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
             print(snapshot.data);
-            return Image.network(snapshot.data!);
+            return Container(
+                height: size,
+                width: size,
+                child: Image.network(snapshot.data!, fit: BoxFit.fitWidth));
           } else {
             return SizedBox();
           }

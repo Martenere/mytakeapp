@@ -92,6 +92,7 @@ class resultPhotos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         Positioned(
@@ -122,7 +123,13 @@ class resultPhotos extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Container(
-                  decoration: boxstylingThick, child: Image.network(url)),
+                  height: size,
+                  width: size,
+                  decoration: boxstylingThick,
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.fitWidth,
+                  )),
             ),
             const SizedBox(
               height: 6,
