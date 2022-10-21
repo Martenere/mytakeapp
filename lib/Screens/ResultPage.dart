@@ -5,25 +5,25 @@ import 'package:mytakeapp/main.dart';
 import 'package:provider/provider.dart';
 import '../firebase/firebaseCommunication.dart';
 import 'HomeScreen.dart';
+import '../models/buttons.dart';
 
 class ResultPage extends StatelessWidget {
   const ResultPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var url = fb.downloadFile(Provider.of<GroupProvider>(context, listen: false).group);
+    var url = fb
+        .downloadFile(Provider.of<GroupProvider>(context, listen: false).group);
     print(url.toString());
     var group = Provider.of<GroupProvider>(context, listen: false).group;
-    
+
     return Scaffold(
       appBar: AppBar(
         shape: Border(bottom: BorderSide(color: Colors.black, width: 2)),
         title: Text('RESULT', style: defaultText),
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-          child: Container(
-              decoration: backButtonStyling,
-              child: BackButton(color: Colors.black)),
+          child: backButton(),
           // child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,
@@ -39,40 +39,44 @@ class ResultPage extends StatelessWidget {
               child: Container(
                 // INSERT PROMPT HERE
                 child: FutureBuilder(
-                        future: group.getTextPrompt(), 
-                        builder: (context, AsyncSnapshot<String> textPrompt) {
-                          if (textPrompt.hasData){
-                            return Text(textPrompt.data!.toUpperCase() , style: defaultText);}
-                              else{return SizedBox();}
-                        }
-                      ),
+                    future: group.getTextPrompt(),
+                    builder: (context, AsyncSnapshot<String> textPrompt) {
+                      if (textPrompt.hasData) {
+                        return Text(textPrompt.data!.toUpperCase(),
+                            style: defaultText);
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
               ),
             ),
             FutureBuilder(
-            future: url,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          resultPhotos(url: snapshot.data![index], pictureTaker: group.getNameFromId(group.people[index%group.people.length])),
-                          SizedBox(
-            height: 32,
-          ),
-                        ],
-                      );
-                    });
-              } else {
-                return Container(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-
+                future: url,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              resultPhotos(
+                                  url: snapshot.data![index],
+                                  pictureTaker: group.getNameFromId(group
+                                      .people[index % group.people.length])),
+                              SizedBox(
+                                height: 32,
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    return Container(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }),
           ],
         ),
       ),
@@ -81,9 +85,8 @@ class ResultPage extends StatelessWidget {
 }
 
 class resultPhotos extends StatelessWidget {
-  resultPhotos({
-    Key? key, required this.url, required this.pictureTaker
-  }) : super(key: key);
+  resultPhotos({Key? key, required this.url, required this.pictureTaker})
+      : super(key: key);
   String url;
   Future<String> pictureTaker;
 
@@ -102,27 +105,24 @@ class resultPhotos extends StatelessWidget {
             const SizedBox(
               height: 32,
             ),
-  FutureBuilder(
-            future: pictureTaker,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!, style: defaultText);
-              } else {
-                return Container(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-
-
+            FutureBuilder(
+                future: pictureTaker,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data!, style: defaultText);
+                  } else {
+                    return Container(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }),
             const SizedBox(
               height: 32,
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Container(
-                  decoration: boxstylingThick,
-                  child: Image.network(url)),
+                  decoration: boxstylingThick, child: Image.network(url)),
             ),
             const SizedBox(
               height: 6,

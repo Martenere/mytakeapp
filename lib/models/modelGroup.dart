@@ -9,10 +9,9 @@ import 'modelPerson.dart';
 Future<Group?> loadGroupFromFirebase(String id) async {
   DatabaseReference refGroup = await FirebaseDatabase.instance.ref("group/$id");
   DataSnapshot data = await refGroup.get();
-  if (!data.exists){
-    print("$id that group doesnt ecist");
+  if (!data.exists) {
+    print("$id that group doesn't exist");
     return null;
-    
   }
   var datav = data.value;
   print(" group id $id");
@@ -57,13 +56,12 @@ class Group with ChangeNotifier {
   late DatabaseReference refgroupStarted;
   late DatabaseReference refGroup;
   late DatabaseReference refPictureTaker;
-    late DatabaseReference refPrompt;
+  late DatabaseReference refPrompt;
 
   late int pictureTakerIndex;
 
-  Future<String> get previousPictureTaker => getNameFromId(people[(pictureTakerIndex-1)%people.length]);
-      
-
+  Future<String> get previousPictureTaker =>
+      getNameFromId(people[(pictureTakerIndex - 1) % people.length]);
 
   Group({
     required this.id,
@@ -77,7 +75,7 @@ class Group with ChangeNotifier {
     refPeople = FirebaseDatabase.instance.ref().child('group/$id/people');
     refgroupStarted =
         FirebaseDatabase.instance.ref().child('group/$id/groupStarted');
-        refPictureTaker =
+    refPictureTaker =
         FirebaseDatabase.instance.ref().child('group/$id/pictureTakerIndex');
     refGroup = FirebaseDatabase.instance.ref("group/$id");
     refPrompt = refGroup.child("textPrompt");
@@ -95,7 +93,7 @@ class Group with ChangeNotifier {
       'people': people,
       'pictureLimit': pictureLimit,
       'groupStarted': false,
-      "textPrompt":prompt,
+      "textPrompt": prompt,
     });
 
     //database event listener - listen to people added or removed
@@ -105,18 +103,17 @@ class Group with ChangeNotifier {
   void startListening() {
     refPeople.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
-    (data !=null) ? eventUpdatePeopleList(data) :{};
+      (data != null) ? eventUpdatePeopleList(data) : {};
     });
 
     refgroupStarted.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       print("$id was started");
-      (data !=null) ? updateGroupStatus(data) :{};
+      (data != null) ? updateGroupStatus(data) : {};
     });
     refPictureTaker.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       updatePictureTaker(data);
-
     });
   }
 
@@ -137,16 +134,14 @@ class Group with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateGroupStatus(groupStatus){
-    if (groupStatus != null){
-    groupStarted = groupStatus;
-
+  void updateGroupStatus(groupStatus) {
+    if (groupStatus != null) {
+      groupStarted = groupStatus;
     }
     notifyListeners();
   }
 
   void startGroup(groupStatus) async {
-    
     groupStarted = groupStatus;
     await refgroupStarted.set(groupStarted);
     await refGroup.update({"pictureTakerIndex": 0});
@@ -155,21 +150,21 @@ class Group with ChangeNotifier {
   }
 
   void deleteGroup() async {
-    DatabaseReference refUsers = FirebaseDatabase.instance.ref().child('people');
+    DatabaseReference refUsers =
+        FirebaseDatabase.instance.ref().child('people');
 
     //remove group string from each person in database
-    for (String p in people){
+    for (String p in people) {
       DataSnapshot pGroup = await refUsers.child('$p/groups').get();
-      if (pGroup.value !=null){
-      List<String> pGroupValue = List<String>.from(pGroup.value as List);
-      //Map dataMap = Map<String, dynamic>.from(pGroupValue as Map);
-      List<String> currentGroups =  pGroupValue;
-      //dataMap['groups'].forEach((v) => currentGroups.add(v));
+      if (pGroup.value != null) {
+        List<String> pGroupValue = List<String>.from(pGroup.value as List);
+        //Map dataMap = Map<String, dynamic>.from(pGroupValue as Map);
+        List<String> currentGroups = pGroupValue;
+        //dataMap['groups'].forEach((v) => currentGroups.add(v));
 
-      currentGroups.contains(id) ? currentGroups.remove(id): {}; 
+        currentGroups.contains(id) ? currentGroups.remove(id) : {};
 
-      await refUsers.child('$p/groups').set(currentGroups);
-      
+        await refUsers.child('$p/groups').set(currentGroups);
       }
       //remove the group
       refGroup.remove();
@@ -183,52 +178,54 @@ class Group with ChangeNotifier {
     notifyListeners();
   }
 
-  bool myTurn(Person me){
+  bool myTurn(Person me) {
     int n = people.length;
-    int currentPictureTaker = pictureTakerIndex % n ;
+    int currentPictureTaker = pictureTakerIndex % n;
 
     if (people[currentPictureTaker] == me.id) {
       return true;
     } else {
       return false;
     }
-
   }
-  
+
   void updatePictureTaker(data) {
-    if (data != null){
-    int index = data as int;
-    pictureTakerIndex = index;
-    if (pictureTakerIndex >= pictureLimit){isFinished = true;}
-    notifyListeners();
+    if (data != null) {
+      int index = data as int;
+      pictureTakerIndex = index;
+      if (pictureTakerIndex >= pictureLimit) {
+        isFinished = true;
+      }
+      notifyListeners();
     }
   }
 
   Future<String> getNameFromId(Id) async {
-
-    DatabaseReference refName = FirebaseDatabase.instance.ref().child('people/$Id/name');
+    DatabaseReference refName =
+        FirebaseDatabase.instance.ref().child('people/$Id/name');
     DataSnapshot snapshot = await refName.get();
     String userName = (snapshot.value as String);
-    return (userName != null)? userName : "Unable to fetch name";
-    
+    return (userName != null) ? userName : "Unable to fetch name";
   }
 
   Future<String> getTextPrompt() async {
-    
     DataSnapshot snapshot = await refPrompt.get();
     String prompt = (snapshot.value as String);
     return prompt;
-
-
   }
-  
-  String randomizePrompt() {
 
-    List<String> possiblePrompts = ["Something enraging","Impossible odds","From above","REFLECTIONS","SEEK THE LIGHT","ONE OF YOU","STOLEN MOMENT"];
+  String randomizePrompt() {
+    List<String> possiblePrompts = [
+      "Something enraging",
+      "Impossible odds",
+      "From above",
+      "REFLECTIONS",
+      "SEEK THE LIGHT",
+      "ONE OF YOU",
+      "STOLEN MOMENT"
+    ];
     Random rnd = Random();
     String prompt = possiblePrompts[rnd.nextInt(possiblePrompts.length)];
     return prompt;
-
   }
-
 }

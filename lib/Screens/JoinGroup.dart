@@ -7,6 +7,8 @@ import '../models/modelGroup.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 
+import '../models/buttons.dart';
+
 class JoinGroup extends StatelessWidget {
   JoinGroup({super.key});
   final GroupCodeController = TextEditingController();
@@ -23,11 +25,9 @@ class JoinGroup extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-          child: Container(
-              decoration: backButtonStyling,
-              child: BackButton(color: Colors.black)),
-        ),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
+            child: backButton()),
         elevation: 0,
         backgroundColor: Colors.white,
         toolbarHeight: 110,
@@ -62,8 +62,8 @@ class JoinGroup extends StatelessWidget {
                 onTap: () async {
                   Group? group =
                       await loadGroupFromFirebase(GroupCodeController.text);
-                  
-                  if (group!=null) {
+
+                  if (group != null) {
                     group.addPerson(me);
                     Provider.of<GroupProvider>(context, listen: false)
                         .setGroup(group);

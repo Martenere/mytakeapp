@@ -7,6 +7,7 @@ import '../models/modelPerson.dart';
 import 'HomeScreen.dart';
 import '../main.dart';
 import '../models/modelGroup.dart';
+import '../models/buttons.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -26,9 +27,7 @@ class GroupCreation extends StatelessWidget {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-          child: Container(
-              decoration: backButtonStyling,
-              child: BackButton(color: Colors.black)),
+          child: backButton(),
           // child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,

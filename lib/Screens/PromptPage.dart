@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import '../main.dart';
 import '../models/modelGroup.dart';
 import 'HomeScreen.dart';
+import '../models/buttons.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
-
 
 class PromptPage extends StatelessWidget {
   PromptPage({super.key});
@@ -18,19 +18,20 @@ class PromptPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Group group = Provider.of<GroupProvider>(context, listen: false).group;
-    int curPic = Provider.of<GroupProvider>(context, listen: false).group.pictureTakerIndex;
+    int curPic = Provider.of<GroupProvider>(context, listen: false)
+        .group
+        .pictureTakerIndex;
     bool firstPic = (curPic == 0);
-    if (!firstPic){
-    url = fb.getLatestGroupImageURL(Provider.of<GroupProvider>(context, listen: false).group);
+    if (!firstPic) {
+      url = fb.getLatestGroupImageURL(
+          Provider.of<GroupProvider>(context, listen: false).group);
     }
 
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-          child: Container(
-              decoration: backButtonStyling,
-              child: BackButton(color: Colors.black)),
+          child: backButton(),
           // child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,
@@ -38,8 +39,7 @@ class PromptPage extends StatelessWidget {
         toolbarHeight: 110,
         foregroundColor: Colors.black,
       ),
-      body: 
-      SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Stack(
           children: [
             Positioned(
@@ -53,37 +53,35 @@ class PromptPage extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-
-                FutureBuilder( //Name of previous picture taker at top
-                  future: group.previousPictureTaker,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData){
-                    return Text(snapshot.data!, style: defaultText);
-                    } else {return SizedBox();}
-                  }
-                ),
+                FutureBuilder(
+                    //Name of previous picture taker at top
+                    future: group.previousPictureTaker,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(snapshot.data!, style: defaultText);
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Container(
                       decoration: boxstylingThick,
-                      child: firstPic ? promptText(prompt: group.getTextPrompt()) : promptPicture(url: url)),
+                      child: firstPic
+                          ? promptText(prompt: group.getTextPrompt())
+                          : promptPicture(url: url)),
                 ),
                 const SizedBox(
                   height: 32,
                 ),
-      
                 Text('MYTAKE', style: defaultText),
-      
                 const SizedBox(
                   height: 12,
                 ),
-      
                 InkWell(
-                  onTap: (() => Navigator.of(context).pushNamed('/CameraPage')
-                  ),
+                  onTap: (() => Navigator.of(context).pushNamed('/CameraPage')),
                   child: Center(
-                    child: 
-                    Container(
+                    child: Container(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Row(
@@ -100,7 +98,10 @@ class PromptPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              SizedBox(height: 32,)],
+                SizedBox(
+                  height: 32,
+                )
+              ],
             ),
           ],
         ),
@@ -120,15 +121,15 @@ class promptPicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: url, 
-      builder: (context, AsyncSnapshot<String> snapshot) {
-        if (snapshot.hasData)
-        {print(snapshot.data);
-          return Image.network(
-            snapshot.data!);}
-            else{return SizedBox();}
-      }
-    );
+        future: url,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.hasData) {
+            print(snapshot.data);
+            return Image.network(snapshot.data!);
+          } else {
+            return SizedBox();
+          }
+        });
   }
 }
 
@@ -143,12 +144,19 @@ class promptText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: prompt, 
-      builder: (context, AsyncSnapshot<String> snapshot) {
-        if (snapshot.hasData){
-          return Container(color: Colors.white, width: 300, height: 300 , child: Center(child: Text(snapshot.data!.toUpperCase() , style: defaultText)));}
-            else{return SizedBox();}
-      }
-    );
+        future: prompt,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+                color: Colors.white,
+                width: 300,
+                height: 300,
+                child: Center(
+                    child: Text(snapshot.data!.toUpperCase(),
+                        style: defaultText)));
+          } else {
+            return SizedBox();
+          }
+        });
   }
 }

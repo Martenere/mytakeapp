@@ -7,6 +7,7 @@ import '../main.dart';
 import '../models/modelGroup.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
+import '../models/buttons.dart';
 
 class Lobby extends StatelessWidget {
   Lobby({super.key});
@@ -26,10 +27,9 @@ class Lobby extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
-            child: Container(
-                decoration: backButtonStyling,
-                child: BackButton(color: Colors.black)),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
+            child: backButton(),
             // child: Icon(CarbonIcons.arrow_left)),
           ),
           elevation: 0,
@@ -70,8 +70,9 @@ class Lobby extends StatelessWidget {
                   const SizedBox(
                     height: 64,
                   ),
-                  (group.people[0] == me.id)?
-                  StartSessionButton(group: group):SizedBox(),
+                  (group.people[0] == me.id)
+                      ? StartSessionButton(group: group)
+                      : SizedBox(),
                 ],
               ),
             ],
@@ -124,8 +125,6 @@ class LobbyParticipantListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
-
     Future<String> getName(String id) async {
       DatabaseReference refPersonName =
           FirebaseDatabase.instance.ref().child('people/$id/name');
@@ -139,16 +138,16 @@ class LobbyParticipantListener extends StatelessWidget {
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: group.people.length,
-                  itemBuilder: (BuildContext context, int index) {   
-                            WidgetsBinding.instance
-                .addPostFrameCallback((_) {
-                  print("post fram");
-                  if (group.groupStarted){
-                    me.addGroup(group.id);
-                    Navigator.of(context).popUntil(ModalRoute.withName('/'));
-                    //Navigator.of(context).pop();
-                  }
-                });
+                  itemBuilder: (BuildContext context, int index) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      print("post fram");
+                      if (group.groupStarted) {
+                        me.addGroup(group.id);
+                        Navigator.of(context)
+                            .popUntil(ModalRoute.withName('/'));
+                        //Navigator.of(context).pop();
+                      }
+                    });
                     return Container(
                       height: 50,
                       child: FutureBuilder(
