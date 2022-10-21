@@ -245,7 +245,7 @@ class HardButton extends StatelessWidget {
     if (group.isFinished) {
       return seetakesButton(group: group);
     } else if (myTurn) {
-      return playButton();
+      return playButton(group: group);
     } else {
       return SizedBox();
     }

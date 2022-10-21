@@ -180,7 +180,8 @@ class _tocamerapageButtonState extends State<tocamerapageButton> {
 }
 
 class playButton extends StatefulWidget {
-  const playButton({super.key});
+  playButton({super.key, required this.group});
+  Group group;
 
   @override
   State<playButton> createState() => _playButtonState();
@@ -210,6 +211,8 @@ class _playButtonState extends State<playButton> {
         setState(() {
           playImg = playUp;
         });
+        Provider.of<GroupProvider>(context, listen: false)
+            .setGroup(widget.group);
         Navigator.pushNamed(context, '/PromptPage');
       },
       onTapCancel: () {
