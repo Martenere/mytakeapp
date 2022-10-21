@@ -125,3 +125,46 @@ class _createButtonState extends State<createButton> {
     );
   }
 }
+
+class tocamerapageButton extends StatefulWidget {
+  const tocamerapageButton({super.key});
+
+  @override
+  State<tocamerapageButton> createState() => _tocamerapageButtonState();
+}
+
+class _tocamerapageButtonState extends State<tocamerapageButton> {
+  SvgPicture? tocamerapageImg;
+  final tocamerapageUp = SvgPicture.asset('assets/img/tocamerapage.svg');
+  final tocamerapageDown =
+      SvgPicture.asset('assets/img/tocamerapage_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    tocamerapageImg = tocamerapageUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: tocamerapageImg,
+      onTapDown: (details) {
+        setState(() {
+          tocamerapageImg = tocamerapageDown;
+        });
+      },
+      onTapUp: (details) {
+        setState(() {
+          tocamerapageImg = tocamerapageUp;
+        });
+        Navigator.pushNamed(context, '/CameraPage');
+      },
+      onTapCancel: () {
+        setState(() {
+          tocamerapageImg = tocamerapageUp;
+        });
+      },
+    );
+  }
+}

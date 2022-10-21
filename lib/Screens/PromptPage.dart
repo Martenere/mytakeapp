@@ -78,26 +78,7 @@ class PromptPage extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                InkWell(
-                  onTap: (() => Navigator.of(context).pushNamed('/CameraPage')),
-                  child: Center(
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          children: [
-                            Icon(CarbonIcons.camera),
-                            Spacer(),
-                            Icon(CarbonIcons.arrow_right),
-                          ],
-                        ),
-                      ),
-                      decoration: buttonStyling,
-                      width: 120,
-                      height: 60,
-                    ),
-                  ),
-                ),
+                tocamerapageButton(),
                 SizedBox(
                   height: 32,
                 )
