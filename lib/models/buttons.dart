@@ -1,6 +1,15 @@
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mytakeapp/Providers/group_provider.dart';
+import 'package:mytakeapp/firebase/firebaseCommunication.dart';
+import 'package:mytakeapp/loadAllGroups.dart';
+import 'package:mytakeapp/main.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:io';
+import 'package:mytakeapp/models/modelPerson.dart';
+import 'package:provider/provider.dart';
+
+import '../models/modelGroup.dart';
 
 class backButton extends StatefulWidget {
   const backButton({super.key});
@@ -163,6 +172,93 @@ class _tocamerapageButtonState extends State<tocamerapageButton> {
       onTapCancel: () {
         setState(() {
           tocamerapageImg = tocamerapageUp;
+        });
+      },
+    );
+  }
+}
+
+class playButton extends StatefulWidget {
+  const playButton({super.key});
+
+  @override
+  State<playButton> createState() => _playButtonState();
+}
+
+class _playButtonState extends State<playButton> {
+  SvgPicture? playImg;
+  final playUp = SvgPicture.asset('assets/img/play.svg');
+  final playDown = SvgPicture.asset('assets/img/play_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    playImg = playUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: playImg,
+      onTapDown: (details) {
+        setState(() {
+          playImg = playDown;
+        });
+      },
+      onTapUp: (details) {
+        setState(() {
+          playImg = playUp;
+        });
+        Navigator.pushNamed(context, '/PromptPage');
+      },
+      onTapCancel: () {
+        setState(() {
+          playImg = playUp;
+        });
+      },
+    );
+  }
+}
+
+class seetakesButton extends StatefulWidget {
+  seetakesButton({super.key, required this.group});
+  Group group;
+
+  @override
+  State<seetakesButton> createState() => _seetakesButtonState();
+}
+
+class _seetakesButtonState extends State<seetakesButton> {
+  SvgPicture? seetakesImg;
+  final seetakesUp = SvgPicture.asset('assets/img/seetakes.svg');
+  final seetakesDown = SvgPicture.asset('assets/img/seetakes_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    seetakesImg = seetakesUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: seetakesImg,
+      onTapDown: (details) {
+        setState(() {
+          seetakesImg = seetakesDown;
+        });
+      },
+      onTapUp: (details) {
+        setState(() {
+          seetakesImg = seetakesUp;
+        });
+        Provider.of<GroupProvider>(context, listen: false)
+            .setGroup(widget.group);
+        Navigator.pushNamed(context, '/Result');
+      },
+      onTapCancel: () {
+        setState(() {
+          seetakesImg = seetakesUp;
         });
       },
     );

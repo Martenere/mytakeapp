@@ -201,16 +201,6 @@ class GroupPane extends StatelessWidget {
                               HardButton(
                                 group: group,
                               ),
-                              SizedBox(width: 42),
-                              deleteGroupButton(
-                                group: group,
-                              ),
-                              SizedBox(
-                                width: 24,
-                              ),
-                              group.isFinished
-                                  ? Text("picture limit has been reached")
-                                  : SizedBox(),
                             ]))),
                   ],
                 ),
@@ -245,32 +235,9 @@ class HardButton extends StatelessWidget {
     bool myTurn = group.myTurn(me);
 
     if (group.isFinished) {
-      return InkWell(
-        onTap: () {
-          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
-          Navigator.pushNamed(context, '/Result');
-        },
-        child: Container(
-          decoration: buttonStyling,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text('SEE TAKES', style: smNmameText),
-          ),
-        ),
-      );
+      return seetakesButton(group: group);
     } else if (myTurn) {
-      return InkWell(
-        onTap: () {
-          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
-          Navigator.pushNamed(context, '/PromptPage');
-        },
-        child: Container(
-          width: 48.0,
-          height: 48.0,
-          decoration: buttonStyling,
-          child: Icon(CarbonIcons.play),
-        ),
-      );
+      return playButton();
     } else {
       return SizedBox();
     }

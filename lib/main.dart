@@ -60,8 +60,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         '/': (context) => HomeScreen(fb: fb),
-        '/PromptPage': (context) => PromptPage(
-            ),
+        '/PromptPage': (context) => PromptPage(),
         '/CameraPage': (context) => const CameraPage(),
         '/Result': (context) => const ResultPage(),
         '/GroupCreation': (context) => GroupCreation(),

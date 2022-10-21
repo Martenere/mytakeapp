@@ -358,7 +358,6 @@ class _checkButtonState extends State<checkButton> {
         });
         fb.uploadFile(File(widget.imagePath),
             Provider.of<GroupProvider>(context, listen: false).group);
-        // += picturetakerindex
         Provider.of<GroupProvider>(context, listen: false).group.incrementPti();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(

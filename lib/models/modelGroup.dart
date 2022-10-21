@@ -216,9 +216,9 @@ class Group with ChangeNotifier {
 
   String randomizePrompt() {
     List<String> possiblePrompts = [
-      "Something enraging",
-      "Impossible odds",
-      "From above",
+      "SOMETHING ENRAGING",
+      "IMPOSSIBLE ODDS",
+      "FROM ABOVE",
       "REFLECTIONS",
       "SEEK THE LIGHT",
       "ONE OF YOU",
