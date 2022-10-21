@@ -194,14 +194,22 @@ class GroupPane extends StatelessWidget {
                       height: 48,
                     ),
                     Consumer<Group>(
-                        builder: ((_, __, ___) => Row(children: [
-                              SizedBox(width: 42),
-                              Turntaker(group: group),
-                              SizedBox(width: 42),
-                              HardButton(
-                                group: group,
-                              ),
-                            ]))),
+                        builder: ((_, __, ___) => Container(
+                              height: 50,
+                              child: Stack(clipBehavior: Clip.none, children: [
+                                Positioned(
+                                    bottom: 2,
+                                    left: 24,
+                                    child: Turntaker(group: group)),
+                                Positioned(
+                                  right: 24,
+                                  bottom: -6,
+                                  child: HardButton(
+                                    group: group,
+                                  ),
+                                ),
+                              ]),
+                            ))),
                   ],
                 ),
               )),

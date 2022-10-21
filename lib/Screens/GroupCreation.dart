@@ -28,7 +28,6 @@ class GroupCreation extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
           child: backButton(),
-          // child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,
         backgroundColor: Colors.white,
@@ -37,12 +36,6 @@ class GroupCreation extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // Positioned(
-          //     child: Container(
-          //   height: 350,
-          //   width: 400,
-          //   color: primaryColor,
-          // )),
           Column(
             children: [
               const SizedBox(
@@ -65,42 +58,46 @@ class GroupCreation extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              InkWell(
-                onTap: () async {
-                  var id = generateRandomString(2);
-                  var group = Group(
-                      groupStarted: false,
-                      id: id,
-                      name: groupNameController.text,
-                      people: [
-                        me.id
-                      ], //Should add yourself to group aka (Person me)
-                      pictureLimit: 3,
-                      pictureTakerIndex: 0);
+              creategroupButton(
+                controller: groupNameController,
+              ),
 
-                  await group.addGroupToDatabase();
-                  Provider.of<GroupProvider>(context, listen: false)
-                      .setGroupId(group.id);
-                  Provider.of<GroupProvider>(context, listen: false)
-                      .setGroup(group);
-                  Navigator.pushReplacementNamed(context, '/Lobby');
-                },
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      children: [
-                        Text('Create', style: defaultText),
-                        Spacer(),
-                        Icon(CarbonIcons.arrow_right),
-                      ],
-                    ),
-                  ),
-                  decoration: buttonStyling,
-                  width: 260,
-                  height: 60,
-                ),
-              )
+              // InkWell(
+              //   onTap: () async {
+              //     var id = generateRandomString(2);
+              //     var group = Group(
+              //         groupStarted: false,
+              //         id: id,
+              //         name: groupNameController.text,
+              //         people: [
+              //           me.id
+              //         ], //Should add yourself to group aka (Person me)
+              //         pictureLimit: 3,
+              //         pictureTakerIndex: 0);
+
+              //     await group.addGroupToDatabase();
+              //     Provider.of<GroupProvider>(context, listen: false)
+              //         .setGroupId(group.id);
+              //     Provider.of<GroupProvider>(context, listen: false)
+              //         .setGroup(group);
+              //     Navigator.pushReplacementNamed(context, '/Lobby');
+              //   },
+              //   child: Container(
+              //     child: Padding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //       child: Row(
+              //         children: [
+              //           Text('Create', style: defaultText),
+              //           Spacer(),
+              //           Icon(CarbonIcons.arrow_right),
+              //         ],
+              //       ),
+              //     ),
+              //     decoration: buttonStyling,
+              //     width: 260,
+              //     height: 60,
+              //   ),
+              // )
             ],
           ),
         ],

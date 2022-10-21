@@ -10,6 +10,7 @@ import 'package:mytakeapp/models/modelPerson.dart';
 import 'package:provider/provider.dart';
 
 import '../models/modelGroup.dart';
+import 'package:mytakeapp/id_retriever.dart';
 
 class backButton extends StatefulWidget {
   const backButton({super.key});
@@ -259,6 +260,65 @@ class _seetakesButtonState extends State<seetakesButton> {
       onTapCancel: () {
         setState(() {
           seetakesImg = seetakesUp;
+        });
+      },
+    );
+  }
+}
+
+class creategroupButton extends StatefulWidget {
+  creategroupButton({super.key, required this.controller});
+  TextEditingController controller;
+
+  @override
+  State<creategroupButton> createState() => _creategroupButtonState();
+}
+
+class _creategroupButtonState extends State<creategroupButton> {
+  SvgPicture? creategroupImg;
+  final creategroupUp = SvgPicture.asset('assets/img/creategroup.svg');
+  final creategroupDown =
+      SvgPicture.asset('assets/img/creategroup_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    creategroupImg = creategroupUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: creategroupImg,
+      onTapDown: (details) {
+        setState(() {
+          creategroupImg = creategroupDown;
+        });
+      },
+      onTapUp: (details) async {
+        setState(() {
+          creategroupImg = creategroupUp;
+        });
+        {
+          var id = generateRandomString(2);
+          var group = Group(
+              groupStarted: false,
+              id: id,
+              name: widget.controller.text,
+              people: [me.id], //Should add yourself to group aka (Person me)
+              pictureLimit: 3,
+              pictureTakerIndex: 0);
+
+          await group.addGroupToDatabase();
+          Provider.of<GroupProvider>(context, listen: false)
+              .setGroupId(group.id);
+          Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+          Navigator.pushReplacementNamed(context, '/Lobby');
+        }
+      },
+      onTapCancel: () {
+        setState(() {
+          creategroupImg = creategroupUp;
         });
       },
     );
