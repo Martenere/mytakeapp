@@ -129,7 +129,7 @@ class HomeScreen extends StatelessWidget {
             left: 64,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/JoinGroups');
+                Navigator.pushNamed(context, '/JoinGroup');
               },
               child: Container(
                 child: Padding(
