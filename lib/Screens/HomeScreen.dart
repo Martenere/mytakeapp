@@ -75,6 +75,7 @@ class HomeScreen extends StatelessWidget {
     var groups = a.getGroupsfromFirebase(me);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "MYTAKE.",
@@ -85,93 +86,96 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         toolbarHeight: 110,
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(children: [
-              FutureBuilder(
-                  future: groups,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data?.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            print(snapshot.data![index].name);
-                            Group group = snapshot.data![index];
-
-                            return Column(
-                              children: [
-                                GroupPane(group: group),
-                                SizedBox(
-                                  height: 32,
-                                ),
-                              ],
-                            );
-                          });
-                    } else {
-                      return Container(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }),
-              SizedBox(height: 64)
-            ]),
-          ),
-          Positioned(
-            child: Container(
-              height: 90,
-              width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                color: Colors.white,
-              ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(children: [
+                FutureBuilder(
+                    future: groups,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data?.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              print(snapshot.data![index].name);
+                              Group group = snapshot.data![index];
+                              return Column(
+                                children: [
+                                  GroupPane(group: group),
+                                  SizedBox(
+                                    height: 32,
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        return Container(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }),
+                SizedBox(height: 64)
+              ]),
             ),
-            bottom: 0,
-          ),
-          Positioned(
-            bottom: 16,
-            left: 64,
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/JoinGroup');
-              },
+            Positioned(
               child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Text('JOIN', style: smNmameText),
-                    ],
+                height: 90,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border:
+                        Border(top: BorderSide(color: Colors.black, width: 4))),
+              ),
+              bottom: 0,
+            ),
+            Positioned(
+              bottom: 16,
+              left: 64,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/JoinGroup');
+                },
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Text('JOIN', style: smNmameText),
+                      ],
+                    ),
                   ),
+                  decoration: buttonStyling,
+                  height: 60,
                 ),
-                decoration: buttonStyling,
-                height: 60,
               ),
             ),
-          ),
-          Positioned(
-            bottom: 16,
-            right: 64,
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/GroupCreation');
-              },
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Text('CREATE', style: smNmameText),
-                    ],
+            Positioned(
+              bottom: 16,
+              right: 64,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/GroupCreation');
+                },
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Text('CREATE', style: smNmameText),
+                      ],
+                    ),
                   ),
+                  decoration: buttonStyling,
+                  height: 60,
                 ),
-                decoration: buttonStyling,
-                height: 60,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
