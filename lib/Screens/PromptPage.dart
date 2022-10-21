@@ -74,7 +74,7 @@ class PromptPage extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-                Text('MYTAKE', style: defaultText),
+                //Text('MYTAKE', style: defaultText),
                 const SizedBox(
                   height: 12,
                 ),
@@ -137,7 +137,7 @@ class promptText extends StatelessWidget {
                 width: 300,
                 height: 300,
                 child: Center(
-                    child: Text(snapshot.data!.toUpperCase(),
+                    child: Text('PROMPT:' + '\n' + snapshot.data!.toUpperCase(),
                         style: defaultText)));
           } else {
             return SizedBox();
