@@ -324,3 +324,54 @@ class _creategroupButtonState extends State<creategroupButton> {
     );
   }
 }
+
+class joingroupButton extends StatefulWidget {
+  joingroupButton({super.key, required this.controller});
+  TextEditingController controller;
+
+  @override
+  State<joingroupButton> createState() => _joingroupButtonState();
+}
+
+class _joingroupButtonState extends State<joingroupButton> {
+  SvgPicture? joingroupImg;
+  final joingroupUp = SvgPicture.asset('assets/img/joingroup.svg');
+  final joingroupDown = SvgPicture.asset('assets/img/joingroup_ontapdown.svg');
+
+  @override
+  void initState() {
+    super.initState();
+    joingroupImg = joingroupUp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: joingroupImg,
+      onTapDown: (details) {
+        setState(() {
+          joingroupImg = joingroupDown;
+        });
+      },
+      onTapUp: (details) async {
+        setState(() {
+          joingroupImg = joingroupUp;
+        });
+        {
+          Group? group = await loadGroupFromFirebase(widget.controller.text);
+
+          if (group != null) {
+            group.addPerson(me);
+            Provider.of<GroupProvider>(context, listen: false).setGroup(group);
+            Navigator.pushNamed(context, '/Lobby');
+          }
+        }
+      },
+      onTapCancel: () {
+        setState(() {
+          joingroupImg = joingroupUp;
+        });
+      },
+    );
+  }
+}

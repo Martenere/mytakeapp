@@ -58,34 +58,35 @@ class JoinGroup extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              InkWell(
-                onTap: () async {
-                  Group? group =
-                      await loadGroupFromFirebase(GroupCodeController.text);
+              joingroupButton(controller: GroupCodeController),
+              // InkWell(
+              //   onTap: () async {
+              //     Group? group =
+              //         await loadGroupFromFirebase(GroupCodeController.text);
 
-                  if (group != null) {
-                    group.addPerson(me);
-                    Provider.of<GroupProvider>(context, listen: false)
-                        .setGroup(group);
-                    Navigator.pushNamed(context, '/Lobby');
-                  }
-                },
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      children: [
-                        Text('Join', style: defaultText),
-                        Spacer(),
-                        Icon(CarbonIcons.arrow_right),
-                      ],
-                    ),
-                  ),
-                  decoration: buttonStyling,
-                  width: 220,
-                  height: 60,
-                ),
-              )
+              //     if (group != null) {
+              //       group.addPerson(me);
+              //       Provider.of<GroupProvider>(context, listen: false)
+              //           .setGroup(group);
+              //       Navigator.pushNamed(context, '/Lobby');
+              //     }
+              //   },
+              //   child: Container(
+              //     child: Padding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //       child: Row(
+              //         children: [
+              //           Text('Join', style: defaultText),
+              //           Spacer(),
+              //           Icon(CarbonIcons.arrow_right),
+              //         ],
+              //       ),
+              //     ),
+              //     decoration: buttonStyling,
+              //     width: 220,
+              //     height: 60,
+              //   ),
+              // )
             ],
           ),
         ],
