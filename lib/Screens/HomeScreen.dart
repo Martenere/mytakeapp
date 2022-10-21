@@ -14,6 +14,10 @@ final BoxDecoration boxstyling = BoxDecoration(
   border: Border.all(width: 4),
   color: Colors.white,
 );
+final BoxDecoration boxstylingnoborder = BoxDecoration(
+  border: Border.all(width: 4, color: Colors.white),
+  color: Colors.white,
+);
 final BoxDecoration boxstylingThick =
     BoxDecoration(border: Border.all(width: 8));
 final BoxDecoration buttonStyling = BoxDecoration(
@@ -198,7 +202,7 @@ class GroupPane extends StatelessWidget {
                               height: 50,
                               child: Stack(clipBehavior: Clip.none, children: [
                                 Positioned(
-                                    bottom: 2,
+                                    bottom: 0,
                                     left: 24,
                                     child: Turntaker(group: group)),
                                 Positioned(
@@ -258,7 +262,7 @@ class Turntaker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxstyling,
+      decoration: boxstylingnoborder,
       child: Center(
         child: group.isFinished
             ? Padding(
@@ -274,7 +278,7 @@ class Turntaker extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
-                      child: Text(snapshot.data!.toUpperCase(),
+                      child: Text(snapshot.data!.toUpperCase() + '`S TURN',
                           style: smNmameText),
                     );
                   } else {
