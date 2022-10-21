@@ -59,7 +59,7 @@ class GroupCreation extends StatelessWidget {
                     controller: groupNameController,
                     style: defaultText,
                     decoration: InputDecoration(
-                        hintText: 'Kba..',
+                        hintText: 'GROUP NAME',
                         label: Text('GROUP NAME'),
                         border: OutlineInputBorder())),
               ),

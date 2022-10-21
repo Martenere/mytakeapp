@@ -49,8 +49,9 @@ class JoinGroup extends StatelessWidget {
                 child: TextField(
                     controller: GroupCodeController,
                     style: defaultText,
+                    maxLength: 4,
                     decoration: InputDecoration(
-                        hintText: 'Kba..',
+                        hintText: 'A123',
                         label: Text('ENTER CODE'),
                         border: OutlineInputBorder())),
               ),

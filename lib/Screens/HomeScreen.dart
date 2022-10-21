@@ -89,11 +89,6 @@ class HomeScreen extends StatelessWidget {
         children: [
           SingleChildScrollView(
             child: Column(children: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/JoinGroup');
-                  },
-                  child: Text('Join Group')),
               FutureBuilder(
                   future: groups,
                   builder: (context, snapshot) {
@@ -121,8 +116,18 @@ class HomeScreen extends StatelessWidget {
                       );
                     }
                   }),
-            SizedBox(height: 64)
+              SizedBox(height: 64)
             ]),
+          ),
+          Positioned(
+            child: Container(
+              height: 90,
+              width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+            ),
+            bottom: 0,
           ),
           Positioned(
             bottom: 16,
