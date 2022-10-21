@@ -4,6 +4,7 @@ import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';
 import 'package:mytakeapp/loadAllGroups.dart';
 import 'package:mytakeapp/main.dart';
+import 'package:mytakeapp/models/buttons.dart';
 import 'package:mytakeapp/models/modelPerson.dart';
 import 'package:provider/provider.dart';
 
@@ -135,44 +136,12 @@ class HomeScreen extends StatelessWidget {
             Positioned(
               bottom: 16,
               left: 64,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/JoinGroup');
-                },
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      children: [
-                        Text('JOIN', style: smNmameText),
-                      ],
-                    ),
-                  ),
-                  decoration: buttonStyling,
-                  height: 60,
-                ),
-              ),
+              child: joinButton(),
             ),
             Positioned(
               bottom: 16,
               right: 64,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/GroupCreation');
-                },
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      children: [
-                        Text('CREATE', style: smNmameText),
-                      ],
-                    ),
-                  ),
-                  decoration: buttonStyling,
-                  height: 60,
-                ),
-              ),
+              child: createButton(),
             ),
           ],
         ),
