@@ -6,7 +6,6 @@ import 'HomeScreen.dart';
 import '../main.dart';
 import '../models/modelGroup.dart';
 import 'package:carbon_icons/carbon_icons.dart';
-import 'package:flutter/material.dart';
 import '../models/buttons.dart';
 
 class Lobby extends StatelessWidget {
@@ -17,6 +16,7 @@ class Lobby extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Group group = Provider.of<GroupProvider>(context, listen: true).group;
+
     if (group.groupStarted) {
       print("Started group");
     }
@@ -72,7 +72,13 @@ class Lobby extends StatelessWidget {
                   ),
                   (group.people[0] == me.id)
                       ? StartSessionButton(group: group)
-                      : SizedBox(),
+                      : SizedBox(
+                          width: MediaQuery.of(context).size.width - 50,
+                          child: Text(
+                            'WAITING FOR INITIALIZATION...',
+                            style: smNmameText,
+                          ),
+                        ),
                 ],
               ),
             ],
@@ -104,7 +110,7 @@ class StartSessionButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             children: [
-              Text('Start', style: defaultText),
+              Text('START', style: defaultText),
               Spacer(),
               Icon(CarbonIcons.arrow_right),
             ],

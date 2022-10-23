@@ -42,7 +42,7 @@ class ResultPage extends StatelessWidget {
                     future: group.getTextPrompt(),
                     builder: (context, AsyncSnapshot<String> textPrompt) {
                       if (textPrompt.hasData) {
-                        return Text(textPrompt.data!.toUpperCase(),
+                        return Text('PROMPT: ' + textPrompt.data!.toUpperCase(),
                             style: defaultText);
                       } else {
                         return SizedBox();
