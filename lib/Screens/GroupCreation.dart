@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mytakeapp/Providers/group_provider.dart';
-import 'package:mytakeapp/Screens/Lobby.dart';
-import 'package:mytakeapp/id_retriever.dart';
-import 'package:provider/provider.dart';
 import '../models/modelPerson.dart';
 import 'HomeScreen.dart';
-import '../main.dart';
-import '../models/modelGroup.dart';
 import '../models/buttons.dart';
-import 'package:carbon_icons/carbon_icons.dart';
-import 'package:flutter/material.dart';
 
 class GroupCreation extends StatelessWidget {
   GroupCreation({super.key});
@@ -62,42 +54,7 @@ class GroupCreation extends StatelessWidget {
                 controller: groupNameController,
               ),
 
-              // InkWell(
-              //   onTap: () async {
-              //     var id = generateRandomString(2);
-              //     var group = Group(
-              //         groupStarted: false,
-              //         id: id,
-              //         name: groupNameController.text,
-              //         people: [
-              //           me.id
-              //         ], //Should add yourself to group aka (Person me)
-              //         pictureLimit: 3,
-              //         pictureTakerIndex: 0);
-
-              //     await group.addGroupToDatabase();
-              //     Provider.of<GroupProvider>(context, listen: false)
-              //         .setGroupId(group.id);
-              //     Provider.of<GroupProvider>(context, listen: false)
-              //         .setGroup(group);
-              //     Navigator.pushReplacementNamed(context, '/Lobby');
-              //   },
-              //   child: Container(
-              //     child: Padding(
-              //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              //       child: Row(
-              //         children: [
-              //           Text('Create', style: defaultText),
-              //           Spacer(),
-              //           Icon(CarbonIcons.arrow_right),
-              //         ],
-              //       ),
-              //     ),
-              //     decoration: buttonStyling,
-              //     width: 260,
-              //     height: 60,
-              //   ),
-              // )
+            
             ],
           ),
         ],

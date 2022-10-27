@@ -1,4 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
+
 import 'package:mytakeapp/models/modelGroup.dart';
 import 'package:mytakeapp/models/modelPerson.dart';
 
@@ -12,7 +12,7 @@ class allGroups {
         continue;
       }
       if (!groups.contains(group)) {
-        groups.add(group!);
+        groups.add(group);
       }
     }
     return groups;

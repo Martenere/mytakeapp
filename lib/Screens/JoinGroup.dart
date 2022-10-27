@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mytakeapp/Providers/group_provider.dart';
-import 'package:provider/provider.dart';
 import 'HomeScreen.dart';
-import '../main.dart';
-import '../models/modelGroup.dart';
-import 'package:carbon_icons/carbon_icons.dart';
-import 'package:flutter/material.dart';
 
 import '../models/buttons.dart';
 
@@ -13,11 +7,6 @@ class JoinGroup extends StatelessWidget {
   JoinGroup({super.key});
   final GroupCodeController = TextEditingController();
 
-  // Person jacob = Person(
-  //   id: '1',
-  //   name: 'jacob',
-  // );
-  // late List<Person> dummyPeople = [jacob];
 
   @override
   Widget build(BuildContext context) {
@@ -59,34 +48,7 @@ class JoinGroup extends StatelessWidget {
                 height: 32,
               ),
               joingroupButton(controller: GroupCodeController),
-              // InkWell(
-              //   onTap: () async {
-              //     Group? group =
-              //         await loadGroupFromFirebase(GroupCodeController.text);
-
-              //     if (group != null) {
-              //       group.addPerson(me);
-              //       Provider.of<GroupProvider>(context, listen: false)
-              //           .setGroup(group);
-              //       Navigator.pushNamed(context, '/Lobby');
-              //     }
-              //   },
-              //   child: Container(
-              //     child: Padding(
-              //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              //       child: Row(
-              //         children: [
-              //           Text('Join', style: defaultText),
-              //           Spacer(),
-              //           Icon(CarbonIcons.arrow_right),
-              //         ],
-              //       ),
-              //     ),
-              //     decoration: buttonStyling,
-              //     width: 220,
-              //     height: 60,
-              //   ),
-              // )
+          
             ],
           ),
         ],

@@ -1,4 +1,3 @@
-import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/firebase/firebaseCommunication.dart';

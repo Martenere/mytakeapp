@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
 
 import 'package:mytakeapp/main.dart';
-import 'package:mytakeapp/models/modelGroup.dart';
 import 'package:provider/provider.dart';
 import 'HomeScreen.dart';
 
@@ -134,10 +133,7 @@ class _CameraPageState extends State<CameraPage> {
                         } catch (e) {
                           print(e);
                         }
-                        // Future.delayed(const Duration(milliseconds: 2), () {
-                        //   controller.initialize();
-                        // });
-                        //reinitializes the controller, turns off flashlight/lamp yeee, might become a problem
+                        
                       },
                     ),
 
@@ -379,27 +375,3 @@ class _checkButtonState extends State<checkButton> {
 }
 
 
-
-//------Garbage-----
-
-// class ImageProcessor {
-//   static Future cropSquare(
-//       String srcFilePath, String destFilePath, bool flip) async {
-//     var bytes = await File(srcFilePath).readAsBytes();
-//     IMG.Image? src = IMG.decodeImage(bytes);
-
-//     var cropSize = min(src.width, src.height);
-//     int offsetX = (src.width - min(src.width, src.height)) ~/ 2;
-//     int offsetY = (src.height - min(src.width, src.height)) ~/ 2;
-
-//     IMG.Image destImage =
-//         IMG.copyCrop(src, offsetX, offsetY, cropSize, cropSize);
-
-//     if (flip) {
-//       destImage = IMG.flipVertical(destImage);
-//     }
-
-//     var jpg = IMG.encodeJpg(destImage);
-//     await File(destFilePath).writeAsBytes(jpg);
-//   }
-// }

@@ -24,7 +24,7 @@ class Person with ChangeNotifier {
     DataSnapshot data = await refMe.get();
     if (data.exists) {
       name = data.child('name').value.toString();
-      color = data.child('color').value; //fråga olof om detta, får tbax object?
+      color = data.child('color').value;
 
       var datav = data.value;
       groups = [];

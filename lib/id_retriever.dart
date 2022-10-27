@@ -14,7 +14,7 @@ Future<String> getId() async {
     prefs.setString(key, id);
   }
 
-  return id!;
+  return id;
 }
 
 String generateRandomString(int len) {

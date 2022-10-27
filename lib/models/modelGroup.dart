@@ -1,9 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mytakeapp/firebase/firebaseDatabase.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:mytakeapp/id_retriever.dart';
 import 'modelPerson.dart';
 
 Future<Group?> loadGroupFromFirebase(String id) async {
@@ -24,7 +22,6 @@ Future<Group?> loadGroupFromFirebase(String id) async {
   List<String> people = [];
   dataMap['people'].forEach((v) => people.add(v));
 
-  //_playerPositions = Map<String, dynamic>.from(data as Map);
   var pictureLimit = dataMap['pictureLimit'];
   var pictureTakerIndex = dataMap['pictureTakerIndex'] ?? 0;
   var groupStarted = dataMap['groupStarted'];
@@ -50,7 +47,6 @@ class Group with ChangeNotifier {
 
   bool isFinished;
   int pictureLimit;
-  late FirebaseGroup _fbd;
 
   late DatabaseReference refPeople;
   late DatabaseReference refgroupStarted;
@@ -82,9 +78,7 @@ class Group with ChangeNotifier {
   }
 
   addGroupToDatabase() async {
-    //People me
-
-    // print(people[0].name);
+  
     String prompt = randomizePrompt();
 
     await refGroup.set({
@@ -158,9 +152,8 @@ class Group with ChangeNotifier {
       DataSnapshot pGroup = await refUsers.child('$p/groups').get();
       if (pGroup.value != null) {
         List<String> pGroupValue = List<String>.from(pGroup.value as List);
-        //Map dataMap = Map<String, dynamic>.from(pGroupValue as Map);
+       
         List<String> currentGroups = pGroupValue;
-        //dataMap['groups'].forEach((v) => currentGroups.add(v));
 
         currentGroups.contains(id) ? currentGroups.remove(id) : {};
 

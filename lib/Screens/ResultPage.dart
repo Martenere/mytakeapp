@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:carbon_icons/carbon_icons.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
 import 'package:mytakeapp/main.dart';
 import 'package:provider/provider.dart';
-import '../firebase/firebaseCommunication.dart';
 import 'HomeScreen.dart';
 import '../models/buttons.dart';
 
@@ -24,7 +22,6 @@ class ResultPage extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
           child: backButton(),
-          // child: Icon(CarbonIcons.arrow_left)),
         ),
         elevation: 0,
         backgroundColor: Colors.white,

@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import '../firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class FirebaseGroup {
@@ -17,10 +15,7 @@ class FirebaseGroup {
 
     refGroup = FirebaseDatabase.instance.ref("group/$groupId");
     refPeople = refGroup.child("people");
-    // refPeople.onValue.listen((DatabaseEvent event) {
-    //   final data = event.snapshot.value;
-    //   print("$data was recived from listener");
-    // });
+
   }
 
   addGroupToDatabase(

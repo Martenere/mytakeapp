@@ -1,12 +1,8 @@
-import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
-import 'package:mytakeapp/firebase/firebaseCommunication.dart';
-import 'package:mytakeapp/loadAllGroups.dart';
 import 'package:mytakeapp/main.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mytakeapp/models/modelPerson.dart';
 import 'package:provider/provider.dart';
 
 import '../models/modelGroup.dart';

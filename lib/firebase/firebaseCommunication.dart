@@ -1,16 +1,9 @@
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
+
 import '../models/modelGroup.dart';
-import 'dart:typed_data';
-
-import 'package:firebase_database/firebase_database.dart';
-
-import '../firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image/image.dart';
-import 'package:path_provider/path_provider.dart';
+
 
 class FirebaseCommunication {
   late final storage;
@@ -23,7 +16,6 @@ class FirebaseCommunication {
     storage = FirebaseStorage.instance;
     storageRef = FirebaseStorage.instance.ref();
     // Database
-    FirebaseDatabase database = FirebaseDatabase.instance;
   }
 
   void sendStringToStorage() async {
@@ -51,22 +43,16 @@ class FirebaseCommunication {
     int pti = group.pictureTakerIndex;
     String pictureTakerIndex = pti.toString();
 
-    // var storageRefList = await (storageRef.child(groupId).listAll());
-    // print(storageRefList.items[0].fullPath);
-    // for (var item in storageRefList.items) {
-    //   print(item.fullPath);
-    // }
-
     try {
       await storageRef.child("$groupId/$pictureTakerIndex.jpg").putFile(file);
-    } on Error catch (e) {}
+    } on Error catch (e) {print(e);}
   }
 
   Future<List> downloadFile(Group group) async {
     List imagesUrl = [];
     var storageRefList = await (storageRef.child(group.id).listAll());
 
-// CHANGE 2 into group.pictureLimit
+
     for (var i = 0; i < group.pictureLimit; i++) {
       var path = storageRefList.items[i].fullPath;
       var imageUrl = await storageRef.child('$path').getDownloadURL();

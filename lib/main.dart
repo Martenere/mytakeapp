@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
-import 'package:mytakeapp/firebase/firebaseDatabase.dart';
 import 'package:provider/provider.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/Lobby.dart';
@@ -12,14 +10,10 @@ import 'Screens/ResultPage.dart';
 import 'Screens/GroupCreation.dart';
 import 'Screens/JoinGroup.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'firebase/firebaseCommunication.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'id_retriever.dart';
-import 'models/modelGroup.dart';
 
 import 'dart:async';
-import 'dart:io';
 
 import 'firebase_options.dart';
 import 'models/modelPerson.dart';

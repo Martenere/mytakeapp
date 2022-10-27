@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:mytakeapp/Providers/group_provider.dart';
@@ -7,8 +6,6 @@ import '../main.dart';
 import '../models/modelGroup.dart';
 import 'HomeScreen.dart';
 import '../models/buttons.dart';
-import 'package:carbon_icons/carbon_icons.dart';
-import 'package:flutter/material.dart';
 
 class PromptPage extends StatelessWidget {
   PromptPage({super.key});
@@ -74,7 +71,6 @@ class PromptPage extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-                //Text('MYTAKE', style: defaultText),
                 const SizedBox(
                   height: 12,
                 ),
